@@ -436,6 +436,7 @@ nav ul ul>li>a span i{transform:rotate(90deg);width:40px;height:40px;display:fle
 .ExpBlock .card-body{position:absolute;bottom:9px;width:calc(100% - 18px);margin:0 auto;left:0;right:0;background:var(--white);border-radius:15px!important;line-height:normal;}
 .ExpBlock .card-body h3{margin-bottom:5px;font-weight:600;font-size:18px;color:var(--black)}
 
+@media only screen and (min-width:1600px){.card.ExpBlock{height:380px}}
 @media only screen and (min-width:992px){.ExpertsC .owl-nav button.owl-next{right:-55px}
 .ExpertsC .owl-nav button.owl-prev{left:-55px}}
 @media only screen and (max-width:992px){.container{max-width:98%!important}

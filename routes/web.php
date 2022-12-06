@@ -29,6 +29,7 @@ Route::post('sendmobileotp', [App\Http\Controllers\Auth\RegisterController::clas
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('experts/{alias?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
 
 Route::name('user.')->prefix('user')->group(function(){
     Route::controller(App\Http\Controllers\User\UserController::class)->group(function(){
@@ -60,9 +61,14 @@ Route::name('user.')->prefix('user')->group(function(){
 Route::middleware('expert')->name('expert.')->prefix('expert')->group(function(){
     Route::controller(App\Http\Controllers\Expert\ExpertController::class)->group(function(){
         Route::get('expert-logout','expertlogout')->name('expertlogout');
+        Route::post('otherinformation','updateotherinformation')->name('updateotherinformation');
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
+        Route::get('account','account')->name('account');
+        Route::get('videos','videos')->name('videos');
+        Route::get('otherinformation','otherinformation')->name('otherinformation');
+        
     });
 });
 
@@ -158,6 +164,7 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::post('/experts-bulkremove',[App\Http\Controllers\Admin\ExpertController::class, 'bulkremove'])->name('experts.bulkremove');
         Route::get('/experts-remove/{id}',[App\Http\Controllers\Admin\ExpertController::class, 'destroy'])->name('experts.remove');
         Route::get('/experts-status',[App\Http\Controllers\Admin\ExpertController::class, 'status'])->name('experts.status');
+        Route::get('/experts-topstatus',[App\Http\Controllers\Admin\ExpertController::class, 'topstatus'])->name('experts.topstatus');
 
         Route::get('/users',[App\Http\Controllers\Admin\UserController::class, 'index'])->name('users');
         Route::post('/users-save',[App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.save');
@@ -167,5 +174,9 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::post('/users-bulkremove',[App\Http\Controllers\Admin\UserController::class, 'bulkremove'])->name('users.bulkremove');
         Route::get('/users-remove/{id}',[App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.remove');
         Route::get('/users-status',[App\Http\Controllers\Admin\UserController::class, 'status'])->name('users.status');
+
+        Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
+        Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');
+        
     });
 });

@@ -10,30 +10,18 @@
 
                     <a class="breadcrumb-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
 
-                    <span class="breadcrumb-item active">Experts</span>
+                    <span class="breadcrumb-item active">Users</span>
 
                 </nav>
 
             </div>
 
             <div class="col-md-6">
+
                 <div class="text-right">
-                    <a href="#cmsmodel" data-bs-type="cmsmodel" data-bs-toggle="modal" data-bs-id="1" class="btn btn-dark btn-with-icon btn-xs sws-left sws-bounce" data-title="Request a time(CMS)">
-                        <div class="ht-40">
-                            <span class="icon wd-40"><i class="fas fa-file-alt"></i></span>
-                        </div>
-                    </a>
-                    <a href="#cmsmodel" data-bs-type="cmsmodel" data-bs-toggle="modal" data-bs-id="2" class="btn btn-dark btn-with-icon btn-xs sws-left sws-bounce" data-title="Gift a session(CMS)">
-                        <div class="ht-40">
-                            <span class="icon wd-40"><i class="far fa-file-alt"></i></span>
-                        </div>
-                    </a>
-                    <a href="#cmsmodel" data-bs-type="cmsmodel" data-bs-toggle="modal" data-bs-id="3" class="btn btn-dark btn-with-icon btn-xs sws-left sws-bounce" data-title="Special Note(CMS)">
-                        <div class="ht-40">
-                            <span class="icon wd-40"><i class="fas fa-files-medical"></i></span>
-                        </div>
-                    </a>
+
                 </div>
+
             </div>
 
         </div>
@@ -79,11 +67,9 @@
 
                                                 <th>Date</th>
                                                 <th>Information</th>
-                                                <th>Qualification</th>
-                                                <th>Expertise</th>
-                                                <th>Sequence</th>
-                                                <th>Top</th>
-                                                <th>Approved</th>
+                                                <th>Role</th>
+                                                <th>Profile</th>
+                                                <th>Active</th>
                                                 <th class="wd-5p">
                                                     <div class="dropdown TAction show">
 
@@ -129,27 +115,21 @@
 
                                                     <td>
                                                         {{ datetimeformat($list->created_at) }}<br>
-                                                        <small><b>Expert Id :</b> {{ $list->user_id }}</small><br>
-                                                        <small><b>Last login :</b>
-                                                            {{ datetimeformat($list->last_login) }}</small>
+                                                        <small><b>User Id :</b> {{$list->user_id}}</small><br>
+                                                        <small><b>Last login :</b> {{datetimeformat($list->last_login)}}</small>
                                                     </td>
                                                     <td>
                                                         {{ $list->name }}<br>
-                                                        <small><b>Email :</b> {{ $list->email }}</small><br>
-                                                        <small><b>Mobile :</b> {{ $list->mobile }}</small><br>
+                                                        <small><b>Email :</b> {{$list->email}}</small><br>
+                                                        <small><b>Mobile :</b> {{$list->mobile}}</small><br>
                                                     </td>
-                                                    <td> {{ $list->qualification->title ?? '' }} </td>
-                                                    <td> {{ $list->expertise->title ?? '' }} </td>
-                                                    <td><input type="text" class="form-control" style="width: 80px;"
-                                                            name="sequence[{{ $list->id }}]"
-                                                            value="{{ $list->sequence }}"></td>
-                                                    <td>
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" @checked($list->top_expert)
-                                                                type="checkbox" value="{{ $list->id }}" role="switch"
-                                                                onclick="topexpertstatus(this.value)"
-                                                                id="ExpertSwitchCheckDefault{{ $list->id }}">
-                                                        </div>
+                                                    <td> 
+                                                        {{ $list->roles->title ?? '' }} <br>
+                                                        <small><b>Industry: </b> {{$list->industries->title ?? ''}} </small>
+                                                    </td>
+                                                    <td> 
+                                                    @if($list->complete_profile==0) <small class="text-danger"><i class="fa fa-circle" style="font-size: 7px;"></i> Profile Incompleted</small> @endif  
+                                                    @if($list->complete_profile==1) <small class="text-success"><i class="fa fa-circle" style="font-size: 7px;"></i> Profile Completed</small> @endif      
                                                     </td>
                                                     <td>
                                                         <div class="form-check form-switch">
@@ -172,7 +152,7 @@
                                                                         data-bs-id="{{ $list->id }}"><i
                                                                             class="fa fa-pencil"></i> Edit</a></li>
 
-                                                                <li><a href="{{ route('admin.experts.remove', ['id' => $list->id]) }}"
+                                                                <li><a href="{{ route('admin.users.remove', ['id' => $list->id]) }}"
                                                                         class="text-danger"
                                                                         onclick="return RemoveRecord()"><i
                                                                             class="fa fa-trash"></i> Remove</a></li>
@@ -217,44 +197,26 @@
             return false;
         }
         $('.sequenceform').on('click', function() {
-            $('.table-wrapper').attr('action', @json(route('admin.experts.sequence')));
+            $('.table-wrapper').attr('action', @json(route('admin.users.sequence')));
             $('.table-wrapper').submit();
         });
         $('.bulkremoveform').on('click', function() {
-            $('.table-wrapper').attr('action', @json(route('admin.experts.bulkremove')));
+            $('.table-wrapper').attr('action', @json(route('admin.users.bulkremove')));
             $('.table-wrapper').submit();
         });
+
         function changestatus(id) {
             let status = 0;
             if ($('#flexSwitchCheckDefault' + id).prop('checked') == true) {
                 status = 1;
             }
-            let url = @json(route('admin.experts.status'));
+            let url = @json(route('admin.users.status'));
             databasestatuschange(url, status, id);
         }
-        function topexpertstatus(id){
-            let status = 0;
-            if ($('#ExpertSwitchCheckDefault' + id).prop('checked') == true) {
-                status = 1;
-            }
-            let url = @json(route('admin.experts.topstatus'));
-            databasestatuschange(url, status, id);
-        }
-        $('[data-bs-type]').on('click',function(){
-            let id = $(this).attr('data-bs-id');
-            $('.modal-content').html('<div class="text-center pd-20"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
-            $('.modal-content').load(@json(url('control-panel/cmsmodal'))+'/'+id);
-        });
+        
     </script>
-    <div id="cmsmodel" class="modal fade">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content bd-0 tx-14">
-                <div class="text-center pd-20"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>
-            </div>
-        </div><!-- modal-dialog -->
-    </div>
 @endpush
 @push('css')
-    <title>Experts : {{ project() }}</title>
+    <title>Users : {{ project() }}</title>
     <link href="{{ asset('admin/lib/SpinKit/spinkit.css') }}" rel="stylesheet">
 @endpush

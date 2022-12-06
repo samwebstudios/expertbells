@@ -50,6 +50,9 @@ class LoginController extends Controller
         if(empty($check)){
             return response()->json(['errors'=>['email'=>'this credential does not found in our records.']],422);
         }
+        if($check->is_publish==0){
+            return response()->json(['errors'=>['email'=>'this user is not active by administrator.']],422);
+        }
         $otp = generateotp(4);
         $otp_expires_time = Carbon::now('Asia/Kolkata')->addSeconds(30);        
         $user = \App\Models\User::find($check->id);
@@ -115,6 +118,9 @@ class LoginController extends Controller
         $check = \App\Models\Expert::where('email',$r->email)->orwhere('mobile',$r->email)->first();
         if(empty($check)){
             return response()->json(['errors'=>['email'=>'this credential does not found in our records.']],422);
+        }
+        if($check->is_publish==0){
+            return response()->json(['errors'=>['email'=>'this expert is not active by administrator.']],422);
         }
         $otp = generateotp(4);    
         $user = \App\Models\Expert::find($check->id);

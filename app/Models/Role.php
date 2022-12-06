@@ -15,4 +15,5 @@ class Role extends Model
             set:fn ($value) => ucwords($value)
         );
     }
+    
 }

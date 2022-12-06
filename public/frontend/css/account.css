@@ -11,8 +11,9 @@ body>main,body section{overflow:inherit!important}
 .UserBox:first-child{z-index:2;}
 .UserBox>div{justify-content:space-between;align-items:center;position:relative;padding:0}
 .UserBox .uimg label{display:block;margin-bottom:9px;line-height:0;margin:0}
-.UserBox .uimg label>span{border-radius:50%;height:88px;width:88px;display:inline-block;border:1px solid rgb(var(--blackrgb)/.2);position:relative;padding:2px;overflow:hidden;background:var(--white)}
+.UserBox .uimg label>span{border-radius:50%;height:88px;width:88px;display:inline-block;border:1px solid rgb(var(--blackrgb)/.2);position:relative;padding:0;overflow:hidden;background:var(--white)}
 .UserBox .uimg label>span:after{position:absolute;height:100%;width:100%;left:0;top:0;color:var(--thm1);display:flex;align-items:center;justify-content:center;font-size:33px;border-radius:50%;background:rgb(var(--whitergb)/.8);content:'\f030';font-family:"Font Awesome 5 Pro";opacity:0;visibility:hidden;transition:all .5s}
+.UserBox .uimg label>span img{height:100%;width:100%;object-fit:contain;}
 .UserBox .uimg input[type=file] ~ span{cursor:pointer}
 .UserBox .uimg input[type=file] ~ span:hover:after{opacity:1;visibility:visible}
 .UserBox .utext .Uinfo p{line-height:140%!important}

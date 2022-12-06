@@ -54,4 +54,10 @@ class User extends Authenticatable
             ]
         );
     }
+    public function roles(){
+        return $this->hasOne(Role::class,'id','role');
+    }
+    public function industries(){
+        return $this->hasOne(Expertise::class,'id','industry');
+    }
 }

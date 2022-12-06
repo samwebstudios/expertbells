@@ -26,4 +26,7 @@ class Expert extends Authenticatable
     public function expertise(){
         return $this->hasOne(Expertise::class,'id','your_expertise');
     }
+    public function workingas(){
+        return $this->hasOne(Working::class,'id','currently_working_as');
+    }
 }

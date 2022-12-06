@@ -1,8 +1,8 @@
 <div class="AccountMenu">
     <button class="navbar-toggler d-none" type="button" id="AccMenuBar" data-bs-toggle="collapse" data-bs-target="#AccountMenu" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"><span>Account Menu</span><i class="fa fa-bars"></i></button>
     <ul id="AccountMenu" class="collapse">
-        <li><a href="expert-account/"><span><i class="fal fa-tachometer-alt me-1"></i> Dashboard</a></a></li>
-        <li><a href="expert-account/my-account.php"><span><i class="fal fa-user-edit me-1"></i> My Account</a></a></li>
+        <li><a href="{{route('expert.dashboard')}}"><span><i class="fal fa-tachometer-alt me-1"></i> Dashboard</a></a></li>
+        <li><a href="{{route('expert.account')}}"><span><i class="fal fa-user-edit me-1"></i> My Account</a></a></li>
         <li><a href="#mycalls" class="collapsed" data-bs-toggle="collapse" aria-expanded="false" aria-controls="mycalls"><span><i class="fal fa-phone-rotary me-1"></i> My Calls</span> <i class="fal fa-chevron-down arrow"></i></a>
             <ul class="collapse" id="mycalls">
                 <li><a href="expert-account/scheduled-calls.php"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>

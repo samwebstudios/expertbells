@@ -310,7 +310,7 @@ input[type="date"]::-webkit-datetime-edit-day-field{position:absolute!important;
 .chosen-container .chosen-results{padding:0!important;margin:0!important}
 .chosen-container .chosen-results li{padding:2px 8px!important;font-size:13px}
 .chosen-container .chosen-results li.highlighted{background:var(--thm1)!important;color:var(--white)!important}
-.chosen-container .chosen-results .active-result:first-child{display:none!important}
+/* .chosen-container .chosen-results .active-result:first-child{display:none!important} */
 .chosen-container-multi .chosen-choices{display:flex!important;flex-wrap:wrap!important;padding:1px 5px;background-image:none!important;box-shadow:none!important;min-height:34px!important;border:1px solid #ddd!important}
 .chosen-container-multi .chosen-choices li{border:none!important;background:none!important;padding:0!important}
 .chosen-container-multi .chosen-choices li span{line-height:120%!important;background:var(--thm1)!important;border:none!important;border-radius:15px!important;color:var(--white)!important;padding:4px 9px;font-size:13px;padding-right:25px}

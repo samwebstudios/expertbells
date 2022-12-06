@@ -5,7 +5,7 @@
     <section class="grey pt-3">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php"><i class="fal fa-home-alt"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fal fa-home-alt"></i></a></li>
                 <li class="breadcrumb-item"><a aria-current="page">Dashboard</a></li>
             </ol>
             <div class="row MainBoxAc">
@@ -17,13 +17,24 @@
                 <div class="col-md-9">
                     <div class="card UserBox TopExpert mb-4">
                         <div class="card-body">
-                            <div class="uimg"><label><span><img src="img/man.svg"></span></label></div>
+                            <div class="uimg">
+                                <label>
+                                    <span>
+                                        <x-image-box>
+                                            <x-slot:image>{{expertinfo()->profile}}</x-slot:image>
+                                            <x-slot:path>/upload/storage/expert/</x-slot:image>
+                                            <x-slot:alt>{{expertinfo()->name ?? ''}}</x-slot:image>
+                                        </x-image-box>
+                                    </span>
+                                </label>
+                            </div>
                             <div class="utext">
                                 <div class="row align-items-center">
                                     <div class="col-lg-5 Uinfo">
                                         <small class="text-secondary">Hello,</small>
-                                        <h3 class="h5 mb-1">Mithun Parihar</h3>
-                                        <a href="expert-account/my-account.php"><i class="fal fa-edit"></i> Edit Account</a> <a href="video-detail.php" class="btn btn-sm btn-thm2 m-0 ms-2"><i class="fal fa-photo-video m-0 me-1"></i> All Video</a>
+                                        <h3 class="h5 mb-1">{{expertinfo()->name ?? ''}}</h3>
+                                        <a href="{{route('expert.account')}}"><i class="fal fa-edit"></i> Edit Account</a> 
+                                        <a href="{{route('expert.videos')}}" class="btn btn-sm btn-thm2 m-0 ms-2"><i class="fal fa-photo-video m-0 me-1"></i> All Video</a>
                                     </div>
                                     <div class="col-lg-7 text-end">
                                         <h1 class="h5 thm mb-0">Welcome to your Dashboard</h1>

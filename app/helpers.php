@@ -4,6 +4,11 @@ if(!function_exists('admininfo')){
         return Auth::guard('admin')->user();
     }
 }
+if(!function_exists('expertinfo')){
+    function expertinfo(){
+        return Auth::guard('expert')->user();
+    }
+}
 if(!function_exists('userinfo')){
     function userinfo(){
         return Auth::user();
@@ -53,9 +58,44 @@ if(!function_exists('generateexpertno')){
         }
     }
 }
+if(!function_exists('checkimagetype')){
+    function checkimagetype($image){
+        $explode = explode('.',$image);     
+        return strtoupper(end($explode));
+    }
+}
 if(!function_exists('datetimeformat')){
     function datetimeformat($date){
         return date('d M, Y h:i A',strtotime($date));
+    }
+}
+if(!function_exists('directFile')){
+    function directFile($path,$image){
+        $name = $image->getClientOriginalName(); 
+        $fileName = date("Y-m-d").rand(1111111,9999999).$name;
+        $image->move(public_path('storage/'.$path),$fileName);
+        return $fileName;
+    }
+}
+if(!function_exists('autoheight')){
+    function autoheight($path,$width,$image){
+        $name = $image->getClientOriginalName(); 
+        $fileName = date("Y-m-d").rand(1111111,9999999);        
+
+        /** webp **/
+        $imagesource = public_path('storage/'.$path.$fileName.'.webp'); 
+        \Image::make($image->getRealPath())->encode('webp', 90)->resize($width,null,function ($constraint) {
+            $constraint->aspectRatio();
+        })->brightness(1)->save($imagesource);
+
+         
+        /** jpg **/
+        $imagesource2 = public_path('storage/'.$path.'jpg/'.$fileName.'.jpg'); 
+        \Image::make($image->getRealPath())->encode('jpg', 90)->resize($width,null,function ($constraint) {
+            $constraint->aspectRatio();
+        })->brightness(1)->save($imagesource2);
+       
+        return $fileName;
     }
 }
 if(!function_exists('generatealias')){

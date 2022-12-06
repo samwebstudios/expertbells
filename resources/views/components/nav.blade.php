@@ -5,7 +5,7 @@
                 <div class="col logom"><a class="navbar-brand" href="{{route('home')}}"><img src="{{asset('frontend/img/logo-w.svg')}}" alt="Expert Bells" width="300" height="68"></a></div>
                 <div class="col LastH">
                     <ul>
-                        <li class="d-none d-lg-block"><a href="experts.php">Find an Expert</a></li>
+                        <li class="d-none d-lg-block"><a href="{{route('experts')}}">Find an Expert</a></li>
                         <li class="d-none d-lg-block"><a href="">Expert Services</a></li>
                         <li class="d-none d-lg-block"><a href="{{route('login')}}" class="btn btn-thm m-0"><img src="{{asset('frontend/img/login.svg')}}" class="me-2" width="25" height="25"> Login</a></li>
                         <li>
