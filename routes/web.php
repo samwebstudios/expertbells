@@ -62,6 +62,11 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
     Route::controller(App\Http\Controllers\Expert\ExpertController::class)->group(function(){
         Route::get('expert-logout','expertlogout')->name('expertlogout');
         Route::post('otherinformation','updateotherinformation')->name('updateotherinformation');
+        Route::post('emailnotification','emailnotification')->name('emailnotification');
+        Route::post('mobilenotification','mobilenotification')->name('mobilenotification');
+        Route::post('profilevisibility','profilevisibility')->name('profilevisibility');
+        Route::post('videovisibility','videovisibility')->name('videovisibility');
+        Route::post('deleteaccount','deleteaccount')->name('deleteaccount');
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
