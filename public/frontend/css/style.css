@@ -283,7 +283,7 @@
 .form-floating>.form-control,.form-floating>.form-select{padding:.5rem .75rem .2rem;height:calc(2.5rem + 2px);border-color:rgb(var(--blackrgb)/.1);background-color:var(--white)}
 .form-floating>.form-control[type="file"]:not(:placeholder-shown){padding-top:0;line-height:44px}
 .form-floating>.form-control[type="file"]:not(:placeholder-shown)~label{transform:none;background:rgb(217 38 28);height:100%;left:auto;right:0;color:var(--white);opacity:1;border-radius:0 5px 5px 0}
-.form-control[type="file"]::file-selector-button{height:112%;left:0;line-height:250%}
+/* .form-control[type="file"]::file-selector-button{height:112%;left:0;line-height:250%} */
 .form-floating>.form-control~label:after{position:absolute;content:'';left:0;top:0;right:0;bottom:0;margin:auto;z-index:-1;width:90%;height:90%;/*background:var(--white);*/ opacity:1;transition:all .5s}
 .form-floating>.form-control:focus~label,.form-floating>.form-control:not(:placeholder-shown)~label,.form-floating>.form-select~label{transform:scale(.8) translateY(-.1rem) translateX(.15rem);margin:0;padding-top:0;padding-bottom:0;height:auto;opacity:1;color:rgb(var(--blackrgb)/.6);z-index:3}
 .form-floating>.form-select~label{transform:scale(.8) translateY(-.75rem) translateX(.15rem)}

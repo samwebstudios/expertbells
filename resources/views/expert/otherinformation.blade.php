@@ -54,12 +54,12 @@
             </div>
             <div class="col-12">
                 <small for="exampleFormControlTextarea1" class="form-label">Bio</small>
-                <textarea class="form-control" name="bio" id="exampleFormControlTextarea1" rows="3">{{expertinfo()->bio ?? ''}}</textarea>
+                <textarea class="form-control summernote" name="bio" id="exampleFormControlTextarea1" rows="3">{{expertinfo()->bio ?? ''}}</textarea>
                 <small class="error bio-error"></small>
             </div>
             <div class="col-12">
                 <small for="exampleFormControlTextarea1" class="form-label">Strengths</small>
-                <textarea class="form-control" name="strengths" id="exampleFormControlTextarea1" rows="3">{{expertinfo()->your_strength ?? ''}}</textarea>
+                <textarea class="form-control summernote2" name="strengths" id="exampleFormControlTextarea1" rows="3">{{expertinfo()->your_strength ?? ''}}</textarea>
                 <small class="error strengths-error"></small>
             </div>
         </div>
@@ -69,7 +69,14 @@
         <button type="button" style="display: none;" class="btn btn-dark otpbtn disabled"><i class="fad fa-spinner-third fa-spin"></i> Loading...</button>
     </div>
 </form>
+
 <script>
+    $('.summernote').summernote({
+        height: 150
+    });
+    $('.summernote2').summernote({
+        height: 150
+    });
     $(".chosen-select").chosen();
     $('.updateinformation').on('submit',function(e){
         e.preventDefault();

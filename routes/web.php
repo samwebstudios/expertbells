@@ -67,13 +67,20 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::post('profilevisibility','profilevisibility')->name('profilevisibility');
         Route::post('videovisibility','videovisibility')->name('videovisibility');
         Route::post('deleteaccount','deleteaccount')->name('deleteaccount');
+        Route::post('getwhatexpect','getwhatexpect')->name('getwhatexpect');
+        Route::post('savewhatexpect','savewhatexpect')->name('savewhatexpect');
+        Route::post('removewhatexpect','removewhatexpect')->name('removewhatexpect');
+        Route::post('updateprofile','updateprofile')->name('updateprofile');          
+        Route::post('countrystates','countrystates')->name('countrystates');        
+        Route::post('statecities','statecities')->name('statecities');
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
         Route::get('account','account')->name('account');
         Route::get('videos','videos')->name('videos');
-        Route::get('otherinformation','otherinformation')->name('otherinformation');
-        
+        Route::get('otherinformation','otherinformation')->name('otherinformation');        
+        Route::get('addwhatexpect','addwhatexpect')->name('addwhatexpect');        
+        Route::get('editprofile','editprofile')->name('editprofile');      
     });
 });
 

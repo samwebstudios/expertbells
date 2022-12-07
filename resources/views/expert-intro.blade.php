@@ -17,7 +17,7 @@
                                 @if($experts->top_expert==1) <span class="StarBox">Top Expert</span> @endif                                
                                 <x-image-box>
                                     <x-slot:image>{{$experts->profile}}</x-slot:image>
-                                    <x-slot:path>/upload/storage/expert/</x-slot:image>
+                                    <x-slot:path>/uploads/expert/</x-slot:image>
                                     <x-slot:alt>{{$experts->name ?? ''}} {{!empty($experts->expertise->title) ? '('.$experts->expertise->title.')' : ''}} </x-slot:image>
                                     <x-slot:width>380</x-slot:image>
                                     <x-slot:height>480</x-slot:image>
@@ -34,7 +34,10 @@
                         </span>
                         @endif
                         <div class="mb-2 text-secondary">
-                            <small><i class="fal fa-map-marker-alt"></i> Delhi, India</small> &nbsp;
+                            <small><i class="fal fa-map-marker-alt"></i> 
+                                {{$experts->states->name.', ' ?? ''}}
+                                {{$experts->countires->name ?? ''}}
+                            </small> &nbsp;
                             @if(!empty($experts->fluent_language)) 
                             <small><i class="fal fa-globe-americas"></i> 
                                 @foreach(json_decode($experts->fluent_language) as $language)
@@ -96,10 +99,9 @@
                         <div class="rounded-3 bg-light p-3 border">
                             <div class="CmsPage">
                                 <ul>
-                                    <li>ask three or more questions</li>
-                                    <li>recommendations on hairstyling</li>
-                                    <li>tips on how to approach style/beauty</li>
-                                    <li>stylists: how to succeed in the business</li>
+                                    @foreach($experts->expects as $expects)
+                                    <li>{{$expects->description}}</li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>

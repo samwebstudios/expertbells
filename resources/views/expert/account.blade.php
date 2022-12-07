@@ -18,9 +18,7 @@
                 <div class="col-md-9">
                     <form class="card UserBox mb-4">
                         <div class="card-body">
-                            <a class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
-                            <a class="EditText thm me-4 sws-top sws-bounce" data-title="Save" id="save" style="display:none"><i class="far fa-check"></i></a>
-                            <a class="EditText text-danger sws-top sws-bounce" data-title="Cancel" id="cancel" style="display:none"><i class="far fa-times"></i></a>
+                            <a href="#updatemodal" data-bs-type="profilemodal" data-bs-toggle="modal" class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
                             <div class="d-md-flex edittextbox">
                                 <div class="PhotoBox me-4">
                                     <label>
@@ -28,8 +26,8 @@
                                         <span>
                                             <x-image-box>
                                                 <x-slot:image>{{expertinfo()->profile}}</x-slot:image>
-                                                <x-slot:path>/upload/storage/expert/</x-slot:image>
-                                                <x-slot:alt>{{expertinfo()->name ?? ''}}</x-slot:image>
+                                                <x-slot:path>/uploads/expert/</x-slot:path>
+                                                <x-slot:alt>{{expertinfo()->name ?? ''}}</x-slot:alt>
                                             </x-image-box>
                                         </span>
                                     </label>Profile Picture
@@ -42,60 +40,30 @@
                                                 <li><span>Name</span>
                                                     <input type="text" name="age" value="{{expertinfo()->name ?? ''}}" placeholder="Name" class="inputtext noeditt" contenteditable="false" readonly="readonly">
                                                 </li>
-                                                <li><span>Date of Birth</span>
-                                                    <input type="text" name="date" value="February 11, 2022" placeholder="Date of Birth" class="inputtext flatpickr noeditt" contenteditable="false" disabled="disabled" readonly="readonly">
-                                                    <!-- <input type="date" name="date" placeholder="dd-mm-yyyy" data-date-format="DD MMMM YYYY" min="1970-01-01" max="2021-12-31" class="inputtext noeditt" contenteditable="false" readonly="readonly"> -->
+                                                <li><span>Gender</span>
+                                                    {{expertinfo()->gender==0?'Other':''}}
+                                                    {{expertinfo()->gender==1?'Male':''}}
+                                                    {{expertinfo()->gender==2?'Female':''}}
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <ul class="prolist AllDetail">
                                                 <li><span>Email ID <i class="fal fa-badge-check text-success ms-2"></i></span>
-                                                    <input type="text" name="age" value="{{expertinfo()->email ?? ''}}" placeholder="Email" class="inputtext noeditt" contenteditable="false" readonly="readonly">
+                                                    {{expertinfo()->email ?? ''}}
                                                 </li>
                                                 <li><span>Phone No. <i class="fal fa-badge-check text-success ms-2"></i></span>
-                                                    <div class="CountryCode">
-                                                        <a class="btn dropdown-toggle inputtext noeditt" contenteditable="false" readonly="readonly" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+91</span></a>
-                                                        <ul class="dropdown-menu countrylist">
-                                                            
-                                                        </ul>
-                                                        <input type="number" class="inputtext noeditt" contenteditable="false" readonly="readonly" maxlength="10" oninput="maxLengthCheck(this)" name="mobile" value="{{expertinfo()->mobile ?? ''}}" placeholder="Enter Your Phone No.">
-                                                    </div>
+                                                    {{expertinfo()->ccode ?? ''}}{{expertinfo()->mobile ?? ''}}
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <ul class="prolist AllDetail">
-                                                <li><span>Gender</span>
-                                                    <div class="radiob">
-                                                        <div class="form-check">
-                                                            <input type="radio" name="iam" id="Male" class="inputtext" contenteditable="false" readonly="readonly" disabled="disabled">
-                                                            <label for="Male">Male</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input type="radio" name="iam" id="Female" class="inputtext" checked="" contenteditable="false" readonly="readonly" disabled="disabled">
-                                                            <label for="Female">Female</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input type="radio" name="iam" id="Thirdg" class="inputtext" contenteditable="false" readonly="readonly" disabled="disabled">
-                                                            <label for="Thirdg">Third Gender</label>
-                                                        </div>
-                                                    </div>
+                                                <li><span>Location</span>
+                                                    {{$expert->cities->name.', ' ?? ''}}
+                                                    {{$expert->states->name.', ' ?? ''}}
+                                                    {{$expert->countires->name ?? ''}}
                                                 </li>
-                                            </ul>
-                                        </div>
-                                    </div><hr class="border-secondary m-0 mb-2">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <ul class="prolist AllDetail">
-                                                <li><span>City / District</span>
-                                                    <select class="inputtext noeditt" contenteditable="false" readonly="readonly"><option></option></select></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <ul class="prolist AllDetail">
-                                                <li><span>Country</span>
-                                                    <select class="inputtext noeditt" contenteditable="false" readonly="readonly"><option></option></select></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -201,6 +169,21 @@
                     </form>
                     <form class="card UserBox mb-4">
                         <div class="card-body">
+                            <a href="#updatemodal" data-bs-type="whatexpectmodal" data-bs-toggle="modal" class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
+                            <div class="d-flex edittextbox w-100">
+                                <div class="w-100">
+                                    <h3 class="h5 thm m-0">What to expect</h3>
+                                    <div class="row">
+                                        <div class="col-12 mt-3 whatexpectbox">
+                                            <div class="text-left p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="card UserBox mb-4 d-none">
+                        <div class="card-body">
                             <a class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
                             <a class="EditText thm me-4 sws-top sws-bounce" data-title="Save" id="save" style="display:none"><i class="far fa-check"></i></a>
                             <a class="EditText text-danger sws-top sws-bounce" data-title="Cancel" id="cancel" style="display:none"><i class="far fa-times"></i></a>
@@ -259,16 +242,16 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="emailn"><h3 class="h6 thm m-0">Email Notification</h3>
+                                                <label class="form-check-label order-first" for="emailnotification"><h3 class="h6 thm m-0">Email Notification</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>Turn on email notification to get updates through email id</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="emailn">
+                                                <input class="form-check-input m-0" type="checkbox" @checked(expertinfo()->email_notification) role="switch" id="emailnotification">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="mobilen"><h3 class="h6 thm m-0">Mobile Notification</h3>
+                                                <label class="form-check-label order-first" for="mobilenotification"><h3 class="h6 thm m-0">Mobile Notification</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>Turn on Mobile notification to get updates through Mobile</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="mobilen">
+                                                <input class="form-check-input m-0" type="checkbox" @checked(expertinfo()->mobile_notification) role="switch" id="mobilenotification">
                                             </div>
                                         </div>
                                     </div>
@@ -284,23 +267,23 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="prov"><h3 class="h6 thm m-0">Profile Visibility</h3>
+                                                <label class="form-check-label order-first" for="profilevisibility"><h3 class="h6 thm m-0">Profile Visibility</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>Turn On/Off your profile</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="emailn">
+                                                <input class="form-check-input m-0" type="checkbox" role="switch" @checked(expertinfo()->profile_visibility) id="profilevisibility">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="deletea"><h3 class="h6 thm m-0">Delete My Account</h3>
+                                                <label class="form-check-label order-first" for="deleteaccount"><h3 class="h6 thm m-0">Delete My Account</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>My account delete permanently</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="mobilen">
+                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="deleteaccount">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6 mt-3">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="deletea"><h3 class="h6 thm m-0">Videos Visibility</h3>
+                                                <label class="form-check-label order-first" for="videovisibility"><h3 class="h6 thm m-0">Videos Visibility</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>Turn On/Off your videos</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="mobilen">
+                                                <input class="form-check-input m-0" type="checkbox" role="switch" @checked(expertinfo()->video_visibility) id="videovisibility">
                                             </div>
                                         </div>
                                     </div>
@@ -390,6 +373,7 @@ textarea.inputtext{width:100%;/*height:120px*/}
 .radiob .form-check input[type="radio"]:checked~label i,.radiob .form-check input[type="checkbox"]:checked~label i{color:var(--white)}
 
 .form-check.form-switch .form-check-input:checked{background-color:var(--thm);border-color:var(--thm)}
+.InBox>div:first-child{width:calc(100% - 40px); margin-right:15px}
 
 .CountryCode{display:flex;width:100%}
 .CountryCode a.inputtext{display:flex;align-items:center;line-height:normal!important;font-size:14px;min-width:40px!important;width:auto!important;padding-right:5px;border-radius:.25rem 0 0 .25rem!important}
@@ -415,72 +399,140 @@ textarea.inputtext{width:100%;/*height:120px*/}
 </style>
 @endpush
 @push('js')
-<script type="text/javascript">
-    $(document).ready(function(){
-        if ($(window).width() < 991){
-            $("#AccMenuBar").removeClass('d-none');
-            $("#AccountMenu").addClass('collapse');
-        };
-        $('.CountryCode .dropdown-menu').find('li').click(function(e) {
-            e.preventDefault();
-            var spa = $(this).data('text');
-            $('.CountryCode #CountryName').text(spa);
-        });
+<script>
+$(document).ready(function(){
+    if ($(window).width() < 991){
+        $("#AccMenuBar").removeClass('d-none');
+        $("#AccountMenu").addClass('collapse');
+    };
+    $('.CountryCode .dropdown-menu').find('li').click(function(e) {
+        e.preventDefault();
+        var spa = $(this).data('text');
+        $('.CountryCode #CountryName').text(spa);
     });
+});
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
 <script>flatpickr(".flatpickr",{altInput:true, altFormat:"F j, Y", dateFormat:"Y-m-d"});</script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('#edit').click(function(){
-            $(".edittextbox .inputtext").attr("contenteditable", true);
-            $(".edittextbox .inputtext").attr("readonly", false);
-            $(".edittextbox .inputtext.flatpickr").attr("disabled", false);
-            $(".edittextbox .form-check input.inputtext").attr("disabled", false);
-            $(".edittextbox .inputtext.date").attr("type", 'date');
-            $(".edittextbox .PhotoBox input").attr("type", 'file');
-            $(".edittextbox select.inputtext").removeClass('noeditt');
-            $(".edittextbox .AllDetail>li>small").show();
-            $("#edit").hide();
-            $("#save").show();
-            $("#cancel").show();
-        });
-        $('#save').click(function(){
-            $(".edittextbox .inputtext").attr("contenteditable", false);
-            $(".edittextbox .inputtext").attr("readonly", true);
-            $(".edittextbox .inputtext.flatpickr").attr("disabled", true);
-            $(".edittextbox .form-check input.inputtext").attr("disabled", true);
-            $(".edittextbox .inputtext.date").attr("type", 'text');
-            $(".edittextbox .PhotoBox input").attr("type", 'text');
-            $(".edittextbox select.inputtext").addClass('noeditt');
-            $(".edittextbox .AllDetail>li>small").hide();
-            $("#save").hide();
-            $("#cancel").hide();
-            $("#edit").show();
-        });
-        $('#cancel').click(function(){
-            $(".edittextbox .inputtext").attr("contenteditable", false);
-            $(".edittextbox .inputtext").attr("readonly", true);
-            $(".edittextbox .inputtext.flatpickr").attr("disabled", true);
-            $(".edittextbox .form-check input.inputtext").attr("disabled", true);
-            $(".edittextbox .inputtext.date").attr("type", 'text');
-            $(".edittextbox .PhotoBox input").attr("type", 'text');
-            $(".edittextbox select.inputtext").addClass('noeditt');
-            $(".edittextbox .AllDetail>li>small").hide();
-            $("#save").hide();
-            $("#cancel").hide();
-            $("#edit").show();
-        });
-    });
-    $('[data-bs-type]').on('click',function(e){
-        if($(this).attr('data-bs-type')=='othermodal'){
-            $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
-            $('.modal-content').load(@json(route('expert.otherinformation')));
+<script>
+$(document).ready(function(){
+    getwhatexpectdata();
+});
+$('[data-bs-type]').on('click',function(e){
+    let Modal = $(this).attr('data-bs-type');
+    if(Modal=='othermodal'){
+        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+        $('.modal-content').load(@json(route('expert.otherinformation')));
+    }
+    if(Modal=='whatexpectmodal'){
+        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+        $('.modal-content').load(@json(route('expert.addwhatexpect')));
+    }
+    if(Modal=='profilemodal'){
+        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+        $('.modal-content').load(@json(route('expert.editprofile')));
+    }
+});
+$('#emailnotification').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('expert.emailnotification')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success);               
         }
-    })
+    });
+});
+$('#mobilenotification').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('expert.mobilenotification')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success);               
+        }
+    });
+});
+$('#profilevisibility').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('expert.profilevisibility')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success);               
+        }
+    });
+});
+$('#videovisibility').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('expert.videovisibility')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success);               
+        }
+    });
+});
+$('#deleteaccount').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('expert.deleteaccount')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success); 
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);              
+        }
+    });
+});
+function getwhatexpectdata(){
+    $('.whatexpectbox').html('<div class="text-left p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content')},
+        url:@json(route('expert.getwhatexpect')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            $('.whatexpectbox').html(data.html);   
+            $('.removeexpect').on('click',function(){
+                let removeid = $(this).attr('data-bs-removeid');
+                let listbox = $(this).parent('.listbox');
+                $.ajax({
+                    data:{_token:$('meta[name=csrf-token]').attr('content'),removeid:removeid},
+                    url:@json(route('expert.removewhatexpect')),
+                    method:'POST',
+                    dataType:'Json',
+                    success:function(data){
+                        listbox.remove();
+                    }
+                });
+            });         
+        }
+    });
+}
+
 </script>
 <link rel="preload" as="style" href="{{asset('frontend/css/flag-icons.min.css')}}" onload="this.rel='stylesheet'">
 <div class="modal fade" id="updatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

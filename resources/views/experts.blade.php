@@ -95,7 +95,7 @@
                                 <a href="{{route('experts',['alias'=>$expert->user_id])}}" class="card-header">
                                     <x-image-box>
                                         <x-slot:image>{{$expert->profile}}</x-slot:image>
-                                        <x-slot:path>/upload/storage/expert/</x-slot:image>
+                                        <x-slot:path>/uploads/expert/</x-slot:image>
                                         <x-slot:alt>{{$expert->name ?? ''}} {{!empty($expert->expertise->title) ? '('.$expert->expertise->title.')' : ''}} </x-slot:image>
                                         <x-slot:width>380</x-slot:image>
                                         <x-slot:height>480</x-slot:image>

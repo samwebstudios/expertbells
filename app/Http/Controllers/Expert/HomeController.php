@@ -10,8 +10,16 @@ class HomeController extends Controller
     public function dashboard(){
         return view('expert.dashboard');
     }
+    public function editprofile(){
+        $countries = \App\Models\Country::where('status',1)->get();
+        return view('expert.editprofile',compact('countries'));
+    }
     public function account(){
-        return view('expert.account');
+        $expert = \App\Models\Expert::find(expertinfo()->id);
+        return view('expert.account',compact('expert'));
+    }
+    public function addwhatexpect(){
+        return view('expert.whatexpect');
     }
     public function otherinformation(){
         $qualifications = \App\Models\Qualification::where('is_publish',1)->orderBy('sequence','ASC')->get();

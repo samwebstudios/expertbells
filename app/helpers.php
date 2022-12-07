@@ -73,7 +73,7 @@ if(!function_exists('directFile')){
     function directFile($path,$image){
         $name = $image->getClientOriginalName(); 
         $fileName = date("Y-m-d").rand(1111111,9999999).$name;
-        $image->move(public_path('storage/'.$path),$fileName);
+        $image->move(public_path($path),$fileName);
         return $fileName;
     }
 }
@@ -83,14 +83,14 @@ if(!function_exists('autoheight')){
         $fileName = date("Y-m-d").rand(1111111,9999999);        
 
         /** webp **/
-        $imagesource = public_path('storage/'.$path.$fileName.'.webp'); 
+        $imagesource = public_path($path.$fileName.'.webp'); 
         \Image::make($image->getRealPath())->encode('webp', 90)->resize($width,null,function ($constraint) {
             $constraint->aspectRatio();
         })->brightness(1)->save($imagesource);
 
          
         /** jpg **/
-        $imagesource2 = public_path('storage/'.$path.'jpg/'.$fileName.'.jpg'); 
+        $imagesource2 = public_path($path.'jpg/'.$fileName.'.jpg'); 
         \Image::make($image->getRealPath())->encode('jpg', 90)->resize($width,null,function ($constraint) {
             $constraint->aspectRatio();
         })->brightness(1)->save($imagesource2);
