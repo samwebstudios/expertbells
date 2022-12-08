@@ -23,7 +23,7 @@
                             <span class="icon wd-40"><i class="fas fa-file-alt"></i></span>
                         </div>
                     </a>
-                    <a href="#cmsmodel" data-bs-type="cmsmodel" data-bs-toggle="modal" data-bs-id="2" class="btn btn-dark btn-with-icon btn-xs sws-left sws-bounce" data-title="Gift a session(CMS)">
+                    {{-- <a href="#cmsmodel" data-bs-type="cmsmodel" data-bs-toggle="modal" data-bs-id="2" class="btn btn-dark btn-with-icon btn-xs sws-left sws-bounce" data-title="Gift a session(CMS)">
                         <div class="ht-40">
                             <span class="icon wd-40"><i class="far fa-file-alt"></i></span>
                         </div>
@@ -32,7 +32,7 @@
                         <div class="ht-40">
                             <span class="icon wd-40"><i class="fas fa-files-medical"></i></span>
                         </div>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
 

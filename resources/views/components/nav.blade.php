@@ -26,7 +26,19 @@
                             </div>
                         </li>
                         @if(\Auth::check() || \Auth::guard('expert')->check())
-                        <li><a href="account" title="account"><span><img src="{{asset('frontend/img/user1.svg')}}" width="36" height="36"></span></a></li>
+                        <li>
+                            <a href="{{route('expert.dashboard')}}" title="{{userinfo()->name ?? expertinfo()->name}}">
+                                <span>
+                                    <x-image-box>
+                                        <x-slot:image>{{expertinfo()->profile}}</x-slot:image>
+                                        <x-slot:path>/uploads/expert/</x-slot:path>
+                                        <x-slot:alt>{{expertinfo()->name ?? ''}}</x-slot:alt>
+                                        <x-slot:height>36</x-slot:alt>
+                                        <x-slot:width>36</x-slot:alt>
+                                    </x-image-box>
+                                </span>
+                            </a>
+                        </li>
                         @endif
                         <li class="SearchBoxs">
                             <a data-bs-toggle="collapse" href="#Hsearch" role="button" aria-expanded="false" aria-controls="Search" title="Search"><span><img src="{{asset('frontend/img/search1.svg')}}" width="36" height="36"><!-- <i class="fal h5 fa-search m-0"></i> --></span></a>

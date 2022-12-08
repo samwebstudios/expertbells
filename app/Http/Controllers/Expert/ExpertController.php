@@ -153,6 +153,7 @@ class ExpertController extends Controller
         $data->name = $r->profile_name;
         $data->email = $r->email;
         $data->mobile = $r->mobile;
+        $data->ccode = $r->ccode;
         $data->country = $r->country;
         $data->state = $r->state;
         $data->city = $r->city;
@@ -179,6 +180,91 @@ class ExpertController extends Controller
         $data->save();
         return response()->json([
             'success'=>'Information Updated!'
+        ]);
+    }
+    public function savevideo(Request $r){
+        $r->validate([
+            'title' => 'required',
+            'video_type' => 'required',
+            'video_url' => 'required_if:video_type,==,1',
+            'video' => 'required_if:video_type,==,2',
+            'video_image' => 'required_if:video_type,==,2',
+            'industries' => 'required',
+            'description' => 'required',
+        ],[
+            'video_url.required_if' => 'The video url field is required.',
+            'video.required_if' => 'The video field is required.',
+            'video_image.required_if' => 'The video image field is required.'
+        ]);
+
+        if(!empty($r->video_image)){
+            $extension =  $r->video_image->getClientOriginalExtension();
+            if(strtoupper($extension)=='SVG' || strtoupper($extension)=='WEBP'){
+                $FileName = directFile('uploads/expert/video/',$r->video_image);
+            }else{
+                $FileName = autoheight('uploads/expert/video/',480,$r->video_image);
+            }
+        }
+        if(!empty($r->video)){
+            $VideoName = directFile('uploads/expert/video/',$r->video);
+        }
+
+        $data = new \App\Models\ExpertVideo();
+        $data->title = $r->title;
+        $data->expert_id = expertinfo()->id;
+        $data->video_type = $r->video_type;
+        $data->video_url = $r->video_url ?? '';
+        $data->video = $VideoName ?? '';
+        $data->video_image = $FileName ?? '';
+        $data->industries = (!empty($r->industries) ? json_encode($r->industries) : '' );
+        $data->description = $r->description;
+        $data->is_publish = 1;
+        $data->sequence = (\App\Models\ExpertVideo::max('sequence') + 1);
+        $data->save();
+        return response()->json([
+            'success'=>'Video Uploaded!'
+        ]);
+    }
+    public function updatevideo(Request $r){
+        $r->validate([
+            'title' => 'required',
+            'video_type' => 'required',
+            'video_url' => 'required_if:video_type,==,1',
+            'industries' => 'required',
+            'description' => 'required',
+        ],[
+            'video_url.required_if' => 'The video url field is required.',
+            'video.required_if' => 'The video field is required.',
+            'video_image.required_if' => 'The video image field is required.'
+        ]);
+
+        if(!empty($r->video_image)){
+            $extension =  $r->video_image->getClientOriginalExtension();
+            if(strtoupper($extension)=='SVG' || strtoupper($extension)=='WEBP'){
+                $FileName = directFile('uploads/expert/video/',$r->video_image);
+            }else{
+                $FileName = autoheight('uploads/expert/video/',480,$r->video_image);
+            }
+        }
+        if(!empty($r->video)){
+            $VideoName = directFile('uploads/expert/video/',$r->video);
+        }
+
+        $data = \App\Models\ExpertVideo::find($r->preid);
+        $data->title = $r->title;
+        $data->video_type = $r->video_type;
+        $data->video_url = $r->video_url ?? '';
+        if(!empty($r->video)){
+            $data->video = $VideoName ?? '';
+        }
+        if(!empty($r->video_image)){
+            $data->video_image = $FileName ?? '';
+        }
+        $data->industries = (!empty($r->industries) ? json_encode($r->industries) : '' );
+        $data->description = $r->description;
+        $data->save();
+        return response()->json([
+            'success'=>'Video Updated!'
         ]);
     }
 }

@@ -22,7 +22,7 @@
                                     <span>
                                         <x-image-box>
                                             <x-slot:image>{{expertinfo()->profile}}</x-slot:image>
-                                            <x-slot:path>/upload/storage/expert/</x-slot:image>
+                                            <x-slot:path>/uploads/expert/</x-slot:image>
                                             <x-slot:alt>{{expertinfo()->name ?? ''}}</x-slot:image>
                                         </x-image-box>
                                     </span>

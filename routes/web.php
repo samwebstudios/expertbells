@@ -73,14 +73,19 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::post('updateprofile','updateprofile')->name('updateprofile');          
         Route::post('countrystates','countrystates')->name('countrystates');        
         Route::post('statecities','statecities')->name('statecities');
+        Route::post('savevideo','savevideo')->name('savevideo');
+        Route::post('updatevideo','updatevideo')->name('updatevideo');
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
         Route::get('account','account')->name('account');
-        Route::get('videos','videos')->name('videos');
         Route::get('otherinformation','otherinformation')->name('otherinformation');        
         Route::get('addwhatexpect','addwhatexpect')->name('addwhatexpect');        
-        Route::get('editprofile','editprofile')->name('editprofile');      
+        Route::get('editprofile','editprofile')->name('editprofile'); 
+        Route::get('videos','videos')->name('videos');
+        Route::get('editvideo','editvideo')->name('editvideo');
+        Route::get('addvideo','addvideo')->name('addvideo');  
+        Route::get('removevideo/{id}','removevideo')->name('removevideo');   
     });
 });
 

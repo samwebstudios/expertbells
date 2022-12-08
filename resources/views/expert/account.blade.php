@@ -53,7 +53,7 @@
                                                     {{expertinfo()->email ?? ''}}
                                                 </li>
                                                 <li><span>Phone No. <i class="fal fa-badge-check text-success ms-2"></i></span>
-                                                    {{expertinfo()->ccode ?? ''}}{{expertinfo()->mobile ?? ''}}
+                                                    +{{expertinfo()->ccode ?? $countries->phonecode}}-{{expertinfo()->mobile ?? ''}}
                                                 </li>
                                             </ul>
                                         </div>

@@ -19,6 +19,11 @@ if(!function_exists('project')){
         return "Expertbells";
     }
 }
+if(!function_exists('myipaddress')){
+    function myipaddress(){
+        return request()->ip();
+    }
+}
 if(!function_exists('mailsupportemail')){
     function mailsupportemail(){
         return "help@expertbells.com";

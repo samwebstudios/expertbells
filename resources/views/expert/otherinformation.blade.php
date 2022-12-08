@@ -72,10 +72,12 @@
 
 <script>
     $('.summernote').summernote({
-        height: 150
+        height: 100,
+        toolbar: []
     });
     $('.summernote2').summernote({
-        height: 150
+        height: 100,
+        toolbar: []
     });
     $(".chosen-select").chosen();
     $('.updateinformation').on('submit',function(e){

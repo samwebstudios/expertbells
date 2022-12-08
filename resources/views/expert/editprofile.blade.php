@@ -18,7 +18,14 @@
             </div>
             <div class="col-12">            
                 <small for="exampleFormControlInput1" class="form-label">Register Mobile</small>
-                <input type="text" class="form-control" value="{{expertinfo()->mobile}}" name="mobile" placeholder="Change Register Mobile">         
+                <div class="CountryCode">                   
+                    <a class="btn dropdown-toggle inputtext noeditt" contenteditable="false" readonly="readonly" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+{{$ccode->phonecode ?? ''}}</span></a>
+                    <ul class="dropdown-menu countrylist">
+                        <x-country-list/>
+                    </ul> 
+                    <input type="hidden" name="ccode" value="{{$ccode->phonecode ?? 0}}">
+                    <input type="text" class="inputtext form-control" value="{{expertinfo()->mobile}}" name="mobile" placeholder="Change Register Mobile">         
+                </div>
                 <small class="error mobile-error"></small>
             </div>
             <div class="col-6">            
@@ -84,16 +91,29 @@
 <!-- summernote css/js -->
 
 <style>
-    .imgbox img{
-        border: 1px solid #ddd;
-        padding: 5px;
-        width: 100px!important;
-    }
+.imgbox img{border: 1px solid #ddd;padding: 5px;width: 100px!important;}
+.CountryCode{display:flex;width:100%}
+.CountryCode a.inputtext{display:flex;align-items:center;justify-content:center;line-height:normal!important;font-size:14px;min-width:60px!important;width:auto!important;padding-right:5px;border-radius:.25rem 0 0 .25rem!important;border: 1px solid #ced4da;padding:6px;}
+.CountryCode a.inputtext span:after,.CountryCode a:after{display:none!important}
+.CountryCode a.inputtext~.inputtext{border-radius:0 .25rem .25rem 0!important;border-left:none!important;height:auto;padding:.375rem .75rem;font-size: 1rem;}
+.CountryCode a.inputtext[contenteditable="true"]:after{display:block}
+.CountryCode a.inputtext[contenteditable="true"]{width:80px}
+.CountryCode>.countrylist{padding:0;max-height:200px;overflow:auto;background:var(--white);right:auto!important;left:0!important}
+.CountryCode a span{font-size:16px!important}
+.countrylist li{padding:5px 12px;cursor:pointer;font-size:14px;padding-right:70px;white-space:nowrap}
+.countrylist li i{margin-right:5px;position:static!important}
+.countrylist li span{font-size:12px;color:rgb(var(--blackrgb)/.5);position:absolute;right:12px}
+.countrylist li:hover{background:rgb(var(--blackrgb)/.08)}
 </style>
 <script>
     $(document).ready(function(){
         if(@json(expertinfo()->country > 0)){ State(@json(expertinfo()->country)); }
-        
+        $('.CountryCode .dropdown-menu').find('li').click(function(e) {
+            e.preventDefault();
+            var spa = $(this).data('text');
+            $('.CountryCode #CountryName').text(spa);
+            $('input[name=ccode]').val(spa.substr(1));
+        });
     });
     $(".chosen-select").chosen();
     $('.updateinformation').on('submit',function(e){
@@ -184,4 +204,10 @@
             }
         });
     }
+    $('.countrylist .SearchConCode').on( "keyup", function() {
+        val = $(this).val().toLowerCase();
+        $(".countrylist li").each(function () {
+            $(this).toggle($(this).text().toLowerCase().includes(val));
+        });
+    });
 </script>

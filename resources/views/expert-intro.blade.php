@@ -54,7 +54,7 @@
                             <a href="video-detail.php" class="btn btn-thm2 px-3"><i class="fal fa-photo-video m-0 me-1"></i> Watch Video</a>
                         </div>
                         @if(!empty($notesection->description))
-                        <div class="Proceed">{{$notesection->description ?? ''}}</div>
+                        <div class="Proceed d-none">{{$notesection->description ?? ''}}</div>
                         @endif
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                                     <div class="price"><i class="Ricon">&#8377;</i> 250/- (Per Session) <!-- <del><i class="Ricon">&#8377;</i> 999/-</del> --></div>
                                 </div>
                             </div>
-                            <div class="card ExpInfo text-center">
+                            <div class="card ExpInfo text-center d-none">
                                 <div class="card-body">
                                     <h3 class="my-2">{{$giftsection->title}}</h3>
                                     <p>{{$giftsection->description}}</p>
