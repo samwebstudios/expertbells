@@ -20,27 +20,32 @@
                         <a href="#videomodal" data-bs-toggle="modal" data-bs-type="addvideo" class="btn btn-thm4 m-0"><i class="fal fa-plus me-2"></i>Add New Video</a>
                     </div>
                     <div class="row VideoBox">
+                        @if($videos->count()==0)
+                        <x-data-not-found data="Videos"/>
+                        @endif
                         @foreach($videos as $video)
+                        @php
+                            $arr = explode('=',$video->video_url);
+                        @endphp
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header">
-                                    <a href="{{route('expert.removevideo',['id'=>$video->id])}}" class="RemoveVideo"><i class="fal fa-trash-alt"></i></a>
+                                    {{-- {{route('expert.removevideo',['id'=>$video->id])}} --}}
+                                    <a href="#DeleteModal" data-bs-toggle="modal" onclick="$('.removerecord').attr('href','{{route('expert.removevideo',['id'=>$video->id])}}');" class="RemoveVideo"><i class="fal fa-trash-alt"></i></a>
                                     <a href="#videomodal" data-bs-toggle="modal" data-bs-id="{{$video->id}}" data-bs-type="editvideo" class="EditVideo"><i class="fas fa-pencil-alt"></i></a>
                                     @if($video->video_type==1)
-                                        <div class="youtube-player" data-id="eylsgNZXo4Q"></div>
+                                        <div class="youtube-player" data-id="{{$arr[1] ?? ''}}"></div>
                                         <a data-fancybox="" class="playVideo" href="{{$video->video_url}}" data-title="{{$video->title}}"></a>
                                     @endif
                                     @if($video->video_type==2)
-                                    <x-image-box>
-                                        <x-slot:image>{{$video->video_image}}</x-slot:image>
-                                        <x-slot:path>/uploads/expert/video/</x-slot:image>
-                                        <x-slot:alt>{{$video->title ?? ''}}</x-slot:image>
-                                    </x-image-box>
+                                    <video>
+                                        <source src="{{asset('uploads/expert/video/'.$video->video)}}" type="video/mp4" />
+                                    </video>
                                     <div class="play"></div>
                                     <a data-fancybox="" class="playVideo" href="{{asset('uploads/expert/video/'.$video->video)}}" data-title="{{$video->title}}"></a>
                                     @endif
                                 </div>
-                                <a href="video-detail.php" class="card-body">
+                                <a target="_blank" href="{{route('experts',['alias'=>$video->expert->user_id,'type'=>'videos','v'=>$video->video_id])}}" class="card-body">
                                     <h3>{{$video->title}}</h3>
                                     @if(!empty($video->industries))
                                     <small class="text-secondary">
@@ -63,7 +68,7 @@
 </main>
 @endsection
 @push('css')
-<title>My Video : Expert Bells</title>
+<title>My Video : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <link rel="stylesheet" href="{{asset('frontend/css/account.css')}}">
@@ -74,8 +79,8 @@
 .VideoBox .card>*{border-radius:0!important;border:none}
 .VideoBox .card .card-header{position:relative;height:185px;line-height:0;padding:0;transition:all .5s}
 .VideoBox .card .card-header .playVideo{position:absolute;height:100%;width:100%;left:0;top:0;z-index:4}
-.VideoBox .card .card-header .play{height:72px;width:72px;left:50%;top:50%;transform:translateX(-50%) translatey(-50%);position:absolute;background:url('{{asset('frontend/img/play.svg')}}') no-repeat;cursor:pointer;z-index:2;filter:drop-shadow(2px 3px 0 rgb(var(--blackrgb)/.2))}
-.VideoBox .card .card-header img{width:100%;height:100%;object-fit:cover}
+.VideoBox .card .card-header .play{height:72px;width:72px;left:50%;top:50%;transform:translateX(-50%) translatey(-50%);position:absolute;background:url('{{asset('frontend/img/play.svg')}}') no-repeat;cursor:pointer;z-index:2;}
+.VideoBox .card .card-header video{width:100%;height:100%;object-fit:cover}
 .VideoBox .card .card-body{text-align:center}
 .VideoBox .card .card-body h3{font-size:18px!important;margin:0 0 5px;color:var(--thm3)!important;font-weight:500;display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:1}
 .VideoBox .card img{width:100%;height:auto;border-radius:5px}
@@ -84,7 +89,7 @@
 .VideoBox .card:hover{transform:translateY(-3px);box-shadow:0 0 16px rgb(var(--blackrgb)/.2)!important}
 .VideoBox .card:hover .card-body{background:rgb(var(--thmrgb)/.06)}
 .VideoBox .card .RemoveVideo,.VideoBox .card .EditVideo{position:absolute;top:9px;right:-40px;height:35px;width:35px;border-radius:5px!important;background:#dc3545;color:var(--white);display:grid;place-items:center;box-shadow:0 3px 5px rgb(var(--blackrgb)/.2);z-index:5}
-.VideoBox .card .EditVideo{background:#198754;top:49px}
+.VideoBox .card .EditVideo{background:#0c233b;top:49px}
 .VideoBox .card:hover .RemoveVideo,.VideoBox .card:hover .EditVideo,.VideoBox .card:active .RemoveVideo,.VideoBox .card:active .EditVideo{right:9px}
 .CustomerInfo textarea.form-control{height:99px;resize:none}
 </style>
@@ -147,6 +152,7 @@ $('[data-bs-type]').on('click',function(e){
         $('.modal-content').load(@json(route('expert.editvideo'))+'?id='+id);
     }    
 });
+
 </script>
 <div class="modal fade" id="videomodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

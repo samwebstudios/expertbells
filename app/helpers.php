@@ -14,6 +14,12 @@ if(!function_exists('userinfo')){
         return Auth::user();
     }
 }
+
+if(!function_exists('defaultcurrency')){
+    function defaultcurrency(){
+        return "INR";
+    }
+}
 if(!function_exists('project')){
     function project(){
         return "Expertbells";
@@ -58,8 +64,55 @@ if(!function_exists('generateexpertno')){
         if($checkuser>0){
             $this->generateexpertno();
         }else{
-            if(strlen($numnber)<4){ $this->generateuserno(); }
+            if(strlen($numnber)<4){ $this->generateexpertno(); }
             else{ return $numnber; }
+        }
+    }
+}
+if(!function_exists('generateexpertvideoid')){
+    function generateexpertvideoid(){
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
+        $result='';
+        for ($i = 0; $i < 11; $i++){
+            $result .= $characters[mt_rand(0, 63)];
+        }
+        $checkuser = \App\Models\ExpertVideo::where('video_id',$result)->count();        
+        if($checkuser>0){
+            $this->generateexpertvideoid();
+        }else{            
+            return $result;         
+        }
+    }
+}
+
+if(!function_exists('viewcounts')){
+    function viewcounts($count){
+        for($A=$count;$A<=999;$A++){
+            return $A;
+        }
+        if($count>999 && $count<99999){ 
+            for($A=$count;$A<=99999;$A++){
+                if(strlen($count)==4){ 
+                    $string = substr($A,0,2); 
+                    return floatval(substr_replace($string,'.', 1, 0)).'K';
+                }
+                if(strlen($count)==5){ 
+                    $string = substr($A,0,3); 
+                    return floatval(substr_replace($string,'.', 2, 0)).'K';
+                }        
+           }
+        }
+        if($count>99999 && $count<9999999){ 
+            for($A=$count;$A<=9999999;$A++){
+                if(strlen($count)==6){ 
+                    $string = substr($A,0,2); 
+                    return floatval(substr_replace($string,'.', 1, 0)).'M';
+                }
+                if(strlen($count)==7){ 
+                    $string = substr($A,0,3); 
+                    return floatval(substr_replace($string,'.', 2, 0)).'M';
+                }        
+           }
         }
     }
 }

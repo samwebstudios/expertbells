@@ -84,10 +84,7 @@
                 <div class="col-12">
                     <div class="row">
                         @if(count($experts)==0)
-                        <div class="col-12 text-center mt-5">
-                            <h6>WE ARE APOLOGIES.</h6>
-                            <p><small>NO ANY EXPERTS ARE FOUND IN OUR RECORDS.</small></p>
-                        </div>
+                        <x-data-not-found :data="Experts"/>
                         @endif
                         @foreach($experts as $expert)
                         <div class="col-lg-3 col-md-4 col-sm-6">

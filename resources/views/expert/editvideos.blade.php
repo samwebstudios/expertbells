@@ -31,20 +31,13 @@
                 <input type="file" name="video" class="form-control">
                 <small class="error video-error"></small>
             </div>
-            <div class="col-4 mb-2 videobox" style="display: {{$videos->video_type==2?'':'none'}}">
-                <video controls width="100%">
-                    <source src="{{asset('uploads/expert/video/'.$videos->video)}}" type="video/mp4">
-                    <source src="{{asset('uploads/expert/video/'.$videos->video)}}" type="video/ogg">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="col-8 mb-2 videobox" style="display: {{$videos->video_type==2?'':'none'}}">
+            <div class="col-8 mb-2 videobox" style="display: none">
                 <small for="file" class="form-label">Choose Video Image</small>
                 <input type="file" name="video_image" class="form-control">
                 <small class="error image-error"></small><br>
                 <small class="text-primary">Best Image Size: 480px * 360px</small>
             </div>
-            <div class="col-4 imgbox">
+            <div class="col-4 imgbox videobox" style="display: none">
                 <x-image-box>
                     <x-slot:image>{{$videos->video_image}}</x-slot:image>
                     <x-slot:path>/uploads/expert/video/</x-slot:image>

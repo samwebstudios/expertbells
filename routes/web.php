@@ -29,7 +29,7 @@ Route::post('sendmobileotp', [App\Http\Controllers\Auth\RegisterController::clas
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('experts/{alias?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
+Route::get('experts/{alias?}/{type?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
 
 Route::name('user.')->prefix('user')->group(function(){
     Route::controller(App\Http\Controllers\User\UserController::class)->group(function(){
@@ -70,22 +70,32 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::post('getwhatexpect','getwhatexpect')->name('getwhatexpect');
         Route::post('savewhatexpect','savewhatexpect')->name('savewhatexpect');
         Route::post('removewhatexpect','removewhatexpect')->name('removewhatexpect');
-        Route::post('updateprofile','updateprofile')->name('updateprofile');          
+        Route::post('updateprofile','updateprofile')->name('updateprofile');
+
         Route::post('countrystates','countrystates')->name('countrystates');        
         Route::post('statecities','statecities')->name('statecities');
+
         Route::post('savevideo','savevideo')->name('savevideo');
         Route::post('updatevideo','updatevideo')->name('updatevideo');
+
+        Route::post('addexpertslotprice','addexpertslotprice')->name('addexpertslotprice');
+        Route::post('expertslotavailability','expertslotavailability')->name('expertslotavailability');
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
+
         Route::get('account','account')->name('account');
         Route::get('otherinformation','otherinformation')->name('otherinformation');        
         Route::get('addwhatexpect','addwhatexpect')->name('addwhatexpect');        
-        Route::get('editprofile','editprofile')->name('editprofile'); 
+        Route::get('editprofile','editprofile')->name('editprofile');
+
         Route::get('videos','videos')->name('videos');
         Route::get('editvideo','editvideo')->name('editvideo');
         Route::get('addvideo','addvideo')->name('addvideo');  
-        Route::get('removevideo/{id}','removevideo')->name('removevideo');   
+        Route::get('removevideo/{id}','removevideo')->name('removevideo'); 
+        
+        Route::get('slots','slots')->name('slots');
+        Route::get('removeavailability/{id}','removeavailability')->name('removeavailability'); 
     });
 });
 

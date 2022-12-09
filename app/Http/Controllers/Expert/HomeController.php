@@ -10,6 +10,8 @@ class HomeController extends Controller
     public function dashboard(){
         return view('expert.dashboard');
     }
+
+    /// PROFILE
     public function editprofile(){
         $currentUserInfo = \Location::get(myipaddress());
         $ccode = \App\Models\Country::where('status',1);
@@ -41,6 +43,16 @@ class HomeController extends Controller
     public function addwhatexpect(){
         return view('expert.whatexpect');
     }
+    public function otherinformation(){
+        $qualifications = \App\Models\Qualification::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $workings = \App\Models\Working::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
+        $expertise = \App\Models\Expertise::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
+        $languages = \App\Models\Language::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
+        $industries = \App\Models\Industry::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
+        return view('expert.otherinformation',compact('qualifications','workings','expertise','languages','industries'));
+    }
+
+    /// VIDOES
     public function videos(){
         $videos = \App\Models\ExpertVideo::where('expert_id',expertinfo()->id)->orderBy('sequence','DESC')->get();        
         return view('expert.videos',compact('videos'));
@@ -76,12 +88,16 @@ class HomeController extends Controller
         $videos->delete();
         return back()->with('success','Video Removed!');
     }
-    public function otherinformation(){
-        $qualifications = \App\Models\Qualification::where('is_publish',1)->orderBy('sequence','ASC')->get();
-        $workings = \App\Models\Working::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
-        $expertise = \App\Models\Expertise::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
-        $languages = \App\Models\Language::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
-        $industries = \App\Models\Industry::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
-        return view('expert.otherinformation',compact('qualifications','workings','expertise','languages','industries'));
+
+    ///SLOTS
+    public function slots(){
+        $times = \App\Models\SlotTime::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $booktimes = \App\Models\SlotCharge::where(['expert_id'=>expertinfo()->id])->get();
+        return view('expert.slots',compact('times','booktimes'));
+    }
+    public function removeavailability($id){
+        $videos = \App\Models\SlotAvailability::find($id);
+        $videos->delete();
+        return back()->with('success','Availability Removed!');
     }
 }

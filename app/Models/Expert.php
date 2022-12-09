@@ -41,4 +41,10 @@ class Expert extends Authenticatable
     public function expects(){
         return $this->hasMany(WhatExpect::class,'expert_id','id');
     }
+    public function videos(){
+        return $this->hasMany(ExpertVideo::class,'expert_id','id');
+    }
+    public function activevideos(){
+        return $this->hasMany(ExpertVideo::class,'expert_id','id')->where('is_publish',1);
+    }
 }

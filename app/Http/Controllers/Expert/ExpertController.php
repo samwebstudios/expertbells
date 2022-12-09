@@ -188,7 +188,7 @@ class ExpertController extends Controller
             'video_type' => 'required',
             'video_url' => 'required_if:video_type,==,1',
             'video' => 'required_if:video_type,==,2',
-            'video_image' => 'required_if:video_type,==,2',
+            // 'video_image' => 'required_if:video_type,==,2',
             'industries' => 'required',
             'description' => 'required',
         ],[
@@ -219,6 +219,7 @@ class ExpertController extends Controller
         $data->industries = (!empty($r->industries) ? json_encode($r->industries) : '' );
         $data->description = $r->description;
         $data->is_publish = 1;
+        $data->video_id = generateexpertvideoid();
         $data->sequence = (\App\Models\ExpertVideo::max('sequence') + 1);
         $data->save();
         return response()->json([
@@ -265,6 +266,57 @@ class ExpertController extends Controller
         $data->save();
         return response()->json([
             'success'=>'Video Updated!'
+        ]);
+    }
+
+    ///SLOT
+    public function addexpertslotprice(Request $r){
+        foreach($r->charges as $key => $charges){
+            $check = \App\Models\SlotCharge::where(['expert_id'=>expertinfo()->id,'slot_time_id'=>$key])->first();
+            if(!empty($charges) && empty($check)){
+                $data = new \App\Models\SlotCharge();
+                $data->slot_time_id = $key;
+                $data->charges = $charges;
+                $data->is_publish = 1;
+                $data->sequence = (\App\Models\SlotCharge::max('sequence') + 1);
+                $data->expert_id = expertinfo()->id;
+                $data->save();
+            }elseif(!empty($charges) && !empty($check)){
+                $data = \App\Models\SlotCharge::find($check->id);
+                $data->slot_time_id = $key;
+                $data->charges = $charges;
+                $data->expert_id = expertinfo()->id;
+                $data->save();
+            }            
+        }
+        return response()->json([
+            'success'=>'Slot Charges Updated!'
+        ]);
+    }
+    public function expertslotavailability(Request $r){
+        $r->validate([
+            'from_time' => 'required',
+            'to_time' => 'required',
+        ],[
+            'from_time.required' => 'The from field is required.',
+            'to_time.required' => 'The to field is required.',
+        ]);
+
+        if(empty($r->preid)){ 
+        $data = new \App\Models\SlotAvailability();             
+        $data->is_publish = 1;
+        $data->sequence = (\App\Models\SlotAvailability::max('sequence') + 1);
+        }else{ 
+            $data = \App\Models\SlotAvailability::find($r->preid); 
+        }        
+        $data->from_time = $r->from_time;
+        $data->to_time = $r->to_time;
+        $data->expert_id = expertinfo()->id;
+        $data->day = $r->Available_for;
+        $data->save();
+
+        return response()->json([
+            'success'=>'Availability Saved!'
         ]);
     }
 }

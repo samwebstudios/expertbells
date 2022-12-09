@@ -30,7 +30,7 @@
                 <input type="file" name="video" class="form-control">
                 <small class="error video-error"></small>
             </div>
-            <div class="col-12 mb-2 videobox" style="display: none">
+            <div class="col-12 mb-2 " style="display: none">
                 <small for="file" class="form-label">Choose Video Image</small>
                 <input type="file" name="video_image" class="form-control">
                 <small class="error image-error"></small><br>
