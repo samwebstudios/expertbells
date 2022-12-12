@@ -349,7 +349,7 @@ function sendMobileVerificationotp(){
             $('input[name=oldmobileotp]').val(success.otp);            
             $('.m-resendcounter').show(); 
             $('.m-resendemail').hide();
-            $('.mvsbtn').hide();
+            $('.mvsbtn').show();
             $('.mvpbtn').hide();
             $('.otppre').html('OTP is : '+success.otp);
             var cancel = setInterval(incrementSeconds, 1000); 

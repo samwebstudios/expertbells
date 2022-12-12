@@ -34,7 +34,7 @@ class RegisterController extends Controller{
         $request->validate([
             'mobile' => 'required|min:8|unique:users',
         ]);
-        
+        $otp = generateotp(4);
         $html = '';
         $html .= '<p>Your email verification code is '.$otp.'. please don`t share this otp to others.</p>';
         return response()->json([

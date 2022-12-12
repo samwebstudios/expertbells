@@ -27,9 +27,19 @@ Route::post('user-step-first', [App\Http\Controllers\Auth\RegisterController::cl
 Route::post('sendemailotp', [App\Http\Controllers\Auth\RegisterController::class, 'sendemailotp'])->name('sendemailotp');
 Route::post('sendmobileotp', [App\Http\Controllers\Auth\RegisterController::class, 'sendmobileotp'])->name('sendmobileotp');
 
+// Route::post('sendemailotp', [App\Http\Controllers\OtherController::class, 'sendemailotp'])->name('sendemailotp');
+Route::post('checkbookingmobile', [App\Http\Controllers\OtherController::class, 'checkbookingmobile'])->name('checkbookingmobile');
+Route::post('bookingloginprocess', [App\Http\Controllers\OtherController::class, 'bookingloginprocess'])->name('bookingloginprocess');
+
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('experts/{alias?}/{type?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
+
+Route::post('expertslottimes', [App\Http\Controllers\HomeController::class, 'expertslottimes'])->name('expertslottimes');
+Route::post('bookingprocess', [App\Http\Controllers\HomeController::class, 'bookingprocess'])->name('bookingprocess');
+Route::get('payment/{booking}', [App\Http\Controllers\HomeController::class, 'payment'])->name('payment');
+Route::get('expert-booking/{booking}', [App\Http\Controllers\HomeController::class, 'bookinglogin'])->name('expertbooking');
+Route::get('expert-booking-step2/{booking}', [App\Http\Controllers\HomeController::class, 'bookingstep2'])->name('expertbooking2');
 
 Route::name('user.')->prefix('user')->group(function(){
     Route::controller(App\Http\Controllers\User\UserController::class)->group(function(){

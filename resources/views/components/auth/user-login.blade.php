@@ -33,5 +33,5 @@
         </div>
         <div class="form-check mt-4 justify-content-center"><input class="form-check-input" type="checkbox" value="" id="lstay"><label class="form-check-label thm" for="lstay">By continuing you agree to our <a href="#"><u>Terms</u></a> and <a href="#"><u>Privacy Policy</u></a></label></div>
     </div>
-    <p class="w-100 m-0 mt-4 text-center justify-content-center">New to ExpertBells? <a  class="btn btn-sm formbtn  m-auto" href="{{route('userregister')}}"><strong>Sign Up Free</strong></a></p>
+    <p class="w-100 m-0 mt-4 text-center justify-content-center">New to {{project()}}? <a  class="btn btn-sm formbtn  m-auto" href="{{route('userregister')}}"><strong>Sign Up Free</strong></a></p>
 </div>

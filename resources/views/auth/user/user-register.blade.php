@@ -14,7 +14,7 @@
                     <div class="row align-items-end">
                         <div class="col-lg-6">
                             <h2 class="mt-2 h4">Expert Sign Up</h2>
-                            <p class="text-secondary">Create your ExpertBall account</p>
+                            <p class="text-secondary">Create your {{project()}} account</p>
                         </div>
                         <div class="col-lg-6">
                             <p class="text-secondary w-100 m-0 mt-4 text-end mb-3">Already have an account? <a class="thm" href="{{route('login')}}"><strong>Login</strong></a></p>
@@ -39,7 +39,7 @@
                                         <span>
                                             <a class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+91</span></a>
                                             <ul class="dropdown-menu countrylist">
-                                                <!------>
+                                                <x-country-list/>
                                             </ul>
                                         </span>
                                         <input type="hidden" name="mobileverify">

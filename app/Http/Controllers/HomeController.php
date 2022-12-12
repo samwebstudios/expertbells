@@ -50,4 +50,77 @@ class HomeController extends Controller{
         $videos = \App\Models\ExpertVideo::where('expert_id',$experts->id)->orderBy('sequence','DESC')->paginate(45);        
         return view('expert-videos',compact('experts','videos'));
     }
+    public function bookinglogin($bookingid){
+        $lists = \App\Models\SlotBook::where('booking_id',$bookingid)->first();
+        if(empty($lists)){ abort(404); }
+        $countries = \App\Models\Country::where('status',1);
+        if(!empty($currentUserInfo->countryCode)){ $countries = $countries->where('sortname',$currentUserInfo->countryCode); }
+        else{ $countries = $countries->where('phonecode',91); }
+        $countries = $countries->first();
+        return view('booking-login',compact('lists','countries'));
+    }
+    public function bookingstep2($bookingid){
+        $lists = \App\Models\SlotBook::where('booking_id',$bookingid)->first();
+        if(empty($lists)){ abort(404); }
+        return view('expert-booking-step2',compact('lists'));
+    }
+    public function expertslottimes(Request $r){
+        $expert = $r->expert;
+        $slot = 0;
+        $fees = 0;
+        $expert = \App\Models\Expert::find($expert);
+        $availabiledays = \App\Models\Slotavailability::where(['expert_id'=>$expert->id])->groupBy('day')->get();
+        $availability = \App\Models\Slotavailability::where(['expert_id'=>$expert->id,'day'=>date('l',strtotime($r->date))])->get();
+        foreach($expert->slotcharges as $key => $charges):
+            if($key==0){ 
+                $slot = $charges->time->minute;
+                $fees = $charges->charges;
+            }
+            if($r->slot==$charges->time->minute){ $fees = $charges->charges; }
+        endforeach;
+        if(!empty($r->slot)){ $slot = $r->slot; }
+        $Html ='<span class="SetInfo thm w-50 '.(empty($availability) ? 'mb-5':'').'"><span><i class="fas fa-info-circle me-2"></i> All times are in UTC+05:30 (IST)</span> <i class="far fa-chevron-right"></i></span>';
+        foreach($availability as $availabile){
+            $Html .='<ul class="p-0 TimeBox">';        
+            $tStart = strtotime($availabile->from_time);
+            $tEnd = strtotime($availabile->to_time);
+            $tNow = $tStart;
+            while($tNow <= $tEnd):
+                $checkbooking = \App\Models\SlotBook::where(['expert_id'=>$expert->id,'booking_date'=>$r->date,'booking_time'=>date("H:i",$tNow)])->count();
+                
+                $Html .='<li style="cursor:'.(date("Y-m-d H:i",strtotime($r->date.$availabile->from_time)) < date('Y-m-d H:i') || $checkbooking > 0?'not-allowed':'').'"><input type="radio" class="btn-check" '.(date("Y-m-d H:i",strtotime($r->date.$availabile->from_time)) < date('Y-m-d H:i') || $checkbooking > 0?'disabled':'').' name="timing" id="t'.$tNow.'" value="'.date("H:i",$tNow).'"  autocomplete="off"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available" for="t'.$tNow.'">'.date("H:i",$tNow).'</label></li>';
+                $tNow = strtotime('+'.($slot).' minutes',$tNow);
+            endwhile;
+            $Html .='</ul>';        
+        }  
+        $daysArr = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; 
+        $availdays = [];
+        $notavailabile = [];
+        foreach($availabiledays as $avai){
+            $availdays[] = $avai->day;
+        } 
+        foreach($daysArr as $key => $Arr){
+            if(!in_array($Arr,$availdays)){ $notavailabile[] = $key ; }
+        }    
+        return response()->json([
+            'html' => $Html,
+            'charges' => $fees,
+            'notavailabile' => $notavailabile
+        ]);
+    }
+    public function bookingprocess(Request $r){
+        $data = new \App\Models\SlotBook();
+        $data->booking_time = $r->timing;
+        $data->booking_date = $r->booking_date;
+        $data->expert_id = $r->expert;
+        $data->booking_id = generatebookingno();
+        $data->save();
+
+        if(!empty(\Auth::user())){ $redirect = route('payment',['booking'=>$data->booking_id]); }
+        else{ $redirect = route('expertbooking',['booking'=>$data->booking_id]); }
+
+        return response()->json([
+            'redirect' => $redirect
+        ]);
+    }
 }

@@ -78,7 +78,7 @@
 .SlotingDate ul li>a,.SlotingDate ul li>span{background:rgb(var(--thmrgb3)/.05);border:1px solid rgb(var(--thmrgb3)/.1);padding:2px 6px;border-radius:3px; overflow: hidden; position: relative; display:inline-block;font-size:13px;cursor:pointer;width:100%;line-height:150%;font-weight:600}
 .SlotingDate ul li>a>span,.SlotingDate ul li>span>span{display:block;color:rgb(var(--blackrgb)/.6);font-weight:400;font-size:11px}
 .SlotingDate ul li.book>a,.SlotingDate ul li.book>span{background:none;border-color:#ffc107!important;cursor:inherit}
-.SlotingDate ul li button,.SlotingDate ul li>span+a{background:var(--thm) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") no-repeat 4px center/7px auto;border:none;height:15px;width:15px;border-radius:50%;position:absolute;top:-4px;right:-4px;opacity:0;transition:all .5s}
+.SlotingDate ul li button,.SlotingDate ul li>span+a{background:var(--thm) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") no-repeat 4px center/7px auto;border:none;height:15px;width:15px;border-radius:50%;position:absolute;top:-4px;right:-4px;opacity:0; z-index:9; transition:all .5s}
 .SlotingDate ul li:hover button,.SlotingDate ul li:hover>span+a{opacity:1}
 .EditSlots .SlotingDate ul li:last-child>a,.EditSlots .SlotingDate ul li:last-child>span{background:var(--thm);color:var(--white)}
 .Edit{position:absolute;height:100%;width:100%;left:0;top:0;z-index:2;background:rgb(var(--thmrgb)/.5);opacity:0;}
@@ -195,6 +195,8 @@ $('[data-bs-type]').on('click',function(){
         $('input[name=preid]').val($(this).attr('data-bs-id'));
         $('input[name=from_time]').val($(this).attr('data-bs-from'));
         $('input[name=to_time]').val($(this).attr('data-bs-to'));
+    }else{
+        $('.availabilityform').trigger('reset');
     }
     $('#Availabilitybox').html(day+' Availability');
     $('input[name=Available_for]').val(day);

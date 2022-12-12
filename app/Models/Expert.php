@@ -47,4 +47,7 @@ class Expert extends Authenticatable
     public function activevideos(){
         return $this->hasMany(ExpertVideo::class,'expert_id','id')->where('is_publish',1);
     }
+    public function slotcharges(){
+        return $this->hasMany(SlotCharge::class,'expert_id','id')->where('is_publish',1);
+    }
 }

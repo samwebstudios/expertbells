@@ -73,7 +73,7 @@
                                     <h3 class="my-2">{{$requestsection->title}}</h3>
                                     <p>{{$requestsection->description}}</p>
                                     <a href="#BookExpert" data-bs-toggle="modal" class="btn btn-thm4 btn-lg">Select times <img src="{{asset('frontend/img/arrow.svg')}}" class="ms-3" width="30" height="30"></a>
-                                    <div class="price"><i class="Ricon">&#8377;</i> 250/- (Per Session) <!-- <del><i class="Ricon">&#8377;</i> 999/-</del> --></div>
+                                    <div class="price"><i class="Ricon">&#8377;</i> <span class="mprice"></span>/- (Per Session) <!-- <del><i class="Ricon">&#8377;</i> 999/-</del> --></div>
                                 </div>
                             </div>
                             <div class="card ExpInfo text-center d-none">
@@ -143,7 +143,9 @@
 
 <div class="modal fade RighSide BookS AddPro" id="BookExpert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="BookExpertLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <form class="modal-content">
+        <form class="modal-content bookingmodalform">
+            @csrf
+            <input type="hidden" name="expert" value="{{$experts->id}}">
             <div class="modal-header p-0 border-0">
                 <!-- <h2 class="h5 modal-title" id="BookExpertLabel">Select times</h2> -->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -152,56 +154,41 @@
                 <div class="sTimeScreen">
                     <div class="ContainBOx">
                         <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Select Duration</h3>
-                        <div class="row">
+                        <div class="row justify-content-between">
                             <div class="col-md-6">
                                 <div class="pb-2 mb-2">
                                     <!-- <h3 class="h5 text-secondary">1) Select the call duration:</h3> -->
                                     <ul class="p-0 mb-0 TimeBox TopTimeBox">
+                                        @foreach($experts->slotcharges as $charges)
                                         <li>
-                                            <div class="form-check"><label class="form-check-label d-flex" for="s1" data-price="50" data-cprice="60"><input type="radio" class="form-check-input" name="Sizes" id="s1" autocomplete="off" checked> <span>Quick - 15 Min</span></label></div>
+                                            <div class="form-check"><label style="cursor:pointer" class="form-check-label d-flex" for="s{{$loop->iteration}}"><input type="radio" onchange="gettimeslots()" class="form-check-input" value="{{$charges->time->minute}}" name="Sizes" id="s{{$loop->iteration}}" autocomplete="off" @checked($loop->iteration==1)> <span>{{$charges->time->title}}</span></label></div>
                                         </li>
-                                        <li>
-                                            <div class="form-check"><label class="form-check-label d-flex" for="s2" data-price="90" data-cprice="105"><input type="radio" class="form-check-input" name="Sizes" id="s2" autocomplete="off"> <span>Regular - 30 Min</span></label></div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check"><label class="form-check-label d-flex" for="s3" data-price="130" data-cprice="155"><input type="radio" class="form-check-input" name="Sizes" id="s3" autocomplete="off"> <span>Extra - 45 Min</span></label></div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check"><label class="form-check-label d-flex" for="s4" data-price="160" data-cprice="190"><input type="radio" class="form-check-input" name="Sizes" id="s4" autocomplete="off"> <span>All Access - 60 Min</span></label></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Pick the Date</h3>
-                                <input type="hidden" class="form-control inlinecal d-none" id="dob" name="dob" placeholder="Date of Birth">
-                            </div>
-                            <div class="col-md-12">
-                                <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Select the Time slot</h3>
-                                <div class="SetTimeBox">
-                                    <span class="SetInfo thm w-50"><span><i class="fas fa-info-circle me-2"></i> All times are in UTC+05:30 (IST)</span> <i class="far fa-chevron-right"></i></span>
-                                    <ul class="p-0 TimeBox">
-                                        @foreach($slots as $slot)
-                                            @php
-                                                $tStart = strtotime($slot->from_time);
-                                                $tEnd = strtotime($slot->to_time);
-                                                $tNow = $tStart;
-                                            @endphp
-                                            @while($tNow <= $tEnd)
-                                            {{-- disabled --}}
-                                            <li><input type="radio" class="btn-check" name="timing" id="t{{$tNow}}"  autocomplete="off"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available" for="t{{$tNow}}">{{date("H:i",$tNow)}}</label></li>
-                                            @php $tNow = strtotime('+15 minutes',$tNow); @endphp
-                                            @endwhile
                                         @endforeach
                                     </ul>
                                 </div>
                             </div>
+                            <div class="col-md-5">
+                                <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Pick the Date</h3>
+                                <input type="hidden" onchange="gettimeslots()" class="form-control inlinecal d-none" id="dob" onchange="gettimeslots()" name="booking_date" placeholder="Date of Birth">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Select the Time slot</h3>
+                                <div class="SetTimeBox"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="position-sticky border-top">
-                        <div class="price m-0 h4"><strong>Price:</strong> <i class="Ricon">&#8377;</i> <span class="mprice">50</span>/- <del style="display:none;" class="cprice"><i class="Ricon">&#8377;</i> <span class="bprice">60</span>/-</del> <span class="h6">(Per Session)</span></div>
-                        <a href="login-book-expert.php" class="btn btn-thm4 btn-lg px-5 mt-0 Request" style="display:none">Request</a>
-                        <a href="#BookExpert" data-bs-toggle="modal" class="btn btn-thm4 m-0">Book Now <i class="fal fa-chevron-right ms-2"></i></a>
+                        <div class="price m-0 h4">
+                            <strong>Price:</strong> 
+                            <i class="Ricon">&#8377;</i>
+                            <span class="mprice">0</span>/- 
+                            <span class="h6">(Per Session)</span>
+                        </div>
+                        <input type="hidden" name="booking_price" value="0">
+                        <button  class="btn btn-thm4 bsbtn m-0">Book Now <i class="fal fa-chevron-right ms-2"></i></button>
+                        <button type="button" class="btn btn-thm4 m-0 bpbtn" style="display: none" disabled><i class="fad fa-spinner-third fa-spin me-1"></i> Loading...</button>
                     </div>
                 </div>
             </div>
@@ -210,7 +197,7 @@
 </div>
 @endsection
 @push('css')
-<title>Expert introduction : Expert Bells</title>
+<title>Expert introduction : {{project()}}</title>
 <meta name="description" content="Welcome to expert Bells">
 <meta name="keywords" content="Welcome to expert Bells">
 <style type="text/css">
@@ -240,5 +227,60 @@ body>main,body section{overflow:inherit!important}
 </style>
 @endpush
 @push('js')
-
+<script>
+    $(document).ready(function(){
+        gettimeslots();       
+    });
+    function gettimeslots(){
+        $('.SetTimeBox').html('<center class="loaderbox my-5"><i class="fad fa-spinner-third fa-spin" style="font-size: 40px;"></i></center>');
+        $.ajax({
+            data:{_token:$('meta[name=csrf-token]').attr('content'),slot:$('input[name=Sizes]:checked').val(),date:$('input[name=booking_date]').val(),expert:@json($experts->id ?? 0)},
+            url: @json(route('expertslottimes')),
+            method:"Post",
+            dataType:"Json",
+            success:function(success){
+                $('.SetTimeBox').html(success.html);
+                $('.mprice').html(success.charges);
+                $('input[name=booking_price]').val(success.charges);
+                flatpickr(".inlinecal",{
+                    inline:true,
+                    minDate: "today",
+                    "disable": [
+                        function(date) {
+                            return (
+                                date.getDay()==success.notavailabile[0] || 
+                                date.getDay()==success.notavailabile[1] || 
+                                date.getDay()==success.notavailabile[2] || 
+                                date.getDay()==success.notavailabile[3] || 
+                                date.getDay()==success.notavailabile[4] || 
+                                date.getDay()==success.notavailabile[5] || 
+                                date.getDay()==success.notavailabile[6]
+                            );
+                        }
+                    ]
+                });
+            }
+        });
+    }
+    $('.bookingmodalform').on('submit',function(e){
+        if($('input[name=timing]').is(':checked')==false){ 
+            toastr.error('Please select appointment time slot.');
+            return false;
+        }
+        e.preventDefault();
+        $('.bsbtn').hide();
+        $('.bpbtn').show();
+        $.ajax({
+            data:new FormData(this),
+            url:@json(route('bookingprocess')),
+            method:"Post",
+            dataType:"Json",
+            contentType:false,
+            processData:false,
+            success:function(success){
+                window.location.href=success.redirect;
+            }
+        });
+    });
+</script>
 @endpush

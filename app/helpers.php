@@ -57,6 +57,18 @@ if(!function_exists('generateuserno')){
         }
     }
 }
+if(!function_exists('generatebookingno')){
+    function generatebookingno(){
+        $numnber = mt_rand(0,999999);
+        $checkuser = \App\Models\SlotBook::where('booking_id',$numnber)->count();
+        if($checkuser>0){
+            $this->generatebookingno();
+        }else{
+            if(strlen($numnber)<4){ $this->generatebookingno(); }
+            else{ return $numnber; }            
+        }
+    }
+}
 if(!function_exists('generateexpertno')){
     function generateexpertno(){
         $numnber = mt_rand(0,999999);

@@ -45,7 +45,7 @@
 </main>
 @endsection
 @push('css')
-<title>Step 3 for User Sign Up : Expert Bells</title>
+<title>Step 3 for User Sign Up : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <style type="text/css">
