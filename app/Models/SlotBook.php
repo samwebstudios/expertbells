@@ -12,4 +12,7 @@ class SlotBook extends Model
     public function expert(){
         return $this->hasOne(Expert::class,'id','expert_id');
     }
+    public function user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
 }

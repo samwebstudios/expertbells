@@ -25,14 +25,29 @@
                                 </ul>
                             </div>
                         </li>
-                        @if(\Auth::check() || \Auth::guard('expert')->check())
+                        @if(\Auth::guard('expert')->check())
                         <li>
-                            <a href="{{route('expert.dashboard')}}" title="{{userinfo()->name ?? expertinfo()->name}}">
+                            <a href="{{route('expert.dashboard')}}" title="{{expertinfo()->name ?? ''}}">
                                 <span>
                                     <x-image-box>
                                         <x-slot:image>{{expertinfo()->profile}}</x-slot:image>
                                         <x-slot:path>/uploads/expert/</x-slot:path>
                                         <x-slot:alt>{{expertinfo()->name ?? ''}}</x-slot:alt>
+                                        <x-slot:height>36</x-slot:alt>
+                                        <x-slot:width>36</x-slot:alt>
+                                    </x-image-box>
+                                </span>
+                            </a>
+                        </li>
+                        @endif
+                        @if(\Auth::check())
+                        <li>
+                            <a href="{{route('user.dashboard')}}" title="{{userinfo()->name ?? ''}}">
+                                <span>
+                                    <x-image-box>
+                                        <x-slot:image>{{userinfo()->profile}}</x-slot:image>
+                                        <x-slot:path>/uploads/user/</x-slot:path>
+                                        <x-slot:alt>{{userinfo()->name ?? ''}}</x-slot:alt>
                                         <x-slot:height>36</x-slot:alt>
                                         <x-slot:width>36</x-slot:alt>
                                     </x-image-box>

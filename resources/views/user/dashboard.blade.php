@@ -8,6 +8,11 @@
                 <li class="breadcrumb-item"><a href="index.php"><i class="fal fa-home-alt"></i></a></li>
                 <li class="breadcrumb-item"><a aria-current="page">Dashboard</a></li>
             </ol>
+            @if(userinfo()->complete_profile==0)
+            <div>
+                <marquee><a href="{{route('user.userregister2')}}" class="text-danger">you have not complete your profile</a></marquee>
+            </div>
+            @endif
             <div class="row MainBoxAc">
                 <div class="col-md-3">
                     <div class="position-sticky top-0">
@@ -23,7 +28,10 @@
                                     <div class="col-sm-4 Uinfo">
                                         <small class="text-secondary">Hello,</small>
                                         <h3 class="h5 mb-1">{{userinfo()->name ?? ''}}</h3>
-                                        <a href="account/my-account.php"><i class="fal fa-edit"></i> Edit Account</a>
+                                        <a href="account/my-account.php"><i class="fal fa-edit"></i> Edit Account</a> | 
+                                        @if(userinfo()->complete_profile==0)
+                                        <a href="{{route('user.userregister2')}}" class="text-danger">Complete Profile ?</a>
+                                        @endif
                                     </div>
                                     <div class="col-lg-8 text-end">
                                         <h1 class="h5 thm mb-0">Welcome to your Dashboard</h1>

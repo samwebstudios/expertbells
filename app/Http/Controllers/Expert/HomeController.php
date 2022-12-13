@@ -100,4 +100,10 @@ class HomeController extends Controller
         $videos->delete();
         return back()->with('success','Availability Removed!');
     }
+
+    ///Schedules
+    public function schedules(){
+        $bookings = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->orderBy('id')->paginate(50);
+        return view('expert.schedule',compact('bookings'));
+    }
 }

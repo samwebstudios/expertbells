@@ -298,7 +298,7 @@
 </main>
 @endsection
 @push('css')
-<title>My Account : Expert Bells</title>
+<title>My Account : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <link rel="stylesheet" href="{{asset('frontend/css/account.css')}}">

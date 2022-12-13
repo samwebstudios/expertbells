@@ -60,6 +60,7 @@
                         @endif
                     </div>
                 </div>
+                @if(empty(\Auth::guard('expert')->user()) && empty(\Auth::guard('admin')->user()) )
                 <div class="col-lg-3 order-lg-last">
                     <div class="position-sticky">
                         <div class="FirstScreen">
@@ -86,8 +87,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="mx-lg-3">
+                @endif
+                <div class="col-lg-{{ empty(\Auth::guard('expert')->user()) ? '6' : '8'}} ">
+                    <div class="{{ empty(\Auth::guard('expert')->user()) ? 'mx-lg-3' : 'ms-lg-3'}}">
                         <h1 class="h3 text-black m-0">Expert Introduction</h1>
                         <h3 class="h5 thm mt-4">About me</h3>
                         <div class="CmsPage">
@@ -157,7 +159,6 @@
                         <div class="row justify-content-between">
                             <div class="col-md-6">
                                 <div class="pb-2 mb-2">
-                                    <!-- <h3 class="h5 text-secondary">1) Select the call duration:</h3> -->
                                     <ul class="p-0 mb-0 TimeBox TopTimeBox">
                                         @foreach($experts->slotcharges as $charges)
                                         <li>

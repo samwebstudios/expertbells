@@ -27,9 +27,13 @@ Route::post('user-step-first', [App\Http\Controllers\Auth\RegisterController::cl
 Route::post('sendemailotp', [App\Http\Controllers\Auth\RegisterController::class, 'sendemailotp'])->name('sendemailotp');
 Route::post('sendmobileotp', [App\Http\Controllers\Auth\RegisterController::class, 'sendmobileotp'])->name('sendmobileotp');
 
-// Route::post('sendemailotp', [App\Http\Controllers\OtherController::class, 'sendemailotp'])->name('sendemailotp');
+Route::post('checkbookingemail', [App\Http\Controllers\OtherController::class, 'checkbookingemail'])->name('checkbookingemail');
 Route::post('checkbookingmobile', [App\Http\Controllers\OtherController::class, 'checkbookingmobile'])->name('checkbookingmobile');
 Route::post('bookingloginprocess', [App\Http\Controllers\OtherController::class, 'bookingloginprocess'])->name('bookingloginprocess');
+Route::post('couponapply', [App\Http\Controllers\OtherController::class, 'couponapply'])->name('couponapply');
+Route::get('couponcancel/{booking}', [App\Http\Controllers\OtherController::class, 'couponcancel'])->name('couponcancel');
+Route::get('paymentresponse/{booking}', [App\Http\Controllers\OtherController::class, 'paymentresponse'])->name('paymentresponse');
+Route::post('bookingquery', [App\Http\Controllers\OtherController::class, 'bookingquery'])->name('bookingquery');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -40,6 +44,7 @@ Route::post('bookingprocess', [App\Http\Controllers\HomeController::class, 'book
 Route::get('payment/{booking}', [App\Http\Controllers\HomeController::class, 'payment'])->name('payment');
 Route::get('expert-booking/{booking}', [App\Http\Controllers\HomeController::class, 'bookinglogin'])->name('expertbooking');
 Route::get('expert-booking-step2/{booking}', [App\Http\Controllers\HomeController::class, 'bookingstep2'])->name('expertbooking2');
+Route::get('paymentquery/{booking}', [App\Http\Controllers\HomeController::class, 'paymentquery'])->name('paymentquery');
 
 Route::name('user.')->prefix('user')->group(function(){
     Route::controller(App\Http\Controllers\User\UserController::class)->group(function(){
@@ -62,9 +67,9 @@ Route::name('user.')->prefix('user')->group(function(){
         });        
     });
     Route::controller(App\Http\Controllers\User\HomeController::class)->group(function(){
-        Route::middleware('userprofilecomplete')->group(function(){
+        // Route::middleware('userprofilecomplete')->group(function(){
             Route::get('dashboard','dashboard')->name('dashboard');
-        });
+        // });
     });
 });
 
@@ -106,6 +111,8 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         
         Route::get('slots','slots')->name('slots');
         Route::get('removeavailability/{id}','removeavailability')->name('removeavailability'); 
+
+        Route::get('schedules','schedules')->name('schedules');        
     });
 });
 

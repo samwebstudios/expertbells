@@ -139,6 +139,16 @@ if(!function_exists('datetimeformat')){
         return date('d M, Y h:i A',strtotime($date));
     }
 }
+if(!function_exists('dateformat')){
+    function dateformat($date){
+        return date('d M, Y',strtotime($date));
+    }
+}
+if(!function_exists('timeformat')){
+    function timeformat($date){
+        return date('H:s A',strtotime($date));
+    }
+}
 if(!function_exists('directFile')){
     function directFile($path,$image){
         $name = $image->getClientOriginalName(); 

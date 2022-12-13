@@ -57,12 +57,22 @@ class HomeController extends Controller{
         if(!empty($currentUserInfo->countryCode)){ $countries = $countries->where('sortname',$currentUserInfo->countryCode); }
         else{ $countries = $countries->where('phonecode',91); }
         $countries = $countries->first();
-        return view('booking-login',compact('lists','countries'));
+        return view('booking.booking-login',compact('lists','countries'));
     }
     public function bookingstep2($bookingid){
         $lists = \App\Models\SlotBook::where('booking_id',$bookingid)->first();
         if(empty($lists)){ abort(404); }
-        return view('expert-booking-step2',compact('lists'));
+        return view('booking.expert-booking-step2',compact('lists'));
+    }
+    public function payment($bookingid){
+        $lists = \App\Models\SlotBook::where('booking_id',$bookingid)->first();
+        if(empty($lists)){ abort(404); }
+        return view('booking.payment',compact('lists'));
+    }
+    public function paymentquery($bookingid){
+        $lists = \App\Models\SlotBook::where('booking_id',$bookingid)->first();
+        if(empty($lists)){ abort(404); }
+        return view('booking.payment-query',compact('lists'));
     }
     public function expertslottimes(Request $r){
         $expert = $r->expert;
@@ -86,9 +96,9 @@ class HomeController extends Controller{
             $tEnd = strtotime($availabile->to_time);
             $tNow = $tStart;
             while($tNow <= $tEnd):
-                $checkbooking = \App\Models\SlotBook::where(['expert_id'=>$expert->id,'booking_date'=>$r->date,'booking_time'=>date("H:i",$tNow)])->count();
-                
-                $Html .='<li style="cursor:'.(date("Y-m-d H:i",strtotime($r->date.$availabile->from_time)) < date('Y-m-d H:i') || $checkbooking > 0?'not-allowed':'').'"><input type="radio" class="btn-check" '.(date("Y-m-d H:i",strtotime($r->date.$availabile->from_time)) < date('Y-m-d H:i') || $checkbooking > 0?'disabled':'').' name="timing" id="t'.$tNow.'" value="'.date("H:i",$tNow).'"  autocomplete="off"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available" for="t'.$tNow.'">'.date("H:i",$tNow).'</label></li>';
+                $endslot = date("H:i",strtotime('+'.($slot).' minutes',$tNow));
+                $checkbooking = \App\Models\SlotBook::where(['status'=>1,'expert_id'=>$expert->id,'booking_date'=>$r->date,'booking_time'=>date("H:i",$tNow)])->count();
+                $Html .='<li style="cursor:'.($r->date.date(" H:i",$tNow) < date('Y-m-d H:i') || $checkbooking > 0?'not-allowed':'').'"><input type="radio" class="btn-check" '.($r->date.date(" H:i",$tNow) < date('Y-m-d H:i') || $checkbooking > 0?'disabled':'').' name="timing" id="t'.$tNow.'" value="'.date("H:i",$tNow).'-'.$endslot.'"  autocomplete="off"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available" for="t'.$tNow.'">'.date("H:i",$tNow).'</label></li>';
                 $tNow = strtotime('+'.($slot).' minutes',$tNow);
             endwhile;
             $Html .='</ul>';        
@@ -105,15 +115,23 @@ class HomeController extends Controller{
         return response()->json([
             'html' => $Html,
             'charges' => $fees,
-            'notavailabile' => $notavailabile
+            'notavailabile' => $notavailabile,
         ]);
     }
     public function bookingprocess(Request $r){
         $data = new \App\Models\SlotBook();
         $data->booking_time = $r->timing;
+        $data->booking_start_time = explode('-',$r->timing)[0] ?? '';
+        $data->booking_end_time = explode('-',$r->timing)[1] ?? '';
         $data->booking_date = $r->booking_date;
+        $data->booking_amount = $r->booking_price;
+        $data->paid_amount = $r->booking_price;
         $data->expert_id = $r->expert;
         $data->booking_id = generatebookingno();
+        $data->user_id = userinfo()->id ?? '';
+        $data->user_number = (!empty(userinfo()->id) ? userinfo()->ccode.userinfo()->mobile : '');
+        $data->user_email = userinfo()->email ?? '';
+        $data->user_name = userinfo()->name ?? '';
         $data->save();
 
         if(!empty(\Auth::user())){ $redirect = route('payment',['booking'=>$data->booking_id]); }

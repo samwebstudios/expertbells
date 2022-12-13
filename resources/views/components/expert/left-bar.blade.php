@@ -5,7 +5,7 @@
         <li class="{{Request::segment(2)=='account'?'active':''}}"><a href="{{route('expert.account')}}"><span><i class="fal fa-user-edit me-1"></i> My Account</a></a></li>
         <li><a href="#mycalls" class="collapsed" data-bs-toggle="collapse" aria-expanded="false" aria-controls="mycalls"><span><i class="fal fa-phone-rotary me-1"></i> My Calls</span> <i class="fal fa-chevron-down arrow"></i></a>
             <ul class="collapse" id="mycalls">
-                <li><a href="expert-account/scheduled-calls.php"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>
+                <li><a href="{{route('expert.schedules')}}"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>
                 <li><a href="expert-account/closed-call.php"><span><i class="fal fa-phone-slash me-1"></i> Closed Call</span></a></li>
                 <li><a href="expert-account/scheduled-calls.php"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
             </ul>

@@ -60,7 +60,7 @@
                         <div class="form-check mt-1"><input class="form-check-input" type="checkbox" value="" id="lstay"><label class="form-check-label thm" for="lstay">By continuing you agree to our <a href="#"><u>Terms</u></a> and <a href="#"><u>Privacy Policy</u></a></label></div>
                     </div>
                     <div class="OTPbox MobileOTPbox" style="display:none;">
-                        <div class="text-center mt-4"><i><small>Sent to <strong>+91******4343</strong></small></i></div>
+                        {{-- <div class="text-center mt-4"><i><small>Sent to <strong>+91******4343</strong></small></i></div> --}}
                         <div class="text-center">
                             <div id="otp" class="input-group justify-content-center">
                                 <input type="hidden" name="oldmobileotp">
@@ -88,7 +88,7 @@
 </main>
 @endsection
 @push('css')
-<title>Login : Expert Bells</title>
+<title>Expert Booking : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <style type="text/css">
