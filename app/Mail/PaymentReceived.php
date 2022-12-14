@@ -32,7 +32,7 @@ class PaymentReceived extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Thankyou! we have received your payment.',
+            subject: $this->body['subject'] ?? 'Thankyou! we have received your payment.',
         );
     }
 

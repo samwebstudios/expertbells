@@ -89,20 +89,29 @@ class HomeController extends Controller{
             if($r->slot==$charges->time->minute){ $fees = $charges->charges; }
         endforeach;
         if(!empty($r->slot)){ $slot = $r->slot; }
-        $Html ='<span class="SetInfo thm w-50 '.(empty($availability) ? 'mb-5':'').'"><span><i class="fas fa-info-circle me-2"></i> All times are in UTC+05:30 (IST)</span> <i class="far fa-chevron-right"></i></span>';
-        foreach($availability as $availabile){
-            $Html .='<ul class="p-0 TimeBox">';        
-            $tStart = strtotime($availabile->from_time);
-            $tEnd = strtotime($availabile->to_time);
-            $tNow = $tStart;
-            while($tNow <= $tEnd):
-                $endslot = date("H:i",strtotime('+'.($slot).' minutes',$tNow));
-                $checkbooking = \App\Models\SlotBook::where(['status'=>1,'expert_id'=>$expert->id,'booking_date'=>$r->date,'booking_time'=>date("H:i",$tNow)])->count();
-                $Html .='<li style="cursor:'.($r->date.date(" H:i",$tNow) < date('Y-m-d H:i') || $checkbooking > 0?'not-allowed':'').'"><input type="radio" class="btn-check" '.($r->date.date(" H:i",$tNow) < date('Y-m-d H:i') || $checkbooking > 0?'disabled':'').' name="timing" id="t'.$tNow.'" value="'.date("H:i",$tNow).'-'.$endslot.'"  autocomplete="off"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available" for="t'.$tNow.'">'.date("H:i",$tNow).'</label></li>';
-                $tNow = strtotime('+'.($slot).' minutes',$tNow);
-            endwhile;
-            $Html .='</ul>';        
-        }  
+        $Html='';
+        if($availability->count() > 0){
+        $Html .='<span class="SetInfo thm w-50 '.(empty($availability) ? 'mb-5':'').'"><span><i class="fas fa-info-circle me-2"></i> All times are in UTC+05:30 (IST)</span> <i class="far fa-chevron-right"></i></span>';
+            foreach($availability as $availabile){
+                $Html .='<ul class="p-0 TimeBox">';        
+                $tStart = strtotime($availabile->from_time);
+                $tEnd = strtotime($availabile->to_time);
+                $tNow = $tStart;
+                while($tNow <= $tEnd):
+                    $endslot = date("H:i",strtotime('+'.($slot).' minutes',$tNow));
+                    $checkbooking = \App\Models\SlotBook::where(['status'=>1,'expert_id'=>$expert->id,'booking_date'=>$r->date,'booking_time'=>date("H:i",$tNow)])->count();
+                    $Html .='<li style="cursor:'.($r->date.date(" H:i",$tNow) < date('Y-m-d H:i') || $checkbooking > 0?'not-allowed':'').'"><input type="radio" class="btn-check" '.($r->date.date(" H:i",$tNow) < date('Y-m-d H:i') || $checkbooking > 0?'disabled':'').' name="timing" id="t'.$tNow.'" value="'.date("H:i",$tNow).'-'.$endslot.'"  autocomplete="off"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available" for="t'.$tNow.'">'.date("H:i",$tNow).'</label></li>';
+                    $tNow = strtotime('+'.($slot).' minutes',$tNow);
+                endwhile;
+                $Html .='</ul>';        
+            } 
+        }
+        if($availability->count()==0){
+            $Html .='<div class="col-12 text-center my-5 text-danger">
+                        <h6>'.$expert->name.' is not available for '.date('F, d Y',strtotime($r->date)).'.</h6>
+                        <p class="text-danger"><small>You Can found other expert for your query.</small></p>
+                    </div>';
+        } 
         $daysArr = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; 
         $availdays = [];
         $notavailabile = [];
@@ -116,6 +125,7 @@ class HomeController extends Controller{
             'html' => $Html,
             'charges' => $fees,
             'notavailabile' => $notavailabile,
+            'records' => $availability->count()
         ]);
     }
     public function bookingprocess(Request $r){

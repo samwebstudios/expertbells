@@ -24,9 +24,7 @@
 <link rel="dns-prefetch" href="//pro.fontawesome.com">
 <link rel="dns-prefetch" href="//code.jquery.com">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<style>
-    .error{font-size: 13px;color: #ea6b6b;}
-</style>
+<style>.error{font-size: 13px;color:#ea6b6b}</style>
 @vite([])
 </head>
 <body id="app">

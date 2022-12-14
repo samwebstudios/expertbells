@@ -175,12 +175,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Select the Time slot</h3>
+                                <h3 class="h4 thm fw-bold timeheadingbox mb-3 justify-content-between align-items-center">Select the Time slot</h3>
                                 <div class="SetTimeBox"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="position-sticky border-top">
+                    <div class="position-sticky footerbox border-top">
                         <div class="price m-0 h4">
                             <strong>Price:</strong> 
                             <i class="Ricon">&#8377;</i>
@@ -243,6 +243,8 @@ body>main,body section{overflow:inherit!important}
                 $('.SetTimeBox').html(success.html);
                 $('.mprice').html(success.charges);
                 $('input[name=booking_price]').val(success.charges);
+                if(success.records==0){ $('.footerbox').hide(); $('.timeheadingbox').hide();}
+                if(success.records>0){ $('.footerbox').show(); $('.timeheadingbox').show();}
                 flatpickr(".inlinecal",{
                     inline:true,
                     minDate: "today",

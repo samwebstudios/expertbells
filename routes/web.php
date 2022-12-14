@@ -112,7 +112,8 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::get('slots','slots')->name('slots');
         Route::get('removeavailability/{id}','removeavailability')->name('removeavailability'); 
 
-        Route::get('schedules','schedules')->name('schedules');        
+        Route::get('schedules','schedules')->name('schedules');
+        Route::get('scheduleconfirm/{confirm}/{schedule}','scheduleconfirm')->name('scheduleconfirm');        
     });
 });
 
@@ -219,6 +220,10 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/users-remove/{id}',[App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.remove');
         Route::get('/users-status',[App\Http\Controllers\Admin\UserController::class, 'status'])->name('users.status');
 
+        Route::get('/schedules/{booked}',[App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('schedules.booked');
+        Route::get('/assignexpert',[App\Http\Controllers\Admin\ScheduleController::class, 'assignexpert'])->name('schedules.assignexpert');
+        Route::get('/information',[App\Http\Controllers\Admin\ScheduleController::class, 'information'])->name('schedules.information');
+        
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
         Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');
         

@@ -30,6 +30,16 @@ if(!function_exists('myipaddress')){
         return request()->ip();
     }
 }
+if(!function_exists('adminmail')){
+    function adminmail(){
+        return "support@expertbells.com";
+    }
+}
+if(!function_exists('ccadminmail')){
+    function ccadminmail(){
+        return "info@expertbells.com";
+    }
+}
 if(!function_exists('mailsupportemail')){
     function mailsupportemail(){
         return "help@expertbells.com";

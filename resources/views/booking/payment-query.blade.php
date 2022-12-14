@@ -50,14 +50,14 @@
                     </div>
                     <div class="CustomerInfo text-center">
                         <div class="d-flex justify-content-between">
-                            <div class="SetTime mt-3 text-secondary">
+                            <div class="SetTime text-secondary text-start">
                                 <div class="mb-1"><small><i class="far fa-calendar-alt text-black"></i> {{date('l, d M',strtotime($lists->booking_date))}}</small></div>
                                 <div><small><i class="far fa-clock text-black"></i> {{substr($lists->booking_start_time,0,-3)}} to {{substr($lists->booking_end_time,0,-3)}}</small></div>
                                 @if($lists->coupon_discount > 0)
                                 <div><small><i class="far fa-check text-black"></i> Coupon Applied</small></div>
                                 @endif
                             </div>
-                            <div class="text-end mt-3">
+                            <div class="text-end">
                                 <small>
                                     <span>Booking No: </span>
                                     <span class="text-black fw-bold">#{{$lists->booking_id}}</span>
@@ -75,8 +75,8 @@
                                 @endif                                
                             </div>   
                         </div>                     
-                    </div>
-                    <div class="price text-black fw-bold">Paid Amount : <i class="Ricon">&#8377;</i> {{$lists->paid_amount}}/-</div>
+                    </div><hr>
+                    <div class="price text-black text-center fw-bold">Paid Amount : <i class="Ricon">&#8377;</i> {{$lists->paid_amount}}/-</div>
                         
                 </div>
             </div>
@@ -90,7 +90,7 @@
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <style type="text/css">
-.ExpertBOx{width:450px;margin:20px auto 0}
+.ExpertBOx,.CustomerInfo{width:450px;margin:20px auto 0}
 .ExpertBOx>div{display:flex;justify-content:center}
 .ExpertBOx .img{height:90px; min-width:90px;overflow:hidden}
 .ExpertBOx .img img{height:100%;width:100%;object-fit:contain}
@@ -123,7 +123,7 @@ img.bg-img{position:relative;bottom:0;opacity:.6;margin-top:-9%;width:100%;heigh
 <script>
     setTimeout(() => {
         $('.summernote').summernote({
-            height: 200,
+            height: 100,
             toolbar: []
         });
     },1000);

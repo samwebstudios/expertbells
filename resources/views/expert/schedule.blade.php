@@ -26,18 +26,20 @@
                             <div class="table-responsive w-100 mt-2 mb-1">
                                 <table class="DataTable table table-striped w-100">
                                     <colgroup>
-                                        <col width="7%">
-                                        <col width="30%">
+                                        <col width="5%">
                                         <col width="20%">
-                                        <col width="7%">
-                                        <col width="7%">
-                                        <col width="30%">
+                                        <col width="20%">
+                                        <col width="15%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>User Information</th>
                                             <th>Schedule</th>
+                                            <th>Amount</th>
                                             <th>Payment</th>
                                             <th>Status</th>
                                             <th class="text-center">Action</th>
@@ -51,31 +53,53 @@
                                                 <div class="ProTable">
                                                     <div class="">
                                                         <h3>{{$booking->user_name ?? ''}}</h3>
-                                                        <p><b>Email:</b> {{$booking->user_email ?? ''}}</p>
+                                                        <p>{{$booking->user_email ?? ''}}</p>
                                                         <p><b>Contact:</b> {{$booking->user_number ?? ''}}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <small>Booking No: <b>#{{$booking->booking_id}}</b></small>
-                                                <small>Date: <b>{{date('l, d M Y',strtotime($booking->booking_date))}}</b></small>
-                                                <small>Time: <b>{{substr($booking->booking_start_time,0,-3)}} To {{substr($booking->booking_end_time,0,-3)}}</b></small>
+                                                <small class="d-block">Booking No: <b>#{{$booking->booking_id}}</b></small>
+                                                <small class="d-block">Date: <b>{{date('D, d M Y',strtotime($booking->booking_date))}}</b></small>
+                                                <small class="d-block">Time: <b>{{substr($booking->booking_start_time,0,-3)}} To {{substr($booking->booking_end_time,0,-3)}}</b></small>
                                             </td>
                                             <td>
-                                                <small class="text-secondary">{{$booking->payment==0?'Incomplete Process':''}}</small>
-                                                <small class="text-success">{{$booking->payment==1?'Paid':''}}</small>
-                                                <small class="text-danger">{{$booking->payment==2?'Failed':''}}</small>
+                                                <small class="d-block">Amount: <b>&#8377; {{$booking->booking_amount}}</b></small>
+                                                <small class="d-block">Discount: <b>&#8377; {{$booking->coupon_discount ?? '00'}}</b></small>
+                                                <small class="d-block">Paid: <b>&#8377; {{$booking->paid_amount}}</b></small>
+                                            </td>
+                                            <td>
+                                                @if($booking->payment==0)<small class="text-secondary"><i class="fad fa-circle" style="font-size: 10px;"></i> Incomplete Process</small> @endif
+                                                @if($booking->payment==1)<small class="text-success"><i class="fad fa-circle" style="font-size: 10px;"></i> Paid</small>@endif
+                                                @if($booking->payment==2)<small class="text-danger"><i class="fad fa-circle" style="font-size: 10px;"></i> Failed</small>@endif
                                             </td>
                                             <td>
                                                 <small class="text-secondary">{{$booking->status==0?'New':''}}</small>
                                                 <small class="text-success">{{$booking->status==1?'Confirm':''}}</small>
+                                                <small class="text-danger">{{$booking->status==2?'Rejected':''}}</small>
                                             </td>
-                                            <td class="text-end">
-                                                <!-- <a href="experts-intro.php" class="btn btni btn-info sws-top sws-bounce" data-title="View Expert Detail"><i class="fal fa-file-search"></i> <span class="ms-md-1">Expert Detail</span></a> -->
-                                                <a href="#" class="btn btni btn-success sws-top sws-bounce" data-title="Invite Call"><i class="fal fa-clock"></i> <span class="ms-md-1"></span></a>
-                                                <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i> <!-- <span class="ms-md-1">Message</span> --></button>
-                                                <a href="#ChangeSchedulCall" class="btn btni btn-primary sws-top sws-bounce" data-bs-toggle="modal" data-title="Change Scheduled Call"><i class="fal fa-pencil"></i> <!-- <span class="ms-md-1">Change Scheduled Call</span> --></a>
-                                                <a href="#Delete" data-bs-toggle="modal" class="btn btni btn-danger sws-top sws-bounce" data-title="Cancel Call"><i class="fal fa-times"></i> <!-- <span class="ms-md-1">Cancel Call</span> --></a>
+                                            {{-- <td class="text-end"> --}}
+                                            <td class="text-center">
+                                                @if($booking->status==0)
+                                                <a href="{{route('expert.scheduleconfirm',['confirm'=>1,'schedule'=>$booking->id])}}" class="btn btni btn-primary sws-left sws-bounce" data-title="Confirm Schedule"><i class="fal fa-calendar-check"></i><span class="ms-md-1"></span></a>
+                                                <a href="#rejected" data-bs-toggle="modal" data-bs-url="{{route('expert.scheduleconfirm',['confirm'=>2,'schedule'=>$booking->id])}}" class="btn btni btn-danger sws-left sws-bounce" data-title="Reject Schedule"><i class="fal fa-vote-nay"></i></a>
+                                                @endif
+
+                                                @if($booking->status==2)
+
+                                                @endif
+
+                                                @if($booking->status==1)
+                                                    @php 
+                                                        $Start = date('Y-m-d H:i',strtotime('-30 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
+                                                        $End = $booking->booking_date.' '.$booking->booking_start_time;
+                                                    @endphp           
+                                                    @if(date('Y-m-d H:i') >= $Start && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+10 minutes'.$End)))
+                                                    <a href="#" class="btn btni btn-primary sws-top sws-bounce" data-title="Invite Call"><i class="fal fa-clock"></i> <span class="ms-md-1"></span></a>
+                                                    @endif
+                                                    <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i></button>
+                                                    <a href="#ChangeSchedulCall" class="btn btni btn-primary sws-left sws-bounce" data-bs-toggle="modal" data-title="Change Schedule"><i class="fal fa-pencil"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
@@ -124,7 +148,7 @@ table.dataTable{margin:0!important}
 .ProTable{display:flex;justify-content:space-between}
 .ProTable .img{max-width:45px;height:45px;border-radius:50%;overflow:hidden}
 .ProTable .img img{height:100%;width:100%;object-fit:cover}
-.ProTable>div:last-child{width:calc(100% - 60px)}
+/* .ProTable>div:last-child{width:calc(100% - 60px)} */
 .ProTable h3{font-size:14px;display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;margin-bottom:3px;line-height:150%!important;font-weight:600!important}
 .ProTable p{font-size:13px!important;margin:0;line-height:normal!important;color:rgb(var(--blackrgb)/.6)!important}
 .star{margin:0!important;font-size:16px!important}
@@ -219,15 +243,63 @@ table.dataTable{margin:0!important}
         </form>
     </div>
 </div>
+
+<div class="modal fade RighSide" id="rejected" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ChangeSchedulCallLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <form class="modal-content rejectsche">
+            @csrf
+            <div class="modal-header">
+                <h2 class="h5 modal-title">Schedule Rejected</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body PopupDetail py-3 p-4">
+                <div class="col-12">
+                    <small for="exampleFormControlTextarea1" class="form-label">Please enter the reason of reject this schedule.</small>
+                    <textarea class="form-control summernote" name="reason" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <small class="error bio-error"></small>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn btn-thm4 bsbtn m-0">Confirm & Reject</button>
+                <button type="button" class="btn btn-thm4 m-0 bpbtn" style="display: none" disabled><i class="fad fa-spinner-third fa-spin me-1"></i> Loading...</button>
+            </div>
+        </form>
+    </div>
+</div>
 <script defer type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs5/1.11.4/dataTables.bootstrap5.min.js" integrity="sha512-nfoMMJ2SPcUdaoGdaRVA1XZpBVyDGhKQ/DCedW2k93MTRphPVXgaDoYV1M/AJQLCiw/cl2Nbf9pbISGqIEQRmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     if ($(window).width() < 991){
         $("#AccMenuBar").removeClass('d-none');
         $("#AccountMenu").addClass('collapse');
-    };
-    
+    };    
+    setTimeout(() => {
+        $('.summernote').summernote({
+            height: 100,
+            toolbar: []
+        });
+        $('.summernote').summernote('code','')
+    }, 1000);
+});
+$('[data-bs-url]').on('click',function(){
+    let url = $(this).attr('data-bs-url');    
+    $('.rejectsche').attr('action',url);
+});
+$('.rejectsche').on('submit',function(){
+    $('.bsbtn').hide();
+    $('.bpbtn').show();
+    if($('.summernote').summernote('code')==''){
+        $('.bio-error').html('reason field is required.');
+        $('.bsbtn').show();
+        $('.bpbtn').hide();
+        return false;
+    }else{
+        $('.rejectsche').submit();
+        
+    }
 });
 </script>
 @endpush

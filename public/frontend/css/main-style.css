@@ -122,20 +122,21 @@ nav .container>div{width:100%;display:flex;justify-content:space-between;align-i
 .LastH .btn img{width:18px;filter:invert(0);transition:all .5s}
 .LastH .btn:hover img{filter:invert(1)}
 .LastH .btn:hover{box-shadow:none;transform:translateY(0)}
-.LastH ul{display:flex;align-items:center;margin:0;padding:0;justify-content:end}
-.LastH ul li{position:relative;margin-right:30px}
-.LastH ul li img{width:24px;height:auto;filter:invert(1)}
-.LastH ul li a:hover img{opacity:.7}
-.LastH ul li a{font-size:16px;color:var(--white)!important}
-.LastH ul li a.btn{color:var(--black)!important}
-.LastH ul li a.btn:hover{color:var(--white)!important}
-.LastH ul li span{position:relative;padding:0!important}
+.LastH>ul{display:flex;align-items:center;margin:0;padding:0;justify-content:end}
+.LastH>ul>li{position:relative;margin-right:30px}
+.LastH>ul>li img{width:24px;height:auto;filter:invert(1)}
+.LastH>ul>li .userimg img{filter:inherit!important;height:30px; width:30px; object-fit:cover;border-radius:50%;}
+.LastH>ul>li>a:hover img{opacity:.7}
+.LastH>ul>li>a{font-size:16px;color:var(--white)!important}
+.LastH>ul>li>a.btn{color:var(--black)!important}
+.LastH>ul>li>a.btn:hover{color:var(--white)!important}
+.LastH>ul>li span{position:relative;padding:0!important}
 nav a.navbar-brand{position:relative;display:flex;color:var(--white);flex-wrap:wrap;text-align:center;z-index:1;max-width:100%;transition:all .5s;padding:8px 0;margin:0}
 nav a.navbar-brand img{position:relative;z-index:2;display:flex;/*margin:0 auto;*/width:100%;height:auto;filter:drop-shadow(4px 4px 2px rgb(var(--blackrgb)/.4));transition:all .5s}
 .headicon{display:flex;justify-content:end;line-height:55px;max-width:200px}
 
 @media only screen and (min-width:992px){.container{max-width:88%!important}
-.LastH ul li.MView{display:none}
+.LastH>ul>li.MView{display:none}
 .LastH .menubar{display:block!important}}
 @media only screen and (min-width:1400px){/*.container{max-width:1220px!important}*/
 nav.menu .container,.container{max-width:85%!important}}
@@ -320,7 +321,7 @@ nav.menu .dropdown .dropdown-menu.show{display:block!important}
 nav.navbar.menu .dropdown .dropdown-menu .dropdown-item{padding:0 15px!important;height:40px;line-height:40px}
 nav ul ul>li>a span{align-items:center}
 nav ul ul>li>a span i{transform:rotate(90deg);width:40px;height:40px;display:flex!important;justify-content:center;align-items:center;border-bottom:1px solid rgb(var(--blackrgb)/.1);background:rgb(var(--blackrgb)/.08);margin:0;margin-right:-15px}}
-@media only screen and (max-width:450px){.LastH ul li{margin-right:20px}
+@media only screen and (max-width:450px){.LastH>ul>li{margin-right:20px}
 .navbar-collapse,.loginmenu li .dropdown-menu{width:280px}}
 
 .HearderSec{background:linear-gradient(180deg,var(--thm) 100vh,var(--white) 100vh)}

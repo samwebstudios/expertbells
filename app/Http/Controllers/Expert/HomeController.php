@@ -106,4 +106,37 @@ class HomeController extends Controller
         $bookings = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->orderBy('id')->paginate(50);
         return view('expert.schedule',compact('bookings'));
     }
+    public function scheduleconfirm($confirm,$schedule){
+        $data = \App\Models\SlotBook::find($schedule);
+        if(empty($data)){ return back()->with('error','This schedule is not registered in our records.please choose correct schedule slot.'); }
+        $data->status=$confirm;
+        if($confirm==2){
+            $data->reject_date=date('Y-m-d H:i:s');
+            $data->reject_reason=request('reason');
+        }
+        $data->save();
+
+        if($data->status==1){
+            $html = '<b>Hi '.$data->user_name.'</b><br>';
+            $html .= 'I just wanted to drop you a quick note to let you know that your booked schedule #'.$data->booking_id.' has been confirmed by the '.ucwords(expertinfo()->name).'.';
+            $body = ['message'=>$html,'subject'=>'Schedules #'.$data->booking_id.' has been confirmed' ];
+            \Mail::to($data->user_email)->send(new \App\Mail\PaymentReceived($body));
+            return back()->with('success','This schedule has been confirmed.');
+        }
+        if($data->status==2){
+            $html = '<b>Hi '.$data->user_name.'</b><br>';
+            $html .= 'I just wanted to drop you a quick note to let you know that your booked schedule #'.$data->booking_id.' has been rejected by the '.ucwords(expertinfo()->name).'.<br>';
+            $html .= 'Don`t worry, we will soon assign your schedule to another expert And you will be informed about the same by email.';
+            $body = ['message'=>$html,'subject'=>'Schedules #'.$data->booking_id.' has been rejected' ];
+            \Mail::to($data->user_email)->send(new \App\Mail\PaymentReceived($body));
+
+            /// ADMIN
+            $html = '<b>Hi<br>';
+            $html .= 'I just wanted to drop you a quick note to let you know that booked schedule #'.$data->booking_id.' has been rejected by the '.ucwords(expertinfo()->name).'.<br>';
+            $body = ['message'=>$html,'subject'=>'Schedules #'.$data->booking_id.' has been rejected' ];
+            \Mail::to(adminmail())->CC(ccadminmail())->send(new \App\Mail\PaymentReceived($body));
+            return back()->with('success','This schedule has been rejected.');
+        }
+        
+    }
 }
