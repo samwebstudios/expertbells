@@ -134,6 +134,9 @@ nav .container>div{width:100%;display:flex;justify-content:space-between;align-i
 nav a.navbar-brand{position:relative;display:flex;color:var(--white);flex-wrap:wrap;text-align:center;z-index:1;max-width:100%;transition:all .5s;padding:8px 0;margin:0}
 nav a.navbar-brand img{position:relative;z-index:2;display:flex;/*margin:0 auto;*/width:100%;height:auto;filter:drop-shadow(4px 4px 2px rgb(var(--blackrgb)/.4));transition:all .5s}
 .headicon{display:flex;justify-content:end;line-height:55px;max-width:200px}
+/* nav ul li.dropdown .dropdown-toggle{padding-bottom:20px!important;} */
+nav.navbar.menu .LastH>ul>li.dropdown>a{padding:9px 0!important;}
+nav ul li.dropdown .dropdown-toggle:after{margin:0;}
 
 @media only screen and (min-width:992px){.container{max-width:88%!important}
 .LastH>ul>li.MView{display:none}
@@ -197,10 +200,12 @@ nav ul>li>a{font-size:18px;padding:0!important;position:relative;color:rgb(var(-
 nav ul>li:last-child{margin-right:0}
 nav ul>li>a span{position:relative;display:inline-flex;align-items:center;padding:15px 2px!important;white-space:nowrap}
 nav ul>li:last-child>a span,nav>div.is-fixed ul>li:last-child>a span{padding-right:0!important}
-nav ul ul>li>a span{padding:0!important;display:flex;justify-content:space-between}
-nav ul ul>li>a span i{align-items:center;display:flex!important;margin-left:9px}
-nav ul>li ul li a{margin:0!important;padding:4px 15px!important;display:block;font-size:14px;white-space:nowrap;width:100%;color:rgb(var(--blackrgb)/.9)!important;transition:all .5s}
-nav ul>li ul li.active a,nav ul>li ul li.active:hover a{color:var(--thm)!important;background:none!important}
+nav ul ul>li>a span{padding:0!important;display:flex;/*justify-content:space-between*/}
+nav ul ul>li>a span i{align-items:center;display:flex!important;}
+nav ul>li ul li a{margin:0!important;padding:6px 15px!important;display:block;font-size:14px;white-space:nowrap;width:100%;color:rgb(var(--blackrgb)/.9)!important;transition:all .5s}
+nav ul>li .dropdown-menu>ul>li:last-child a{background:rgb(var(--blackrgb)/.2)!important;}
+nav ul>li .dropdown-menu>ul>li ul li a{padding-left:20px!important}
+nav ul>li ul li.active a,nav ul>li ul li.active:hover a,nav ul>li ul li:hover a{color:var(--thm)!important;background:rgb(var(--thmrgb)/.1)!important}
 /*nav ul>li ul li:hover a{background:rgb(var(--thmrgb)/.1)}*/
 nav ul li.dropdown{display:inherit}
 nav ul>li.dropdown>a span{padding-right:1px!important}
@@ -210,13 +215,13 @@ nav ul>li.active>a,nav ul>li:hover>a{color:rgb(var(--whitergb)/.8)!important}
 nav ul>li.active>a{font-weight:700}
 nav ul.navbar-nav>li.active:after,nav ul.navbar-nav>li:hover:after{width:100%}
 nav ul>li:hover>a.dropdown-toggle:after{transform:rotate(180deg)}
-nav.menu .dropdown .dropdown-menu{transition:all .1s;/*background:var(--thm);*/right:auto;left:0;top:100%;width:auto;transform:translateY(5px);min-width:180px;margin:0!important;opacity:0;visibility:hidden;display:block;transform:rotateX(-90deg);transform-origin:0 0;padding:6px 0!important;border-radius:0 0 5px 5px;font-size:14px}
+nav.menu .dropdown .dropdown-menu{transition:all .1s;/*background:var(--thm);*/right:0;left:auto;top:100%; width:auto;transform:translateY(5px);min-width:180px;margin:0!important;opacity:0;visibility:hidden;display:block;transform:rotateX(-90deg);transform-origin:0 0;padding:6px 0!important;border-radius:0 0 5px 5px;font-size:14px}
 nav.menu .dropdown:hover .dropdown-menu,nav.menu .dropdown .dropdown-menu.show{opacity:1;transform:translateY(0px);visibility:visible}
 nav.navbar.menu .dropdown .dropdown-menu,nav.navbar.menu .dropdown:hover .dropdown-menu .dropdown-menu{transition:all .5s;border:none;opacity:0;visibility:hidden;padding:0;border-radius:5px;font-size:14px;box-shadow:0 5px 15px rgb(var(--thmrgb)/.3);overflow:hidden}
 nav.navbar.menu .dropdown>a:before{position:absolute;bottom:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:7px solid var(--white);height:0;width:0;right:0;left:0;margin:0 auto;content:"";opacity:0;visibility:hidden;z-index:1111;transform:rotate(0deg);transition:all .4s}
 nav.navbar.menu .dropdown:hover>a:before{opacity:1;visibility:visible}
 nav.navbar.menu .dropdown .dropdown-menu .dropdown-item{padding:.3rem 1rem;border-left:3px solid var(--white);font-size:14px}
-nav.navbar.menu .dropdown .dropdown-menu li{border-bottom:1px solid rgb(var(--whitergb)/.1);margin:0}
+nav.navbar.menu .dropdown .dropdown-menu li{border-bottom:1px solid rgb(var(--whitergb)/.1);margin:0;display:block;}
 nav.navbar.menu .dropdown .dropdown-menu li:last-child{border:none}
 nav.navbar.menu .dropdown .dropdown-menu .dropdown-menu{left:99%;top:1%}
 nav.navbar.menu .dropdown:hover .dropdown-menu,nav.navbar.menu .dropdown .dropdown:hover .dropdown-menu{display:block;opacity:1;visibility:visible}
