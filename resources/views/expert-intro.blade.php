@@ -16,11 +16,11 @@
                             <a href="#" class="card-header">
                                 @if($experts->top_expert==1) <span class="StarBox">Top Expert</span> @endif                                
                                 <x-image-box>
-                                    <x-slot:image>{{$experts->profile}}</x-slot:image>
-                                    <x-slot:path>/uploads/expert/</x-slot:image>
-                                    <x-slot:alt>{{$experts->name ?? ''}} {{!empty($experts->expertise->title) ? '('.$experts->expertise->title.')' : ''}} </x-slot:image>
-                                    <x-slot:width>380</x-slot:image>
-                                    <x-slot:height>480</x-slot:image>
+                                    <x-slot:image>{{$experts->profile}}</x-slot>
+                                    <x-slot:path>/uploads/expert/</x-slot>
+                                    <x-slot:alt>{{$experts->name ?? ''}} {{!empty($experts->expertise->title) ? '('.$experts->expertise->title.')' : ''}} </x-slot>
+                                    <x-slot:width>380</x-slot>
+                                    <x-slot:height>480</x-slot>
                                 </x-image-box>                                
                             </a>
                         </div>

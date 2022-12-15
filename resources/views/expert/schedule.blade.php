@@ -74,15 +74,18 @@
                                                 @if($booking->payment==2)<small class="text-danger"><i class="fad fa-circle" style="font-size: 10px;"></i> Failed</small>@endif
                                             </td>
                                             <td>
-                                                <small class="text-secondary">{{$booking->status==0?'New':''}}</small>
-                                                <small class="text-success">{{$booking->status==1?'Confirm':''}}</small>
-                                                <small class="text-danger">{{$booking->status==2?'Rejected':''}}</small>
+                                                @if(date('Y-m-d H:i:s') < date('Y-m-d H:i:s',strtotime($booking->booking_date.' '.$booking->booking_start_time)))
+                                                    <small class="text-secondary">{{$booking->status==0?'New':''}}</small>
+                                                    <small class="text-success">{{$booking->status==1?'Confirm':''}}</small>
+                                                    <small class="text-danger">{{$booking->status==2?'Rejected':''}}</small>
+                                                @else
+                                                <small class="text-danger">Expired</small>
+                                                @endif
                                             </td>
                                             {{-- <td class="text-end"> --}}
                                             <td class="text-center">
                                                 @if($booking->status==0)
                                                 <a href="{{route('expert.scheduleconfirm',['confirm'=>1,'schedule'=>$booking->id])}}" class="btn btni btn-primary sws-left sws-bounce" data-title="Confirm Schedule"><i class="fal fa-calendar-check"></i><span class="ms-md-1"></span></a>
-                                                <a href="#rejected" data-bs-toggle="modal" data-bs-url="{{route('expert.scheduleconfirm',['confirm'=>2,'schedule'=>$booking->id])}}" class="btn btni btn-danger sws-left sws-bounce" data-title="Reject Schedule"><i class="fal fa-vote-nay"></i></a>
                                                 @endif
 
                                                 @if($booking->status==2)
@@ -99,6 +102,7 @@
                                                     @endif
                                                     <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i></button>
                                                     <a href="#ChangeSchedulCall" class="btn btni btn-primary sws-left sws-bounce" data-bs-toggle="modal" data-title="Change Schedule"><i class="fal fa-pencil"></i></a>
+                                                    <a href="#rejected" data-bs-toggle="modal" data-bs-url="{{route('expert.scheduleconfirm',['confirm'=>2,'schedule'=>$booking->id])}}" class="btn btni btn-danger sws-left sws-bounce" data-title="Reject Schedule"><i class="fal fa-vote-nay"></i></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -186,58 +190,40 @@ table.dataTable{margin:0!important}
 </div>
 
 <div class="modal fade RighSide AddPro" id="ChangeSchedulCall" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ChangeSchedulCallLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <form class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <form class="modal-content rescheduleform">
+            @csrf
             <div class="modal-header">
                 <h2 class="h5 modal-title" id="ChangeSchedulCallLabel">ReSchedule Call</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body PopupDetail py-3 p-4">
-                <div class="DateBox">
-                    <h3 class="h4 text-center thm">Select Date</h3>
-                    <h4 class="h6 mt-2 d-flex justify-content-between"><strong>August</strong> <a href="" class="text-primary"><small>Deselect</small></a></h4>
-                    <ul class="p-0 mb-0 TimeBox Date">
-                        <li><input type="radio" class="btn-check" name="dates" id="sd1"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 1" for="sd1">1</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd2"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 2" for="sd2">2</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd3" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 3" for="sd3">3</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd4"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 4" for="sd4">4</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd5"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 5" for="sd5">5</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd6"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 6" for="sd6">6</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd7"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 7" for="sd7">7</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd8" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 8" for="sd8">8</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd9"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 9" for="sd9">9</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd10"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 10" for="sd10">10</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd11" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 11" for="sd11">11</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd12" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 12" for="sd12">12</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd13"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 13" for="sd13">13</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd14"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 14" for="sd14">14</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd15"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 15" for="sd15">15</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd16"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 16" for="sd16">16</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd17"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 17" for="sd17">17</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd18"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 18" for="sd18">18</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd19"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 19" for="sd19">19</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd20" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 20" for="sd20">20</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd21"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 21" for="sd21">21</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd22" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 22" for="sd22">22</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd23"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 23" for="sd23">23</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd24"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 24" for="sd24">24</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd25"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 25" for="sd25">25</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd26" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 26" for="sd26">26</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd27"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 27" for="sd27">27</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd28"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 28" for="sd28">28</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd29" disabled><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 29" for="sd29">29</label></li>
-                        <li><input type="radio" class="btn-check" name="dates" id="sd30"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Wednesday, Aug 30" for="sd30">30</label></li>
-                    </ul>
-                </div>
-                <div class="SetTimeBox" style="display:none">
-                    <div class="text-end"><button type="button" class="btn-back"><i class="fal fa-angle-left"></i> Back</button></div>
-                    <h4 class="h6 mt-1 d-flex justify-content-between">Wednesday, Aug 23 <a href="" class="text-primary"><small>Deselect</small></a></h4>
-                    <ul class="p-0 TimeBox">
-                        <li><input type="radio" class="btn-check" name="timing" id="t1"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available time slot" for="t1">8-9 PM</label></li>
-                        <li><input type="radio" class="btn-check" name="timing" id="t2" disabled><label class="btn" for="t2">9-10 PM</label></li>
-                        <li><input type="radio" class="btn-check" name="timing" id="t3"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available time slot" for="t3">10-11 PM</label></li>
-                        <li><input type="radio" class="btn-check" name="timing" id="t4"><label class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Available time slot" for="t4">11-12 PM</label></li>
-                    </ul>
+                <div class="sTimeScreen">
+                    <div class="ContainBOx">
+                        <div class="row justify-content-between">
+                            <div class="col-12">
+                                {{-- <h3 class="h4 thm fw-bold mb-3 d-flex justify-content-between align-items-center">Pick the Date</h3> --}}
+                                <input type="hidden" onchange="gettimeslots()" class="form-control inlinecal d-none" id="dob" onchange="gettimeslots()" name="booking_date" placeholder="Date of Birth">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <h3 class="h4 thm fw-bold timeheadingbox mb-3 justify-content-between align-items-center">Select the Time slot</h3>
+                                <div class="SetTimeBox"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-sticky footerbox border-top">
+                        <div class="price m-0 h4">
+                            <strong>Price:</strong> 
+                            <i class="Ricon">&#8377;</i>
+                            <span class="mprice">0</span>/- 
+                            <span class="h6">(Per Session)</span>
+                        </div>
+                        <input type="hidden" name="booking_price" value="0">
+                        <button  class="btn btn-thm4 bsbtn m-0">Confirm & Procced <i class="fal fa-chevron-right ms-2"></i></button>
+                        <button type="button" class="btn btn-thm4 m-0 bpbtn" style="display: none" disabled><i class="fad fa-spinner-third fa-spin me-1"></i> Loading...</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -266,6 +252,9 @@ table.dataTable{margin:0!important}
         </form>
     </div>
 </div>
+<style>
+.flatpickr-calendar.inline{margin:0 auto;box-shadow:none}
+</style>
 <script defer type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs5/1.11.4/dataTables.bootstrap5.min.js" integrity="sha512-nfoMMJ2SPcUdaoGdaRVA1XZpBVyDGhKQ/DCedW2k93MTRphPVXgaDoYV1M/AJQLCiw/cl2Nbf9pbISGqIEQRmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
@@ -283,6 +272,7 @@ $(document).ready(function(){
         });
         $('.summernote').summernote('code','')
     }, 1000);
+    gettimeslots(); 
 });
 $('[data-bs-url]').on('click',function(){
     let url = $(this).attr('data-bs-url');    
@@ -292,7 +282,7 @@ $('.rejectsche').on('submit',function(){
     $('.bsbtn').hide();
     $('.bpbtn').show();
     if($('.summernote').summernote('code')==''){
-        $('.bio-error').html('reason field is required.');
+        $('.bio-error').html('reason filed is required.');
         $('.bsbtn').show();
         $('.bpbtn').hide();
         return false;
@@ -301,5 +291,39 @@ $('.rejectsche').on('submit',function(){
         
     }
 });
+
+    function gettimeslots(){
+        $('.SetTimeBox').html('<center class="loaderbox my-5"><i class="fad fa-spinner-third fa-spin" style="font-size: 40px;"></i></center>');
+        $.ajax({
+            data:{_token:$('meta[name=csrf-token]').attr('content'),slot:$('input[name=Sizes]:checked').val(),date:$('input[name=booking_date]').val(),expert:@json($experts->id ?? 0)},
+            url: @json(route('expertslottimes')),
+            method:"Post",
+            dataType:"Json",
+            success:function(success){
+                $('.SetTimeBox').html(success.html);
+                $('.mprice').html(success.charges);
+                $('input[name=booking_price]').val(success.charges);
+                if(success.records==0){ $('.footerbox').hide(); $('.timeheadingbox').hide();}
+                if(success.records>0){ $('.footerbox').show(); $('.timeheadingbox').show();}
+                flatpickr(".inlinecal",{
+                    inline:true,
+                    minDate: "today",
+                    "disable": [
+                        function(date) {
+                            return (
+                                date.getDay()==success.notavailabile[0] || 
+                                date.getDay()==success.notavailabile[1] || 
+                                date.getDay()==success.notavailabile[2] || 
+                                date.getDay()==success.notavailabile[3] || 
+                                date.getDay()==success.notavailabile[4] || 
+                                date.getDay()==success.notavailabile[5] || 
+                                date.getDay()==success.notavailabile[6]
+                            );
+                        }
+                    ]
+                });
+            }
+        });
+    }
 </script>
 @endpush

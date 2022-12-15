@@ -29,7 +29,7 @@
     <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(3),$schedules) ? 'block' : 'none' }}">
       <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'booked'])}}" class="nav-link {{Request::segment(3)=='booked'?'active':''}}">Booked</a></li>
       <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'rejected'])}}" class="nav-link {{Request::segment(3)=='rejected'?'active':''}}">Rejected</a></li>
-      <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'previous'])}}" class="nav-link {{Request::segment(3)=='previous'?'active':''}}">Previous</a></li>
+      <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'expired'])}}" class="nav-link {{Request::segment(3)=='expired'?'active':''}}">Expired</a></li>
     </ul> 
     <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$others) ? 'active' : '' }}">
       <div class="br-menu-item">

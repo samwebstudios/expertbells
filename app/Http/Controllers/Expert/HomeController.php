@@ -103,8 +103,10 @@ class HomeController extends Controller
 
     ///Schedules
     public function schedules(){
-        $bookings = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->orderBy('id')->paginate(50);
-        return view('expert.schedule',compact('bookings'));
+        $bookings = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->orderBy('id','DESC')->paginate(50);
+        $experts = \App\Models\Expert::find(expertinfo()->id);
+        $slots = \App\Models\SlotAvailability::where(['is_publish'=>1,'expert_id'=>$experts->id,'day'=>date('l',strtotime('Y-m-d'))])->get();
+        return view('expert.schedule',compact('bookings','experts'));
     }
     public function scheduleconfirm($confirm,$schedule){
         $data = \App\Models\SlotBook::find($schedule);

@@ -222,6 +222,8 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
 
         Route::get('/schedules/{booked}',[App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('schedules.booked');
         Route::get('/assignexpert',[App\Http\Controllers\Admin\ScheduleController::class, 'assignexpert'])->name('schedules.assignexpert');
+        Route::post('/assignexpert',[App\Http\Controllers\Admin\ScheduleController::class, 'reassignexpert'])->name('schedules.reassignexpert');
+        Route::post('/assignexpertinfo',[App\Http\Controllers\Admin\ScheduleController::class, 'assignexpertinfo'])->name('schedules.assignexpertinfo');
         Route::get('/information',[App\Http\Controllers\Admin\ScheduleController::class, 'information'])->name('schedules.information');
         
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');

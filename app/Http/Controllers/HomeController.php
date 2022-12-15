@@ -130,7 +130,7 @@ class HomeController extends Controller{
     }
     public function bookingprocess(Request $r){
         $data = new \App\Models\SlotBook();
-        $data->booking_time = $r->timing;
+        $data->booking_time = $r->booking_date.' '.explode('-',$r->timing)[1];
         $data->booking_start_time = explode('-',$r->timing)[0] ?? '';
         $data->booking_end_time = explode('-',$r->timing)[1] ?? '';
         $data->booking_date = $r->booking_date;
@@ -142,6 +142,7 @@ class HomeController extends Controller{
         $data->user_number = (!empty(userinfo()->id) ? userinfo()->ccode.userinfo()->mobile : '');
         $data->user_email = userinfo()->email ?? '';
         $data->user_name = userinfo()->name ?? '';
+        $data->status = 1;
         $data->save();
 
         if(!empty(\Auth::user())){ $redirect = route('payment',['booking'=>$data->booking_id]); }

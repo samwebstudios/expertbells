@@ -17,7 +17,7 @@ class LeftPanel extends Component
     public function __construct()
     {
         $this->homemanagement = [''];
-        $this->schedules = ['rejected','booked','previous'];
+        $this->schedules = ['rejected','booked','expired'];
         $this->others = ['qualifications','expertise','language','industry','role','working','getbetter','hearabout'];
     }
 

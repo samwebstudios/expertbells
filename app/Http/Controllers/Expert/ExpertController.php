@@ -298,8 +298,8 @@ class ExpertController extends Controller
             'from_time' => 'required',
             'to_time' => 'required',
         ],[
-            'from_time.required' => 'The from field is required.',
-            'to_time.required' => 'The to field is required.',
+            'from_time.required' => 'The from filed is required.',
+            'to_time.required' => 'The to filed is required.',
         ]);
 
         if(empty($r->preid)){ 
