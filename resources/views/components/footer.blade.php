@@ -94,6 +94,8 @@ $(document).ready(function() {
         toastr.error("{{ session('error') }}");
     @endif
 }); 
+
+
 setTimeout(function(){
     $('.alert').fadeOut();
 },5000);

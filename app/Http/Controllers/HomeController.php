@@ -142,8 +142,9 @@ class HomeController extends Controller{
         $data->user_number = (!empty(userinfo()->id) ? userinfo()->ccode.userinfo()->mobile : '');
         $data->user_email = userinfo()->email ?? '';
         $data->user_name = userinfo()->name ?? '';
-        $data->status = 1;
+        $data->status = 0;
         $data->save();
+
 
         if(!empty(\Auth::user())){ $redirect = route('payment',['booking'=>$data->booking_id]); }
         else{ $redirect = route('expertbooking',['booking'=>$data->booking_id]); }

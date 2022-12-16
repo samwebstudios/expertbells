@@ -4,10 +4,15 @@
     <section class="inner-banner"><div class="section"><div class="bg-white"></div></div></section>
     <section class="grey pt-3">
         <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php"><i class="fal fa-home-alt"></i></a></li>
-                <li class="breadcrumb-item"><a aria-current="page">Dashboard</a></li>
-            </ol>
+            <div class="row">
+                <div class="col-md-8">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fal fa-home-alt"></i></a></li>
+                        <li class="breadcrumb-item"><a aria-current="page">Dashboard</a></li>
+                    </ol>
+                </div>
+                <x-user.wallet-show/>
+            </div>
             @if(userinfo()->complete_profile==0)
             <div>
                 <marquee><a href="{{route('user.userregister2')}}" class="text-danger">you have not complete your profile</a></marquee>

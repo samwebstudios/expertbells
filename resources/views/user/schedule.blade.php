@@ -4,42 +4,40 @@
     <section class="inner-banner"><div class="section"><div class="bg-white"></div></div></section>
     <section class="grey pt-3">
         <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fal fa-home-alt"></i></a></li>
-                <li class="breadcrumb-item"><a href="{{route('expert.dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a aria-current="page">{{ucwords(request()->segment(2))}} Calls</a></li>
-            </ol>
+            <div class="row">
+                <div class="col-md-8">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fal fa-home-alt"></i></a></li>
+                        <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a aria-current="page">{{ucwords(request()->segment(2))}} Calls</a></li>
+                    </ol>
+                </div>
+                <x-user.wallet-show/>
+            </div>
             <div class="row MainBoxAc">
                 <div class="col-md-3">
                     <div class="position-sticky top-0">
-                        <x-expert.left-bar/>
+                        <x-user.left-bar/>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <form action="" method="post" class="card UserBox">
                         <div class="card-body">
-                            @if($bookings->count()==0)
-                            <div class="mt-0 mb-4 text-center w-100"> <x-data-not-found data="Schedules"/> </div>
-                            @endif
-
-                            @if($bookings->count() > 0)
                             <div class="table-responsive w-100 mt-2 mb-1">
                                 <table class="DataTable table table-striped w-100">
                                     <colgroup>
-                                        <col width="5%">
-                                        <col width="20%">
-                                        <col width="20%">
-                                        <col width="15%">
+                                        <col width="7%">
+                                        <col width="25%">
+                                        <col width="23%">
                                         <col width="10%">
                                         <col width="10%">
-                                        <col width="15%">
+                                        <col width="40%">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>User Information</th>
-                                            <th>Schedule</th>
-                                            <th>Amount</th>
+                                            <th>Expert Detail</th>
+                                            <th>Booking</th>
                                             <th>Payment</th>
                                             <th>Status</th>
                                             <th class="text-center">Action</th>
@@ -50,13 +48,29 @@
                                         <tr>
                                             <td></td>
                                             <td>
-                                                <div class="ProTable">
-                                                    <div class="">
-                                                        <h3>{{$booking->user_name ?? ''}}</h3>
-                                                        <p>{{$booking->user_email ?? ''}}</p>
-                                                        <p><b>Contact:</b> {{$booking->user_number ?? ''}}</p>
+                                                <a href="{{route('experts',['alias'=>$booking->expert->user_id])}}" target="_blank" class="ProTable">
+                                                    <div class="img">
+                                                        <x-image-box>
+                                                            <x-slot:image>{{$booking->expert->profile}}</x-slot>
+                                                            <x-slot:path>/uploads/expert/</x-slot>
+                                                            <x-slot:alt>{{$booking->expert->name ?? ''}} {{!empty($booking->expert->expertise->title) ? '('.$booking->expert->expertise->title.')' : ''}} </x-slot>
+                                                            <x-slot:width>380</x-slot>
+                                                            <x-slot:height>480</x-slot>
+                                                        </x-image-box>
                                                     </div>
-                                                </div>
+                                                    <div class="">
+                                                        <h3>{{$booking->expert->name ?? ''}}</h3>
+                                                        @if(!empty($booking->expert->suitable_industry))
+                                                        <p>
+                                                            @foreach(json_decode($booking->expert->suitable_industry) as $industry)
+                                                                @php $industry = \App\Models\Industry::find($industry); @endphp
+                                                                {{$industry->title ?? ''}} {{!$loop->last?'+':''}}
+                                                            @endforeach
+                                                        </p>
+                                                        @endif
+                                                        <span class="star" title="star" data-title="4"></span>
+                                                    </div>
+                                                </a>
                                             </td>
                                             <td>
                                                 <a href="#bookinginfo" data-bs-toggle="modal" data-bs-type="bookinginfo" data-bs-id="{{$booking->booking_id}}">
@@ -64,11 +78,11 @@
                                                     <small class="d-block">Date: <b>{{date('D, d M Y',strtotime($booking->booking_date))}}</b></small>
                                                     <small class="d-block">Time: <b>{{substr($booking->booking_start_time,0,-3)}} To {{substr($booking->booking_end_time,0,-3)}}</b></small>
                                                 </a>
-                                            </td>
-                                            <td>
                                                 <small class="d-block">Amount: <b>&#8377; {{$booking->booking_amount}}</b></small>
+                                                @if($booking->coupon_discount>0)
                                                 <small class="d-block">Discount: <b>&#8377; {{$booking->coupon_discount ?? '00'}}</b></small>
                                                 <small class="d-block">Paid: <b>&#8377; {{$booking->paid_amount}}</b></small>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if($booking->payment==0)<small class="text-secondary"><i class="fad fa-circle" style="font-size: 10px;"></i> Incomplete Process</small> @endif
@@ -94,27 +108,17 @@
                                                     @endif
                                                 @endif
                                             </td>
-                                            {{-- <td class="text-end"> --}}
                                             <td class="text-center">
-                                                @if($booking->status==0)
-                                                <a href="{{route('expert.scheduleconfirm',['confirm'=>1,'schedule'=>$booking->id])}}" class="btn btni btn-primary sws-left sws-bounce" data-title="Confirm Schedule"><i class="fal fa-calendar-check"></i><span class="ms-md-1"></span></a>
-                                                @endif
-
-                                                @if($booking->status==2)
-
-                                                @endif
-
                                                 @if($booking->status==1 && $booking->reschedule_slot==0)
                                                     @php 
                                                         $Start = date('Y-m-d H:i',strtotime('-30 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
                                                         $End = $booking->booking_date.' '.$booking->booking_start_time;
-                                                    @endphp           
-                                                    @if(date('Y-m-d H:i') >= $Start && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+0 minutes'.$End)))
-                                                    <a href="#" class="btn btni btn-primary sws-top sws-bounce" data-title="Invite Call"><i class="fal fa-clock"></i> Invite Call <span class="ms-md-1"></span></a>
+                                                    @endphp  
+                                                    @if($booking->send_invitation==1 && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+0 minutes'.$End)))
+                                                        <a href="#" class="btn btni btn-success disable"><i class="fal fa-clock"></i> <span class="ms-md-1">Receive Invitation</span></a>
                                                     @endif
-                                                    <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i></button>
-                                                    <a href="#ChangeSchedulCall" onclick="$('input[name=bookingid]').val({{$booking->id}});" class="btn btni btn-primary sws-left sws-bounce" data-bs-toggle="modal" data-title="Change Schedule"><i class="fal fa-pencil"></i></a>
-                                                    <a href="#rejected" data-bs-toggle="modal" data-bs-url="{{route('expert.scheduleconfirm',['confirm'=>2,'schedule'=>$booking->id])}}" class="btn btni btn-danger sws-left sws-bounce" data-title="Reject Schedule"><i class="fal fa-vote-nay"></i></a>
+                                                    <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i> <!-- <span class="ms-md-1">Message</span> --></button>
+                                                    <a href="#ChangeSchedulCall" onclick="changeexpertshlot({{$booking->id}},{{$booking->expert_id}})" class="btn btni btn-primary sws-top sws-bounce" data-bs-toggle="modal" data-title="Change Scheduled Call"><i class="fal fa-pencil"></i> <!-- <span class="ms-md-1">Change Scheduled Call</span> --></a>
                                                 @endif
                                                 @if($booking->reschedule_slot>0)
                                                     <small class="text-danger">New booking (#{{$booking->reschedule->booking_id ?? 0}})</small>
@@ -128,7 +132,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            @endif
                         </div>
                     </form>
                 </div>
@@ -138,7 +141,7 @@
 </main>
 @endsection
 @push('css')
-<title>Scheduled Calls : {{project()}}</title>
+<title>Schedules : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <link rel="stylesheet" href="{{asset('frontend/css/account.css')}}">
@@ -159,7 +162,6 @@ table.dataTable{margin:0!important}
 .DataTable .form-check input{margin:0!important}
 .DataTable tbody tr{counter-increment:slides-num}
 .DataTable tbody tr td:first-child:after,.DataTable tbody tr th:first-child:after{content:" "counter(slides-num)"."}
-
 .badge{font-weight:400!important;font-size:12px!important;line-height:14px!important;border-radius:15px!important}
 .btni{height:32px;min-width:32px;padding:0 12px!important; margin:0 0 5px;display:inline-flex!important;justify-content:center;align-items:center;border-radius:20px!important;background:none!important;border-color:transparent!important;color:rgb(var(--blackrgb)/.7)!important;}
 .btni:hover,.btni.btn-success{border-color:var(--bs-btn-border-color)!important;background:var(--bs-btn-bg)!important;color:var(--bs-btn-color)!important;}
@@ -170,7 +172,7 @@ table.dataTable{margin:0!important}
 .ProTable{display:flex;justify-content:space-between}
 .ProTable .img{max-width:45px;height:45px;border-radius:50%;overflow:hidden}
 .ProTable .img img{height:100%;width:100%;object-fit:cover}
-/* .ProTable>div:last-child{width:calc(100% - 60px)} */
+.ProTable>div:last-child{width:calc(100% - 60px)}
 .ProTable h3{font-size:14px;display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;margin-bottom:3px;line-height:150%!important;font-weight:600!important}
 .ProTable p{font-size:13px!important;margin:0;line-height:normal!important;color:rgb(var(--blackrgb)/.6)!important}
 .star{margin:0!important;font-size:16px!important}
@@ -192,8 +194,11 @@ table.dataTable{margin:0!important}
 .table-responsive .dataTables_wrapper>.row:first-child+.row>div::-o-scrollbar{width:3px;height:3px;background-color:rgb(var(--blackrgb)/0)}
 .table-responsive .dataTables_wrapper>.row:first-child+.row>div::-o-scrollbar-thumb{background-color:rgb(var(--blackrgb)/.4);border-radius:2px}}
 </style>
+
+<style>.flatpickr-calendar.inline{margin:0 auto;box-shadow:none}</style>
 @endpush
 @push('js')
+<x-user.footer/>
 <div class="Delete modal fade" id="Delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="DeleteLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -212,6 +217,7 @@ table.dataTable{margin:0!important}
         <form class="modal-content rescheduleform">
             @csrf
             <input type="hidden" name="bookingid">
+            <input type="hidden" name="booking_expert">
             <div class="modal-header">
                 <h2 class="h5 modal-title" id="ChangeSchedulCallLabel">ReSchedule Call</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -249,29 +255,6 @@ table.dataTable{margin:0!important}
     </div>
 </div>
 
-<div class="modal fade RighSide" id="rejected" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ChangeSchedulCallLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <form class="modal-content rejectsche">
-            @csrf
-            <div class="modal-header">
-                <h2 class="h5 modal-title">Schedule Rejected</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body PopupDetail py-3 p-4">
-                <div class="col-12">
-                    <small for="exampleFormControlTextarea1" class="form-label">Please enter the reason of reject this schedule.</small>
-                    <textarea class="form-control summernote" name="reason" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    <small class="error bio-error"></small>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button class="btn btn-thm4 bsbtn m-0">Confirm & Reject</button>
-                <button type="button" class="btn btn-thm4 m-0 bpbtn" style="display: none" disabled><i class="fad fa-spinner-third fa-spin me-1"></i> Loading...</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <div class="modal fade RighSide" id="bookinginfo" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ChangeSchedulCallLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
@@ -287,57 +270,40 @@ table.dataTable{margin:0!important}
     </div>
 </div>
 
-<style>.flatpickr-calendar.inline{margin:0 auto;box-shadow:none}</style>
 <script defer type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs5/1.11.4/dataTables.bootstrap5.min.js" integrity="sha512-nfoMMJ2SPcUdaoGdaRVA1XZpBVyDGhKQ/DCedW2k93MTRphPVXgaDoYV1M/AJQLCiw/cl2Nbf9pbISGqIEQRmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     if ($(window).width() < 991){
         $("#AccMenuBar").removeClass('d-none');
         $("#AccountMenu").addClass('collapse');
-    };    
-    setTimeout(() => {
-        $('.summernote').summernote({
-            height: 100,
-            toolbar: []
-        });
-        $('.summernote').summernote('code','')
-    }, 1000);
-    gettimeslots(); 
+    };
+    
 });
-
-$('[data-bs-url]').on('click',function(){
-    let url = $(this).attr('data-bs-url');    
-    $('.rejectsche').attr('action',url);
+$('.TimeBox.Date .btn-check').click(function() {
+    $('.SetTimeBox').show();
+    $('.DateBox').hide();
+});
+$('.SetTimeBox .btn-back').click(function() {
+    $('.SetTimeBox').hide();
+    $('.DateBox').show();
 });
 $('[data-bs-type]').on('click',function(){
     let id = $(this).attr('data-bs-id');   
     $('.bookinginfobox').html('<center><i class="fad fa-spinner-third fa-spin" style="font-size: 45px;"></i></center>');
     if($(this).attr('data-bs-type')=='bookinginfo'){
-        $('.bookinginfobox').load(@json(url('expert/bookinginformation'))+'/'+id);
+        $('.bookinginfobox').load(@json(url('user/bookinginformation'))+'/'+id);
     }    
 });
-
-$('.rejectsche').on('submit',function(){
-    $('.bsbtn').hide();
-    $('.bpbtn').show();
-    if($('.summernote').summernote('code')==''){
-        $('.bio-error').html('reason filed is required.');
-        $('.bsbtn').show();
-        $('.bpbtn').hide();
-        return false;
-    }else{
-        $('.rejectsche').submit();
-        
-    }
-});
-
+function changeexpertshlot(bookingid,expertid){
+    $('input[name=bookingid]').val(bookingid); 
+    $('input[name=booking_expert]').val(expertid);
+    gettimeslots(); 
+}
 function gettimeslots(){
     $('.SetTimeBox').html('<center class="loaderbox my-5"><i class="fad fa-spinner-third fa-spin" style="font-size: 40px;"></i></center>');
     $.ajax({
-        data:{_token:$('meta[name=csrf-token]').attr('content'),slot:$('input[name=Sizes]:checked').val(),date:$('input[name=booking_date]').val(),expert:@json($experts->id ?? 0)},
+        data:{_token:$('meta[name=csrf-token]').attr('content'),slot:$('input[name=Sizes]:checked').val(),date:$('input[name=booking_date]').val(),expert:$('input[name=booking_expert]').val()},
         url: @json(route('expertslottimes')),
         method:"Post",
         dataType:"Json",
@@ -378,7 +344,7 @@ $('.rescheduleform').on('submit',function(e){
         $('.bpbtn').show();
         $.ajax({
             data:new FormData(this),
-            url:@json(route('expert.bookingrescheduleprocess')),
+            url:@json(route('user.bookingrescheduleprocess')),
             method:"Post",
             dataType:"Json",
             contentType:false,
@@ -391,5 +357,6 @@ $('.rescheduleform').on('submit',function(e){
             }
         });
     });
+
 </script>
 @endpush

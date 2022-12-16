@@ -121,11 +121,14 @@ class OtherController extends Controller
         }
         $data = \App\Models\SlotBook::find($checkusercoupon->id);
         $data->payment = 1;
+        $data->status=1;
         $data->payment_date = date('Y-m-d H:i:s');
         $data->save();
+
         
         $html = '<b>Hi '.$data->user_name.'</b><br>';
-        $html .= 'I just wanted to drop you a quick note to let you know that we have received your recent payment in respect of invoice #'.$data->booking_id.'. Thank you very much. We really appreciate it.';
+        $html .= 'I just wanted to drop you a quick note to let you know that we have received your recent payment & your booked schedule #'.$data->booking_id.' has been confirmed by the '.ucwords(project()).'.<br>';
+        $html .='Thank you very much. We really appreciate it.';
         $body = ['message'=>$html ];
         \Mail::to($data->user_email)->send(new \App\Mail\PaymentReceived($body));
         return redirect(route('paymentquery',['booking'=>$booking]))->with('success','Thankyou! we have received your payment.');
@@ -140,6 +143,6 @@ class OtherController extends Controller
         $data = \App\Models\SlotBook::find($request->booking);
         $data->query = $request->conversation;
         $data->save();
-        return redirect(route('expert.account'))->with(['success'=>'Your query has been submited.']);
+        return redirect(route('expert.schedules'))->with(['success'=>'Your query has been submited.']);
     }
 }

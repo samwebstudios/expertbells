@@ -70,13 +70,18 @@
                                                     <small><b>Booking No :</b> #{{$list->booking_id}}</small><br>
                                                     <small><b>Booking Date :</b> {{ dateformat($list->booking_date) }}</small><br>
                                                     <small><b>Booking Time :</b> {{ substr($list->booking_start_time,0,-3) }} - {{ substr($list->booking_end_time,0,-3) }}</small>
-                                                    {{-- {{$list->preassign}} --}}
+                                                    
                                                     @if(!empty($list->preassign))
                                                         <small class="badge text-start text-success">This booking reassigned. (#{{$list->preassign->booking_id}})</small>
                                                     @endif
                                                     @if($list->reassign_slot>0)
                                                         <small class="badge badge-default text-success"><i class="far fa-check"></i> Reassign (#{{$list->reassign->booking_id}})</small>
                                                     @endif
+
+                                                    @if($list->reschedule_slot>0)
+                                                        <small class="badge badge-default text-success"><i class="far fa-check"></i> New reschedule (#{{$list->reschedule->booking_id ?? 0}})</small>
+                                                    @endif
+
                                                 </td>
                                                 <td>
                                                     <small><b>Name :</b> {{$list->expert->name}} (#{{$list->expert->user_id}})</small><br>
@@ -100,11 +105,21 @@
                                                 </td>
                                                 <td>
                                                     @if(request()->segment(3)!='expired')
-                                                        <small class="text-secondary">{{$list->status==0?'New':''}}</small>
-                                                        <small class="text-success">{{$list->status==1?'Confirm':''}}</small>
-                                                        <small class="text-danger">{{$list->status==2?'Reject':''}}</small>
+                                                        @if($list->reschedule_slot==0)
+                                                            <small class="text-secondary">{{$list->status==0?'New':''}}</small>
+                                                            <small class="text-success">{{$list->status==1?'Confirm':''}}</small>
+                                                            <small class="text-danger">{{$list->status==2?'Reject':''}}</small>
+                                                        @else
+                                                            <small class="text-danger">Reschedule</small>                                                            
+                                                        @endif
                                                     @else
-                                                    <small class="text-danger">Expired</small>
+                                                        @if($list->reschedule_slot>0)
+                                                        <small class="text-danger">Reschedule</small>  
+                                                        @elseif($list->status==2)
+                                                        <small class="text-danger">Rejected</small>
+                                                        @else                                                                           
+                                                        <small class="text-danger">Expired</small>                                           
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td class="pd-r-0-force tx-center">
@@ -116,8 +131,8 @@
 
                                                         <ul class="dropdown-menu" x-placement="bottom-end">
                                                             @if(request()->segment(3)=='rejected' && $list->reassign_slot==0 && date('Y-m-d H:i:s') < date('Y-m-d H:i:s',strtotime('-60 minutes'.$list->booking_date.' '.$list->booking_start_time)))
-                                                            <li><a href="#editmodal" data-bs-type="assignexpert" data-bs-toggle="offcanvas"
-                                                                    data-bs-id="{{ $list->id }}"><i class="fa fa-user-plus"></i> Assign Expert</a></li>
+                                                            {{-- <li><a href="#editmodal" data-bs-type="assignexpert" data-bs-toggle="offcanvas"
+                                                                    data-bs-id="{{ $list->id }}"><i class="fa fa-user-plus"></i> Assign Expert</a></li> --}}
                                                             @endif
                                                             <li><a href="#editmodal" data-bs-type="information" data-bs-toggle="offcanvas"
                                                                 data-bs-id="{{ $list->id }}"><i class="fa fa-book"></i> Information</a></li>

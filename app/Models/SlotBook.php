@@ -22,4 +22,10 @@ class SlotBook extends Model
     public function preassign(){
         return $this->hasOne(SlotBook::class,'reassign_slot','id');
     }
+    public function reschedule(){
+        return $this->hasOne(SlotBook::class,'id','reschedule_slot');
+    }
+    public function prereschedule(){
+        return $this->hasOne(SlotBook::class,'reschedule_slot','id');
+    }
 }

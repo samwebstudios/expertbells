@@ -7,7 +7,7 @@
             <ul class="collapse" id="mycalls">
                 <li><a href="{{route('expert.schedules')}}"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>
                 <li><a href="expert-account/closed-call.php"><span><i class="fal fa-phone-slash me-1"></i> Closed Call</span></a></li>
-                <li><a href="expert-account/scheduled-calls.php"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
+                <li><a href="{{route('expert.reschedules')}}"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
             </ul>
         </li>
         <li class="{{Request::segment(2)=='slots'?'active':''}}"><a href="{{route('expert.slots')}}"><span><i class="fal fa-tasks me-1"></i> Manage Slots</span></a></li>

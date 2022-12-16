@@ -64,11 +64,23 @@ Route::name('user.')->prefix('user')->group(function(){
 
             Route::get('user-register-sixth','userregister6')->name('userregister6'); 
             Route::post('user-step-sixth','savestep6')->name('saveusersetp6'); 
-        });        
+        });   
+        Route::post('bookingrescheduleprocess','bookingrescheduleprocess')->name('bookingrescheduleprocess');
+             
     });
     Route::controller(App\Http\Controllers\User\HomeController::class)->group(function(){
         // Route::middleware('userprofilecomplete')->group(function(){
             Route::get('dashboard','dashboard')->name('dashboard');
+
+            Route::get('account','account')->name('account');
+            Route::get('otherinformation','otherinformation')->name('otherinformation');      
+            Route::get('editprofile','editprofile')->name('editprofile');
+
+            Route::get('schedules','schedules')->name('schedules');
+            Route::get('reschedules','reschedules')->name('reschedules');
+            Route::get('bookinginformation/{bookingid}/','bookinginformation')->name('bookinginformation');
+        
+
         // });
     });
 });
@@ -95,6 +107,8 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
 
         Route::post('addexpertslotprice','addexpertslotprice')->name('addexpertslotprice');
         Route::post('expertslotavailability','expertslotavailability')->name('expertslotavailability');
+        Route::post('bookingrescheduleprocess','bookingrescheduleprocess')->name('bookingrescheduleprocess');
+        
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
@@ -113,7 +127,10 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::get('removeavailability/{id}','removeavailability')->name('removeavailability'); 
 
         Route::get('schedules','schedules')->name('schedules');
-        Route::get('scheduleconfirm/{confirm}/{schedule}','scheduleconfirm')->name('scheduleconfirm');        
+        Route::get('reschedules','reschedules')->name('reschedules');
+        Route::get('scheduleconfirm/{confirm}/{schedule}','scheduleconfirm')->name('scheduleconfirm');
+        Route::get('bookinginformation/{bookingid}/','bookinginformation')->name('bookinginformation');
+        
     });
 });
 

@@ -319,4 +319,31 @@ class ExpertController extends Controller
             'success'=>'Availability Saved!'
         ]);
     }
+    public function bookingrescheduleprocess(Request $r){
+        $bookingid = $r->bookingid;
+        $booking = \App\Models\SlotBook::find($bookingid)->toArray();
+        $newbooking = \App\Models\SlotBook::create($booking);
+
+        $data = \App\Models\SlotBook::find($newbooking->id);
+        $data->booking_id = generatebookingno();
+        $data->status = 1;
+        $data->reject_date = Null;
+        $data->reject_reason = Null;
+        $data->booking_time = $r->booking_date.' '.explode('-',$r->timing)[1];
+        $data->booking_start_time = explode('-',$r->timing)[0] ?? '';
+        $data->booking_end_time = explode('-',$r->timing)[1] ?? '';
+        $data->booking_date = $r->booking_date;
+        $data->created_at = date('Y-m-d H:i:s');
+        $data->updated_at = date('Y-m-d H:i:s');
+        $data->reschedule_by = 1;
+        $data->save();
+
+        $predata = \App\Models\SlotBook::find($bookingid);
+        $predata->reschedule_slot = $data->id;
+        $predata->save();
+
+        return response()->json([
+            'success' => 'Booking has been reschedule with booking #'.$data->booking_id.'.'
+        ]);
+    }
 }
