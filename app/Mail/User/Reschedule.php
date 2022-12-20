@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\User;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CompleteRegistration extends Mailable
+class Reschedule extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,9 +18,10 @@ class CompleteRegistration extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $body;
+    public function __construct($body)
     {
-        //
+        $this->body = $body;
     }
 
     /**
@@ -31,7 +32,7 @@ class CompleteRegistration extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Complete Registration',
+            subject: 'Reschedule booking.',
         );
     }
 
@@ -43,7 +44,7 @@ class CompleteRegistration extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'CompleteRegistration',
+            markdown: 'mail.user.reschedule',
         );
     }
 

@@ -63,10 +63,9 @@ class LoginController extends Controller
             $r->validate([
                 'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             ]);
-            $html = '';
-            $html .= '<p>Your login code is '.$otp.'. please don`t share this otp to others.</p>';
-            $body = ['message'=>$html ];
+            $body = ['otp'=>$otp ];
             \Mail::to($check->email)->send(new \App\Mail\SendEmailOtp($body));
+            
         }
         if(is_numeric($r->email)){
             $r->validate([
@@ -131,10 +130,9 @@ class LoginController extends Controller
             $r->validate([
                 'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             ]);
-            $html = '';
-            $html .= '<p>Your login code is '.$otp.'. please don`t share this otp to others.</p>';
-            $body = ['message'=>$html ];
+            $body = ['otp'=>$otp ];
             \Mail::to($check->email)->send(new \App\Mail\SendEmailOtp($body));
+           
         }
         if(is_numeric($r->email)){
             $r->validate([

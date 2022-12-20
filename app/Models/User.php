@@ -60,4 +60,13 @@ class User extends Authenticatable
     public function industries(){
         return $this->hasOne(Expertise::class,'id','industry');
     }
+    public function countires(){
+        return $this->hasOne(Country::class,'id','country');
+    }
+    public function states(){
+        return $this->hasOne(State::class,'id','state');
+    }
+    public function cities(){
+        return $this->hasOne(City::class,'id','city');
+    }
 }

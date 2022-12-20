@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendEmailOtp extends Mailable
+class Completeprofile extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,7 +32,7 @@ class SendEmailOtp extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Email verification code.',
+            subject: 'Thankyou for registration on '.project().'.',
         );
     }
 
@@ -44,7 +44,7 @@ class SendEmailOtp extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'mail.send-email-otp',
+            markdown: 'mail.completeprofile',
         );
     }
 

@@ -40,6 +40,13 @@ class HomeController extends Controller
         $countries = $countries->first();
         return view('user.account',compact('user','countries'));
     }
+    public function otherinformation(){
+        $roles = \App\Models\Role::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $betters = \App\Models\GetBetter::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $hears = \App\Models\HearAbout::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
+        $industries = \App\Models\Industry::where('is_publish',1)->orderBy('sequence','ASC')->get(); 
+        return view('user.otherinformation',compact('roles','betters','hears','industries'));
+    }
 
     public function schedules(){
         $bookings = \App\Models\SlotBook::where(['user_id'=>userinfo()->id,'reschedule_slot'=>0])->orderBy('id','DESC')->paginate(50);

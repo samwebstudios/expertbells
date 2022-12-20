@@ -164,7 +164,6 @@ class ExpertController extends Controller
             }else{
                 $FileName = autoheight('uploads/expert/',476,$r->profile);
             }
-            $data->profile = $FileName;
             if(!empty(expertinfo()->profile)){
                 if(file_exists(public_path('uploads/expert/'.expertinfo()->profile))){
                     unlink(public_path('uploads/expert/'.expertinfo()->profile));
@@ -176,6 +175,8 @@ class ExpertController extends Controller
                     unlink(public_path('uploads/expert/'.expertinfo()->profile.'.webp'));
                 }
             }
+            $data->profile = $FileName;
+            
         }
         $data->save();
         return response()->json([
@@ -322,6 +323,7 @@ class ExpertController extends Controller
     public function bookingrescheduleprocess(Request $r){
         $bookingid = $r->bookingid;
         $booking = \App\Models\SlotBook::find($bookingid)->toArray();
+        $oldbooking = \App\Models\SlotBook::find($bookingid);
         $newbooking = \App\Models\SlotBook::create($booking);
 
         $data = \App\Models\SlotBook::find($newbooking->id);
@@ -341,6 +343,11 @@ class ExpertController extends Controller
         $predata = \App\Models\SlotBook::find($bookingid);
         $predata->reschedule_slot = $data->id;
         $predata->save();
+
+        $body = ['booking' => $data,'oldbooking'=>$oldbooking,'schedule'=> $data->expert->name ?? 'Expert' ];
+        \Mail::to($data->expert->email)->send(new \App\Mail\User\Reschedule($body));
+        \Mail::to(adminmail())->CC(ccadminmail())->send(new \App\Mail\Admin\Reschedule($body));
+
 
         return response()->json([
             'success' => 'Booking has been reschedule with booking #'.$data->booking_id.'.'

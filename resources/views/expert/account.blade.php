@@ -60,9 +60,9 @@
                                         <div class="col-12 col-lg-6">
                                             <ul class="prolist AllDetail">
                                                 <li><span>Location</span>
-                                                    {{$expert->cities->name.', ' ?? ''}}
-                                                    {{$expert->states->name.', ' ?? ''}}
-                                                    {{$expert->countires->name ?? ''}}
+                                                    {{(!empty($expert->cities->name)) ? $expert->cities->name.', ' : ''}}
+                                                    {{(!empty($expert->states->name)) ? $expert->states->name.', ' : ''}}
+                                                    {{(!empty($expert->countires->name)) ? $expert->countires->name : ''}}
                                                 </li>
                                             </ul>
                                         </div>
@@ -419,7 +419,7 @@ $(document).ready(function(){
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
-<script>flatpickr(".flatpickr",{altInput:true, altFormat:"F j, Y", dateFormat:"Y-m-d"});</script>
+
 <script>
 $(document).ready(function(){
     getwhatexpectdata();
@@ -535,7 +535,7 @@ function getwhatexpectdata(){
 
 </script>
 <link rel="preload" as="style" href="{{asset('frontend/css/flag-icons.min.css')}}" onload="this.rel='stylesheet'">
-<div class="modal fade" id="updatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updatemodal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="text-center p-4">

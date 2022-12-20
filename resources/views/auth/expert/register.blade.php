@@ -26,7 +26,7 @@
                                         <h3 class="h5 ms-3 thm">What is your full Name? <span class="text-danger">*</span></h3>
                                         <div class="input-group">
                                             <input type="text" class="form-control inputTextBox" value="{{old('name')}}" name="name" placeholder="Type your answer here...">
-                                            <a href="javascript:void(0)" class="btn ms-2 formbtn checkstep1 sws-top" type="button" data-title="Next"><i class="fal fa-arrow-right"></i></a>
+                                            <a href="javascript:void(0)" class="btn ms-2 formbtn Next checkstep1 sws-top" type="button" data-title="Next"><i class="fal fa-arrow-right"></i></a>
                                         </div>
                                         <small class="error name-error"></small>
                                         @error('name')<small class="error">{{$message}}</small>@enderror
@@ -42,12 +42,14 @@
                                         @error('email')<small class="error">{{$message}}</small>@enderror
                                         <div class="input-group CountryCode mt-3">
                                             <span>
-                                            <a class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+91</span></a>
+                                            <a class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+{{$ccode->phonecode ?? 0}}</span></a>
                                             <ul class="dropdown-menu countrylist">
-                                                <!----->
+                                                <x-country-list/>
                                             </ul>
                                             </span>
                                             <input type="number" class="form-control" maxlength="10" value="{{old('mobile')}}" onkeypress="return isNumber(event)" name="mobile" placeholder="Enter Phone No.">
+                                            <input type="hidden" name="ccode" value="{{$ccode->phonecode ?? 0}}">
+                                            
                                         </div>
                                         <small class="error mobile-error"></small>
                                         @error('mobile')<small class="error">{{$message}}</small>@enderror
@@ -254,7 +256,7 @@ img.bg-img{position:relative;bottom:0;opacity:.6;margin-top:-90px;width:100%;hei
 .ListBox .btn-check:checked+.btn{background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.42 12.12"><path d="M14,0l1.42,1.42L4.71,12.12,0,7.42,1.42,6,4.71,9.3Z"/></svg>') rgb(var(--thmrgb)/.2) right 1rem center/18px auto no-repeat; padding-right:3rem}
 .ListBox .btn-check:checked+.btn:focus{box-shadow:0 0 0 .25rem rgb(var(--thmrgb)/.4)}
 
-.AllStep{overflow:auto}
+/* .AllStep{overflow:auto} */
 .AllStep::-webkit-scrollbar{width:0;height:0;background-color:rgb(var(--blackrgb)/0)}
 .AllStep::-webkit-scrollbar-thumb{background-color:rgb(var(--blackrgb)/.4);border-radius:2px}
 .AllStep::-moz-scrollbar{width:0;height:0;background-color:rgb(var(--blackrgb)/0)}
@@ -269,6 +271,12 @@ img.bg-img{position:relative;bottom:0;opacity:.6;margin-top:-90px;width:100%;hei
 <script type="text/javascript">
     $(document).ready(function(){
         $('html, body').animate({scrollTop: '0'}, 800);
+        $('.CountryCode .dropdown-menu').find('li').click(function(e) {
+            e.preventDefault();
+            var spa = $(this).data('text');
+            $('.CountryCode #CountryName').text(spa);
+            $('input[name=ccode]').val(spa.substr(1));
+        });
     });
     $(".Next").click(function(event){
         $('.AllStep').animate({scrollTop: '+0'}, 800);

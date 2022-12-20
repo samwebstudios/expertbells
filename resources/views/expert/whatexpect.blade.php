@@ -5,7 +5,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body" style="overflow-y: auto; max-height: 430px;">
-        <small class="error description-error"></small>
         <div class="d-flex InBox mb-2">
             <div>
                 <input type="text" class="form-control" required name="description[]" placeholder="Write something here...">       
@@ -19,7 +18,6 @@
     </div>
 </form>
 <script>
-    $(".chosen-select").chosen();
     $('.add').on('click',function(){
         let box =  $('.InBox').first().clone();
         $(box).find(".add").html('<i class="fas fa-trash"></i>');

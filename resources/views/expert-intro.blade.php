@@ -51,7 +51,7 @@
                         <p class="lh-n"><a href="" class="text-secondary"><small>252 reviews / 453 sessions</small></a></p>
                         <div class="text-center d-flex justify-content-between mb-2">
                             <a href="#" class="btn btn-thm3 px-3"><i class="fal fa-comment-alt-lines m-0 me-1"></i> Message me</a>
-                            @if(!empty($experts->videos))
+                            @if(count($experts->videos) > 0)
                             <a href="{{route('experts',['alias'=>$experts->user_id,'type'=>'videos'])}}" class="btn btn-thm2 px-3"><i class="fal fa-photo-video m-0 me-1"></i> Watch Video</a>
                             @endif
                         </div>
@@ -60,7 +60,7 @@
                         @endif
                     </div>
                 </div>
-                @if(empty(\Auth::guard('expert')->user()) && empty(\Auth::guard('admin')->user()) )
+                @if(empty(\Auth::guard('expert')->user()) && empty(\Auth::guard('admin')->user()) && count($experts->slotcharges) > 0)
                 <div class="col-lg-3 order-lg-last">
                     <div class="position-sticky">
                         <div class="FirstScreen">
@@ -88,8 +88,8 @@
                     </div>
                 </div>
                 @endif
-                <div class="col-lg-{{ empty(\Auth::guard('expert')->user()) ? '6' : '8'}} ">
-                    <div class="{{ empty(\Auth::guard('expert')->user()) ? 'mx-lg-3' : 'ms-lg-3'}}">
+                <div class="col-lg-{{ empty(\Auth::guard('expert')->user()) && count($experts->slotcharges) > 0 ? '6' : '9'}} ">
+                    <div class="{{ empty(\Auth::guard('expert')->user()) && count($experts->slotcharges) > 0 ? 'mx-lg-3' : 'ms-lg-3'}}">
                         <h1 class="h3 text-black m-0">Expert Introduction</h1>
                         <h3 class="h5 thm mt-4">About me</h3>
                         <div class="CmsPage">
@@ -99,6 +99,8 @@
                         <div class="CmsPage">
                             {!! $experts->your_strength !!}
                         </div>
+
+                        @if(count($experts->expects)>0)
                         <h3 class="h5 thm mt-5 mb-3">What to expect</h3>
                         <div class="rounded-3 bg-light p-3 border">
                             <div class="CmsPage">
@@ -109,6 +111,7 @@
                                 </ul>
                             </div>
                         </div>
+                        @endif
                         <h3 class="h5 thm mt-5 mb-3">Why it's valuable</h3>
                         <div class="card ReviewBlock">
                             <div class="card-body">
@@ -211,10 +214,12 @@ body>main,body section{overflow:inherit!important}
 .Sec2 .ExpInfo.card{border:1px solid rgb(var(--thmrgb3)/.15)!important;border-radius:var(--bs-border-radius-lg)!important}
 .Sec2 .ExpInfo.card .price{font-size:15px}
 @media (min-width:992px){}
-@media (min-width:1200px){.ExpDetail>div{width:calc(100% - 660px)}
-.ExpDetail>div:first-child,.ExpDetail>div:nth-child(2){width:330px}}
-@media (min-width:1600px){.ExpDetail>div{width:calc(100% - 680px)}
-.ExpDetail>div:first-child,.ExpDetail>div:nth-child(2){width:340px}}
+@media (min-width:1200px){.ExpDetail>div.col-lg-6{width:calc(100% - 660px)}
+.ExpDetail>div.col-lg-9{width:calc(100% - 330px)}
+.ExpDetail>div.col-lg-3:first-child,.ExpDetail>div.col-lg-3:nth-child(2){width:330px}}
+@media (min-width:1600px){.ExpDetail>div.col-lg-6{width:calc(100% - 680px)}
+.ExpDetail>div.col-lg-9{width:calc(100% - 340px)}
+.ExpDetail>div.col-lg-3:first-child,.ExpDetail>div.col-lg-3:nth-child(2){width:340px}}
 .ReviewBlock{border:none!important;background:none!important}
 .ReviewBlock>div{border-top:1px solid rgb(var(--blackrgb)/.1)!important;padding:15px 0 0;margin-top:15px;display:flex;justify-content:space-between}
 .ReviewBlock>div:first-child{border:none!important;margin-top:0}

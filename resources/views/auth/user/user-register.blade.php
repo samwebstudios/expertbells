@@ -33,16 +33,16 @@
                                 <input type="text" class="form-control inputTextBox" name="last_name" placeholder="Your Name">
                             </div>
                             <div class="col-lg-6 mb-2">
-                                <div class="CountryBox"><small class="otppre"></small>
-                                        
+                                <div class="CountryBox">                                        
                                     <div class="input-group CountryCode mt-3">
                                         <span>
-                                            <a class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+91</span></a>
+                                            <a class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span id="CountryName">+{{$ccode->phonecode ?? 0}}</span></a>
                                             <ul class="dropdown-menu countrylist">
                                                 <x-country-list/>
                                             </ul>
                                         </span>
                                         <input type="hidden" name="mobileverify">
+                                        <input type="hidden" name="ccode" value="{{$ccode->phonecode ?? 0}}">
                                         <input type="text" class="form-control" maxlength="10" onkeypress="return isNumber(event)" name="mobile" placeholder="Enter Phone No.">
                                         <button class="btn ms-2 formbtn mobileformbtn mvsbtn sws-right" type="button" data-title="Verify Phone No."><i class="fal fa-arrow-right"></i></button>
                                         <button class="btn ms-2 formbtn sws-right mvpbtn disabled" style="display: none" type="button" data-title="Please wait"><i class="fad fa-spinner-third fa-spin"></i></button>
@@ -61,6 +61,7 @@
                                                 <input class="m-1 text-center form-control otpn" type="text" name="mobileotp4" onkeypress="return isNumber(event)" maxlength="1">
                                             </div>
                                             <span class="mobileotp-error error"></span>
+                                            <small class="otppre"></small>
                                         </div>
                                         <div>
                                             <div class="m-resendcounter"><small>Resend OTP in <strong id="m-seconds-counter">30s</strong></small></div>
@@ -169,12 +170,12 @@ img.bg-img{position:relative;bottom:0;opacity:.6;margin-top:-90px;width:100%;hei
 const UserFirstStepUrl = @json(route('user.savestep1'));
 const UserEmailVerify = @json(route('sendemailotp'));
 const UserMobileVerify = @json(route('sendmobileotp'));
-$(document).ready(function(){
-    
+$(document).ready(function(){    
     $('.CountryCode .dropdown-menu').find('li').click(function(e) {
         e.preventDefault();
         var spa = $(this).data('text');
         $('.CountryCode #CountryName').text(spa);
+        $('input[name=ccode]').val(spa.substr(1));
     });
 });
 $(".otpn").bind("input", function() {

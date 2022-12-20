@@ -23,9 +23,7 @@
                 <div class="col-md-9">
                     <form class="card UserBox mb-4">
                         <div class="card-body">
-                            <a class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
-                            <a class="EditText thm me-4 sws-top sws-bounce" data-title="Save" id="save" style="display:none"><i class="far fa-check"></i></a>
-                            <a class="EditText text-danger sws-top sws-bounce" data-title="Cancel" id="cancel" style="display:none"><i class="far fa-times"></i></a>
+                            <a href="#updatemodal" data-bs-type="profilemodal" data-bs-toggle="modal" class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
                             <div class="d-md-flex edittextbox">
                                 <div class="PhotoBox me-4">
                                     <label>
@@ -69,20 +67,15 @@
                                         </div>
                                     </div><hr class="border-secondary m-0 mb-2">
                                     <div class="row">
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12">
                                             <ul class="prolist AllDetail">
-                                                <li><span>City / District</span>
-                                                    <select class="inputtext noeditt" contenteditable="false" readonly="readonly"><option></option></select>
+                                                <li><span>Location</span>
+                                                    {{(!empty($user->cities->name)) ? $user->cities->name.', ' : ''}}
+                                                    {{(!empty($user->states->name)) ? $user->states->name.', ' : ''}}
+                                                    {{(!empty($user->countires->name)) ? $user->countires->name : ''}}
                                                 </li>
                                             </ul>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <ul class="prolist AllDetail">
-                                                <li><span>Country</span>
-                                                    <select class="inputtext noeditt" contenteditable="false" readonly="readonly"><option></option></select>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -90,9 +83,7 @@
                     </form>
                     <form class="card UserBox mb-4">
                         <div class="card-body">
-                            <a class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
-                            <a class="EditText thm me-4 sws-top sws-bounce" data-title="Save" id="save" style="display:none"><i class="far fa-check"></i></a>
-                            <a class="EditText text-danger sws-top sws-bounce" data-title="Cancel" id="cancel" style="display:none"><i class="far fa-times"></i></a>
+                            <a href="#updatemodal" data-bs-type="othermodal" data-bs-toggle="modal" class="EditText text-primary sws-top sws-bounce" data-title="Edit" id="edit"><i class="far fa-edit"></i> </a>
                             <div class="d-flex edittextbox w-100">
                                 <div class="w-100">
                                     <h3 class="h5 thm m-0">User Details</h3>
@@ -121,6 +112,42 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                        @if(!empty(userinfo()->get_better))
+                                        <div class="col-6 mt-3">
+                                            <!-- <p class="mb-1"><strong>In which language you are most Fluent?</strong></p> -->
+                                            <ul class="prolist AllDetail">
+                                                <li class="d-block"><span>What do you want to get better at?</span>
+                                                    <div class="radiob">
+                                                        @foreach(json_decode(userinfo()->get_better) as $language)
+                                                        @php $language = \App\Models\GetBetter::find($language); @endphp
+                                                        <div class="form-check mb-2">
+                                                            <input type="checkbox" class="inputtext" name="lang" id="lang1" autocomplete="off" contenteditable="false" readonly="readonly" disabled="disabled">
+                                                            <label for="lang1">{{$language->title ?? ''}}{{!$loop->last?', ':''}}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        @endif
+                                        @if(!empty(userinfo()->hear_about_us))
+                                        <div class="col-6 mt-3">
+                                            <!-- <p class="mb-1"><strong>In which language you are most Fluent?</strong></p> -->
+                                            <ul class="prolist AllDetail">
+                                                <li class="d-block"><span>How did you hear about us?</span>
+                                                    <div class="radiob">
+                                                        @foreach(json_decode(userinfo()->hear_about_us) as $language)
+                                                        @php $language = \App\Models\HearAbout::find($language); @endphp
+                                                        <div class="form-check mb-2">
+                                                            <input type="checkbox" class="inputtext" name="lang" id="lang1" autocomplete="off" contenteditable="false" readonly="readonly" disabled="disabled">
+                                                            <label for="lang1">{{$language->title ?? ''}}{{!$loop->last?', ':''}}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        @endif
                                         <div class="col-12 mt-3">
                                             <ul class="prolist AllDetail">
                                                 <li class="d-block"><span>Growth Challenge</span>
@@ -146,23 +173,23 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="emailn"><h3 class="h6 thm m-0">Email Notification</h3>
+                                                <label class="form-check-label order-first" for="emailnotification"><h3 class="h6 thm m-0">Email Notification</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>Turn on email notification to get updates through email id</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="emailn">
+                                                <input class="form-check-input m-0" type="checkbox" role="switch" @checked(userinfo()->email_notification) id="emailnotification">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="mobilen"><h3 class="h6 thm m-0">Mobile Notification</h3>
+                                                <label class="form-check-label order-first" for="mobilenotification"><h3 class="h6 thm m-0">Mobile Notification</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>Turn on Mobile notification to get updates through Mobile</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="mobilen">
+                                                <input class="form-check-input m-0" type="checkbox" role="switch" @checked(userinfo()->mobile_notification) id="mobilenotification">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6 mt-3">
                                             <div class="form-check d-flex justify-content-between align-items-center h4 form-switch border border rounded p-3">
-                                                <label class="form-check-label order-first" for="deletea"><h3 class="h6 thm m-0">Delete My Account</h3>
+                                                <label class="form-check-label order-first" for="deleteaccount"><h3 class="h6 thm m-0">Delete My Account</h3>
                                                 <p class="lh-n m-0 h6 text-secondary fw-light"><small>My account delete permanently</small></p></label>
-                                                <input class="form-check-input m-0" type="checkbox" role="switch" id="mobilen">
+                                                <input class="form-check-input m-0" type="checkbox" role="switch"  id="deleteaccount">
                                             </div>
                                         </div>
                                     </div>
@@ -175,9 +202,19 @@
         </div>
     </section>
 </main>
+
+<div class="modal fade" id="updatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="text-center p-4">
+                <i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @push('css')
-<title>My Account : Expert Bells</title>
+<title>My Account : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <link rel="stylesheet" href="{{asset('frontend/css/account.css')}}">
@@ -278,21 +315,74 @@ textarea.inputtext{width:100%;height:120px}
 </style>
 @endpush
 @push('js')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script>flatpickr(".flatpickr",{altInput:true, altFormat:"F j, Y", dateFormat:"Y-m-d"});</script>
+
 <script type="text/javascript">
-    $(document).ready(function(){
-        if ($(window).width() < 991){
-            $("#AccMenuBar").removeClass('d-none');
-            $("#AccountMenu").addClass('collapse');
-        };
-        $('.CountryCode .dropdown-menu').find('li').click(function(e) {
-            e.preventDefault();
-            var spa = $(this).data('text');
-            $('.CountryCode #CountryName').text(spa);
-        });
+
+    $('[data-bs-type]').on('click',function(e){
+    let Modal = $(this).attr('data-bs-type');
+    if(Modal=='othermodal'){
+        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+        $('.modal-content').load(@json(route('user.otherinformation')));
+    }
+    if(Modal=='profilemodal'){
+        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+        $('.modal-content').load(@json(route('user.editprofile')));
+    }
+});
+$('#emailnotification').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('user.emailnotification')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success);               
+        }
     });
+});
+$('#mobilenotification').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('user.mobilenotification')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success);               
+        }
+    });
+});
+$('#deleteaccount').on('click',function(){
+    let permission = 0;
+    if($(this).is(':checked')==true){ permission=1;}
+    $.ajax({
+        data:{_token:$('meta[name=csrf-token]').attr('content'),permission:permission},
+        url:@json(route('user.deleteaccount')),
+        method:'POST',
+        dataType:'Json',
+        success:function(data){
+            toastr.success(data.success); 
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);              
+        }
+    });
+});
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>flatpickr(".flatpickr",{altInput:true, altFormat:"F j, Y", dateFormat:"Y-m-d"});</script>
 <link rel="preload" as="style" href="{{asset('frontend/css/flag-icons.min.css')}}" onload="this.rel='stylesheet'">
+
+
 @endpush

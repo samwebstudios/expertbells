@@ -46,7 +46,7 @@ Route::get('expert-booking/{booking}', [App\Http\Controllers\HomeController::cla
 Route::get('expert-booking-step2/{booking}', [App\Http\Controllers\HomeController::class, 'bookingstep2'])->name('expertbooking2');
 Route::get('paymentquery/{booking}', [App\Http\Controllers\HomeController::class, 'paymentquery'])->name('paymentquery');
 
-Route::name('user.')->prefix('user')->group(function(){
+Route::middleware('auth')->name('user.')->prefix('user')->group(function(){
     Route::controller(App\Http\Controllers\User\UserController::class)->group(function(){
         Route::get('user-logout','userlogout')->name('userlogout');
         Route::middleware('userprofilepending')->group(function(){
@@ -66,7 +66,15 @@ Route::name('user.')->prefix('user')->group(function(){
             Route::post('user-step-sixth','savestep6')->name('saveusersetp6'); 
         });   
         Route::post('bookingrescheduleprocess','bookingrescheduleprocess')->name('bookingrescheduleprocess');
-             
+        Route::post('emailnotification','emailnotification')->name('emailnotification');
+        Route::post('mobilenotification','mobilenotification')->name('mobilenotification');
+        Route::post('deleteaccount','deleteaccount')->name('deleteaccount');
+        Route::post('updateprofile','updateprofile')->name('updateprofile');
+        Route::post('otherinformation','updateotherinformation')->name('updateotherinformation');
+        
+        Route::post('countrystates','countrystates')->name('countrystates');        
+        Route::post('statecities','statecities')->name('statecities');
+
     });
     Route::controller(App\Http\Controllers\User\HomeController::class)->group(function(){
         // Route::middleware('userprofilecomplete')->group(function(){

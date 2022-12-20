@@ -46,7 +46,7 @@
                                         <ul class="collapse" id="menumycalls">
                                             <li><a href="{{route('expert.schedules')}}"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>
                                             <li><a href="expert-account/closed-call.php"><span><i class="fal fa-phone-slash me-1"></i> Closed Call</span></a></li>
-                                            <li><a href="expert-account/scheduled-calls.php"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
+                                            <li><a href="{{route('expert.reschedules')}}"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
                                         </ul>
                                     </li>
                                     <li class="{{Request::segment(2)=='slots'?'active':''}}"><a href="{{route('expert.slots')}}"><span><i class="fal fa-tasks me-1"></i> Manage Slots</span></a></li>
@@ -75,14 +75,14 @@
                             </a>
                             <div class="dropdown-menu NotiDrop">
                                 <ul>
-                                    <li><a href="account/"><span><i class="fal fa-tachometer-alt me-1"></i> Dashboard</a></li>
-                                    <li><a href="account/my-account.php"><span><i class="fal fa-user-edit me-1"></i> My Account</a></li>
+                                    <li><a href="{{route('user.account')}}"><span><i class="fal fa-tachometer-alt me-1"></i> Dashboard</a></li>
+                                    <li><a href="{{route('user.account')}}"><span><i class="fal fa-user-edit me-1"></i> My Account</a></li>
                                     <li><a href="#Usermycalls" class="collapsed d-flex justify-content-between align-items-center" data-bs-toggle="collapse" aria-expanded="false" aria-controls="Usermycalls"><span><i class="fal fa-phone-rotary me-1"></i> My Calls</span> <i class="fal fa-chevron-down arrow"></i></a>
                                         <ul class="collapse" id="Usermycalls">
-                                            <li><a href="account/call-request.php"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>
+                                            <li><a href="{{route('user.schedules')}}"><span><i class="fal fa-phone-alt me-1"></i> Scheduled Call</span></a></li>
                                             <li><a href="account/closed-call.php"><span><i class="fal fa-phone-slash me-1"></i> Closed Call</span></a></li>
-                                            <li><a href="account/call-request.php"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
-                                            <li><a href="account/book-expert.php"><span><i class="fal fa-user-plus me-1"></i> Book Expert</span></a></li>
+                                            <li><a href="{{route('user.reschedules')}}"><span><i class="fal fa-phone-plus me-1"></i> Rescheduled Call</span></a></li>
+                                            {{-- <li><a href="account/book-expert.php"><span><i class="fal fa-user-plus me-1"></i> Book Expert</span></a></li> --}}
                                         </ul>
                                     </li>
                                     <li><a href="account/message.php"><span><i class="fal fa-comment-alt-lines me-1"></i> Message</span></a></li>

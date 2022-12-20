@@ -21,9 +21,7 @@ class RegisterController extends Controller{
             'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:users',
         ]);
         $otp = generateotp(4);
-        $html = '';
-        $html .= '<p>Your email verification code is '.$otp.'. please don`t share this otp to others.</p>';
-        $body = ['message'=>$html ];
+        $body = ['otp'=>$otp ];
         \Mail::to($request->email)->send(new \App\Mail\SendEmailOtp($body));
         return response()->json([
             'success' => 'OTP sended on you email address. please check your inbox.',
@@ -43,7 +41,12 @@ class RegisterController extends Controller{
         ]);
     }
     public function userregister(){
-        return view('auth.user.user-register');
+        $currentUserInfo = \Location::get(myipaddress());
+        $ccode = \App\Models\Country::where('status',1);
+        if(!empty($currentUserInfo->countryCode)){ $ccode = $ccode->where('sortname',$currentUserInfo->countryCode); }
+        else{ $ccode = $ccode->where('phonecode',91); }
+        $ccode = $ccode->first();
+        return view('auth.user.user-register',compact('ccode'));
     }
     public function usersavestep1(Request $request){
         $request->validate([
@@ -62,6 +65,7 @@ class RegisterController extends Controller{
         $data = new \App\Models\User();
         $data->name = $request->first_name.' '.$request->last_name;
         $data->mobile = $request->mobile;
+        $data->ccode = $request->ccode;
         $data->email = $request->email;
         $data->password_text = $request->password;
         $data->password = Hash::make($request->password);
@@ -73,7 +77,7 @@ class RegisterController extends Controller{
         \Auth::login($data);
         return response()->json([
             'success' => 'Basic details saved!',
-            'redirect' => route('userregister2')
+            'redirect' => route('user.userregister2')
         ]);
     }
 
@@ -84,7 +88,12 @@ class RegisterController extends Controller{
         $languages = \App\Models\Language::where('is_publish',1)->orderBy('sequence','ASC')->get();
         $Industries = \App\Models\Industry::where('is_publish',1)->orderBy('sequence','ASC')->get();
         $workings = \App\Models\Working::where('is_publish',1)->orderBy('sequence','ASC')->get();
-        return view('auth.expert.register',compact('qualifications','expertises','languages','Industries','workings'));
+        $currentUserInfo = \Location::get(myipaddress());
+        $ccode = \App\Models\Country::where('status',1);
+        if(!empty($currentUserInfo->countryCode)){ $ccode = $ccode->where('sortname',$currentUserInfo->countryCode); }
+        else{ $ccode = $ccode->where('phonecode',91); }
+        $ccode = $ccode->first();
+        return view('auth.expert.register',compact('ccode','qualifications','expertises','languages','Industries','workings'));
     }
     public function saveexpertregister(Request $request){        
         if(empty($request->name)){

@@ -413,6 +413,7 @@ $('.mvcsbtn').on('click',function(){
         $('.MobileOTPbox').hide();
         $('.mvspbtn').show();
         $('.mvpbtn').hide();
+        $('.mvsbtn').hide();        
         $('input[name=mobileverify]').val(1);
     }
 });

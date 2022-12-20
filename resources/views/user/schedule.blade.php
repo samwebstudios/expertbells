@@ -89,7 +89,7 @@
                                                 @if($booking->payment==1)<small class="text-success"><i class="fad fa-circle" style="font-size: 10px;"></i> Paid</small>@endif
                                                 @if($booking->payment==2)<small class="text-danger"><i class="fad fa-circle" style="font-size: 10px;"></i> Failed</small>@endif
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if(date('Y-m-d H:i:s') < date('Y-m-d H:i:s',strtotime($booking->booking_date.' '.$booking->booking_start_time)))
                                                     @if($booking->reschedule_slot==0)
                                                         <small class="text-secondary">{{$booking->status==0?'New':''}}</small>
@@ -104,23 +104,27 @@
                                                     @elseif($booking->status==2)
                                                     <small class="text-danger">Rejected</small>
                                                     @else
-                                                    <small class="text-danger">Expired</small>
+                                                    <small class="text-danger">Not Attended</small>
                                                     @endif
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                @if($booking->status==1 && $booking->reschedule_slot==0)
-                                                    @php 
-                                                        $Start = date('Y-m-d H:i',strtotime('-30 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
-                                                        $End = $booking->booking_date.' '.$booking->booking_start_time;
-                                                    @endphp  
-                                                    @if($booking->send_invitation==1 && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+0 minutes'.$End)))
-                                                        <a href="#" class="btn btni btn-success disable"><i class="fal fa-clock"></i> <span class="ms-md-1">Receive Invitation</span></a>
+                                                @if(date('Y-m-d H:i:s') < date('Y-m-d H:i:s',strtotime($booking->booking_date.' '.$booking->booking_start_time)))
+                                                    @if($booking->status==1 && $booking->reschedule_slot==0)
+                                                        @php 
+                                                            $Start = date('Y-m-d H:i',strtotime('-30 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
+                                                            $End = $booking->booking_date.' '.$booking->booking_start_time;
+                                                        @endphp  
+                                                        @if($booking->send_invitation==1 && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+0 minutes'.$End)))
+                                                            <a href="#" class="btn btni btn-success disable"><i class="fal fa-clock"></i> <span class="ms-md-1">Receive Invitation</span></a>
+                                                        @endif
+                                                        <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i> <!-- <span class="ms-md-1">Message</span> --></button>
+                                                        <a href="#ChangeSchedulCall" onclick="changeexpertshlot({{$booking->id}},{{$booking->expert_id}})" class="btn btni btn-primary sws-top sws-bounce" data-bs-toggle="modal" data-title="Change Scheduled Call"><i class="fal fa-pencil"></i> <!-- <span class="ms-md-1">Change Scheduled Call</span> --></a>
                                                     @endif
-                                                    <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i> <!-- <span class="ms-md-1">Message</span> --></button>
-                                                    <a href="#ChangeSchedulCall" onclick="changeexpertshlot({{$booking->id}},{{$booking->expert_id}})" class="btn btni btn-primary sws-top sws-bounce" data-bs-toggle="modal" data-title="Change Scheduled Call"><i class="fal fa-pencil"></i> <!-- <span class="ms-md-1">Change Scheduled Call</span> --></a>
+                                                @elseif($booking->reschedule_slot == 0 && $booking->refund == 0)
+                                                <small class="text-dark">Not attended by both.</small>
                                                 @endif
-                                                @if($booking->reschedule_slot>0)
+                                                @if($booking->reschedule_slot > 0)
                                                     <small class="text-danger">New booking (#{{$booking->reschedule->booking_id ?? 0}})</small>
                                                 @endif
                                                 @if($booking->refund>0)
@@ -133,6 +137,8 @@
                                 </table>
                             </div>
                         </div>
+                        <p><small><b>NOTE:</b> If you miss any slot by mistake, then you can talk to the administrator on <a href="mailto:{{mailsupportemail()}}">{{mailsupportemail()}}</a>.</small></p>
+                        
                     </form>
                 </div>
             </div>

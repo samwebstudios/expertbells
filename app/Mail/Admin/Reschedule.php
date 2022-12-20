@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Admin;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentReceived extends Mailable
+class Reschedule extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,6 +18,7 @@ class PaymentReceived extends Mailable
      *
      * @return void
      */
+    public $body;
     public function __construct($body)
     {
         $this->body = $body;
@@ -28,11 +29,10 @@ class PaymentReceived extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public $body;
     public function envelope()
     {
         return new Envelope(
-            subject: $this->body['subject'] ?? 'Thankyou! we have received your payment.',
+            subject: 'Reschedule booking.',
         );
     }
 
@@ -44,7 +44,7 @@ class PaymentReceived extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'mail.payment-received',
+            markdown: 'mail.admin.reschedule',
         );
     }
 

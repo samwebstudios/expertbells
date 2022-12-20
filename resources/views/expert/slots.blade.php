@@ -92,7 +92,7 @@
 </style>
 @endpush
 @push('js')
-<div class="modal fade" id="AddTime" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddTimeLabel" aria-hidden="true">
+<div class="modal fade" id="AddTime" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddTimeLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <form class="modal-content availabilityform">
             @csrf
@@ -100,7 +100,7 @@
             <input type="hidden" name="preid">
             <div class="modal-header">
                 <h2 class="h5 modal-title" id="Availabilitybox">Set Availability Slot</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="window.location.reload()" aria-label="Close"></button>
             </div>
             <div class="modal-body py-3 p-4">
                 <div class="input-group TimeBoxIn">
@@ -218,7 +218,7 @@ $('.availabilityform').on('submit',function(e){
         success:function(data){
             toastr.success(data.success);
             setTimeout(() => {
-                window.location.reload();
+                // window.location.reload();
             }, 1000);
             $('.asbtn').show();
             $('.apbtn').hide();            
