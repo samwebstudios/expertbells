@@ -249,4 +249,10 @@ class HomeController extends Controller
         }
         
     }
+
+     /// Help
+     public function help(){
+        $lists = \App\Models\HelpCenter::where(['type'=>1,'is_publish'=>1])->paginate(50);
+        return view('expert.help',compact('lists'));
+    }
 }

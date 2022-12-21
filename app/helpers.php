@@ -37,7 +37,8 @@ if(!function_exists('adminmail')){
 }
 if(!function_exists('ccadminmail')){
     function ccadminmail(){
-        return "info@expertbells.com";
+        // return "info@expertbells.com";
+        return 'mithun.sws@gmail.com';
     }
 }
 if(!function_exists('mailsupportemail')){

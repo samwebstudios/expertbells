@@ -82,6 +82,7 @@ class UserController extends Controller
         return redirect()->route('login');
     }
 
+    //// SCHEDULE
 
     public function bookingrescheduleprocess(Request $r){
         $bookingid = $r->bookingid;
@@ -115,6 +116,8 @@ class UserController extends Controller
             'success' => 'Booking has been reschedule with booking #'.$data->booking_id.'.'
         ]);
     }
+
+    /// PROFILE
     public function countrystates(Request $r){
         $states = \App\Models\State::where(['status'=>1,'country_id'=>$r->country])->get();
         $Html='<option value="">Choose State</option>';
@@ -243,4 +246,30 @@ class UserController extends Controller
         ]);
     }
     
+    /// REVIEWS
+    public function reviews(Request $r){
+        $r->validate([
+            'rating' => 'required',
+            'expert' => 'required',
+            'message' => 'required'
+        ],[
+            'rating.required'=>'rating filed is required.',
+            'expert.required'=>'expert filed is required.',
+            'message.required'=>'message filed is required.',
+        ]);
+
+        if(!empty($r->preid)){ 
+            $data = \App\Models\ExpertReview::find($r->preid); 
+        }else{ 
+            $data = new \App\Models\ExpertReview();
+            $data->user_id = userinfo()->id;             
+            $data->sequence = (\App\Models\ExpertReview::max('sequence') + 1);
+        }   
+        $data->expert_id = $r->expert;
+        $data->rating = $r->rating;
+        $data->description = $r->message;
+        $data->save();
+
+        return back()->with('success','Review submitted!');
+    }
 }

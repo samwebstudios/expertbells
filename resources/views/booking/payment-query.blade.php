@@ -16,7 +16,7 @@
                         @csrf
                         <input type="hidden" name="booking" value="{{$lists->id}}">
                         <textarea class="form-control summernote" name="conversation"></textarea>
-                        @error('query') <span class="error">{{$message}}</span> @enderror
+                        @error('conversation') <span class="error">{{$message}}</span> @enderror
                         <div class="text-center">
                             <button type="submit" onclick="$('.lbtn').show(); $('.sbtn').hide();" class="btn formbtn sbtn btn-thm2 mx-auto">Post Query <i class="fal fa-arrow-right ms-2"></i></button>
                             <button type="button" class="btn formbtn lbtn btn-thm2 mx-auto" style="display: none" disabled> <i class="fal fa-spinner-third fa-spin me-1"></i>Loading...</button>
@@ -44,7 +44,7 @@
                                     @endforeach     
                                 </span>
                                 @endif
-                                <div class="thm"><span class="star" data-title="4"></span> 5.0 </div>
+                                <div class="thm ExpStar"><span class="star" data-title="{{floatval($lists->expert->publishreviews()->avg('rating'))}}"></span> {{floatval($lists->expert->publishreviews()->avg('rating'))}} </div>
                             </div>
                         </div>
                     </div>

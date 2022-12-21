@@ -16,12 +16,12 @@
     <script>
 
       const XCSRF_Token = "{{ csrf_token() }}";
-
+      const EditorImageUpload = @json(route('admin.editorimage'));
     </script>
 
     @stack('css')
 
-    <style>.error{color:#e83f3f;font-size:13px;font-weight:500;}
+    <style>.error{color:#f97d7d;font-size:13px;font-weight:500;}
     .form-check-input:checked{background-color:#343a40;border-color:#343a40;}
     body{font-size:15px!important}
     a{text-decoration:none!important}
@@ -61,7 +61,7 @@
     @stack('js')
     <link rel="preload" as="style" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" onload="this.rel='stylesheet'" crossorigin="anonymous"/>
     <script src="{{asset('admin/js/bracket.js')}}"></script>
-
+    <script src="{{asset('admin/js/editor.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- CSS only -->

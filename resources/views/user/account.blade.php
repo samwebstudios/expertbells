@@ -203,7 +203,7 @@
     </section>
 </main>
 
-<div class="modal fade" id="updatemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updatemodal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="text-center p-4">
@@ -326,16 +326,16 @@ textarea.inputtext{width:100%;height:120px}
 <script type="text/javascript">
 
     $('[data-bs-type]').on('click',function(e){
-    let Modal = $(this).attr('data-bs-type');
-    if(Modal=='othermodal'){
-        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
-        $('.modal-content').load(@json(route('user.otherinformation')));
-    }
-    if(Modal=='profilemodal'){
-        $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
-        $('.modal-content').load(@json(route('user.editprofile')));
-    }
-});
+        let Modal = $(this).attr('data-bs-type');
+        if(Modal=='othermodal'){
+            $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+            $('.modal-content').load(@json(route('user.otherinformation')));
+        }
+        if(Modal=='profilemodal'){
+            $('.modal-content').html('<div class="text-center p-4"><i class="fad fa-spinner-third fa-spin" style="font-size: 35px;"></i></div>');
+            $('.modal-content').load(@json(route('user.editprofile')));
+        }
+    });
 $('#emailnotification').on('click',function(){
     let permission = 0;
     if($(this).is(':checked')==true){ permission=1;}

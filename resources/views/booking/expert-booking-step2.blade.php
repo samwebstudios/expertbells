@@ -32,7 +32,7 @@
                                     @endforeach     
                                 </span>
                                 @endif
-                                <div class="thm"><span class="star" data-title="4"></span> 5.0 </div>
+                                <div class="thm ExpStar"><span class="star" data-title="{{floatval($lists->expert->publishreviews()->avg('rating'))}}"></span> {{floatval($lists->expert->publishreviews()->avg('rating'))}} </div>
                             </div>
                         </div>
                     </div>

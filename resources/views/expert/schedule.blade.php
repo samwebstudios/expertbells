@@ -90,7 +90,7 @@
                                                     @elseif($booking->status==2)
                                                     <small class="text-danger">Rejected</small>
                                                     @else
-                                                    <small class="text-danger">Expired</small>
+                                                    <small class="text-danger">Not Attended</small>
                                                     @endif
                                                 @endif
                                             </td>
@@ -100,21 +100,21 @@
                                                 <a href="{{route('expert.scheduleconfirm',['confirm'=>1,'schedule'=>$booking->id])}}" class="btn btni btn-primary sws-left sws-bounce" data-title="Confirm Schedule"><i class="fal fa-calendar-check"></i><span class="ms-md-1"></span></a>
                                                 @endif
 
-                                                @if($booking->status==2)
-
-                                                @endif
-
-                                                @if($booking->status==1 && $booking->reschedule_slot==0)
-                                                    @php 
-                                                        $Start = date('Y-m-d H:i',strtotime('-30 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
-                                                        $End = $booking->booking_date.' '.$booking->booking_start_time;
-                                                    @endphp           
-                                                    @if(date('Y-m-d H:i') >= $Start && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+0 minutes'.$End)))
-                                                    <a href="#" class="btn btni btn-primary sws-top sws-bounce" data-title="Invite Call"><i class="fal fa-clock"></i> Invite Call <span class="ms-md-1"></span></a>
+                                                @if(date('Y-m-d H:i:s') < date('Y-m-d H:i:s',strtotime($booking->booking_date.' '.$booking->booking_start_time)))
+                                                    @if($booking->status==1 && $booking->reschedule_slot==0)
+                                                        @php 
+                                                            $Start = date('Y-m-d H:i',strtotime('-60 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
+                                                            $End = $booking->booking_date.' '.$booking->booking_start_time;
+                                                        @endphp           
+                                                        @if(date('Y-m-d H:i') >= $Start && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+10 minutes'.$End)))
+                                                        <a href="#" class="btn btni btn-primary sws-top sws-bounce" data-title="Invite Call"><i class="fal fa-clock"></i> Invite Call <span class="ms-md-1"></span></a>
+                                                        @endif
+                                                        <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i></button>
+                                                        <a href="#ChangeSchedulCall" onclick="$('input[name=bookingid]').val({{$booking->id}});" class="btn btni btn-primary sws-left sws-bounce" data-bs-toggle="modal" data-title="Change Schedule"><i class="fal fa-pencil"></i></a>
+                                                        <a href="#rejected" data-bs-toggle="modal" data-bs-url="{{route('expert.scheduleconfirm',['confirm'=>2,'schedule'=>$booking->id])}}" class="btn btni btn-danger sws-left sws-bounce" data-title="Reject Schedule"><i class="fal fa-vote-nay"></i></a>
                                                     @endif
-                                                    <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i></button>
-                                                    <a href="#ChangeSchedulCall" onclick="$('input[name=bookingid]').val({{$booking->id}});" class="btn btni btn-primary sws-left sws-bounce" data-bs-toggle="modal" data-title="Change Schedule"><i class="fal fa-pencil"></i></a>
-                                                    <a href="#rejected" data-bs-toggle="modal" data-bs-url="{{route('expert.scheduleconfirm',['confirm'=>2,'schedule'=>$booking->id])}}" class="btn btni btn-danger sws-left sws-bounce" data-title="Reject Schedule"><i class="fal fa-vote-nay"></i></a>
+                                                @elseif($booking->reschedule_slot == 0 && $booking->refund == 0)
+                                                <small class="text-dark">Not attended by both.</small>
                                                 @endif
                                                 @if($booking->reschedule_slot>0)
                                                     <small class="text-danger">New booking (#{{$booking->reschedule->booking_id ?? 0}})</small>

@@ -9,7 +9,7 @@ class HomeController extends Controller{
         return view('home');
     }
     public function experts($experid=null,$type=null){        
-        $experts = \App\Models\Expert::where('is_publish',1);
+        $experts = \App\Models\Expert::where(['is_publish'=>1,'profile_visibility'=>1]);
         $experts = $experts->orderBy('sequence','ASC');
         if(!empty($experid)){
             if($type=='videos'){ return $this->expertvideos($experid);}
@@ -22,13 +22,14 @@ class HomeController extends Controller{
             $slots = \App\Models\SlotAvailability::where(['is_publish'=>1,'expert_id'=>$experts->id,'day'=>date('l',strtotime('Y-m-d'))])->get();
             return view('expert-intro',compact('experts','slots','requestsection','giftsection','notesection'));
         }else{
+            $experts = $experts->whereNotIn('id',[expertinfo()->id ?? 0]);
             $experts = $experts->paginate(40);
             return view('experts',compact('experts'));
         }
     }
     public function expertvideos($experid){
         if(!empty(request('v'))){
-            $experts = \App\Models\Expert::where('is_publish',1);
+            $experts = \App\Models\Expert::where(['is_publish'=>1,'profile_visibility'=>1,'video_visibility'=>1]);
             $experts = $experts->where('user_id',$experid);
             $experts = $experts->first();
             if(empty($experts)){ abort(404); }
@@ -50,6 +51,10 @@ class HomeController extends Controller{
         $videos = \App\Models\ExpertVideo::where('expert_id',$experts->id)->orderBy('sequence','DESC')->paginate(45);        
         return view('expert-videos',compact('experts','videos'));
     }
+
+
+
+    //// Booking
     public function bookinglogin($bookingid){
         $lists = \App\Models\SlotBook::where('booking_id',$bookingid)->first();
         if(empty($lists)){ abort(404); }
@@ -108,8 +113,7 @@ class HomeController extends Controller{
         }
         if($availability->count()==0){
             $Html .='<div class="col-12 text-center my-5 text-danger">
-                        <h6>'.$expert->name.' is not available for '.date('F, d Y',strtotime($r->date)).'.</h6>
-                        <p class="text-danger"><small>You Can found other expert for your query.</small></p>
+                        <h6>'.$expert->name.' is not available for '.date('l d M, Y',strtotime($r->date)).'.</h6>
                     </div>';
         } 
         $daysArr = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; 
@@ -153,4 +157,8 @@ class HomeController extends Controller{
             'redirect' => $redirect
         ]);
     }
+
+
+   
+
 }

@@ -83,19 +83,19 @@
                 </div>
                 <div class="col-12">
                     <div class="row">
-                        @if(count($experts)==0)
-                        <x-data-not-found :data="Experts"/>
+                        @if($experts->count()==0)
+                        <x-data-not-found data="Experts"/>
                         @endif
                         @foreach($experts as $expert)
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="card ExpBlock verify">
                                 <a href="{{route('experts',['alias'=>$expert->user_id])}}" class="card-header">
                                     <x-image-box>
-                                        <x-slot:image>{{$expert->profile}}</x-slot:image>
-                                        <x-slot:path>/uploads/expert/</x-slot:image>
-                                        <x-slot:alt>{{$expert->name ?? ''}} {{!empty($expert->expertise->title) ? '('.$expert->expertise->title.')' : ''}} </x-slot:image>
-                                        <x-slot:width>380</x-slot:image>
-                                        <x-slot:height>480</x-slot:image>
+                                        <x-slot:image>{{$expert->profile}}</x-slot>
+                                        <x-slot:path>/uploads/expert/</x-slot>
+                                        <x-slot:alt>{{$expert->name ?? ''}} {{!empty($expert->expertise->title) ? '('.$expert->expertise->title.')' : ''}} </x-slot>
+                                        <x-slot:width>380</x-slot>
+                                        <x-slot:height>480</x-slot>
                                     </x-image-box>
                                     <div loading="lazy" style="background:url('img/exp-img1.webp')"></div>
                                 </a>

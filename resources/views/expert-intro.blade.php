@@ -47,8 +47,8 @@
                             </small>
                             @endif
                         </div>
-                        <div class="thm"><span class="star" data-title="4"></span> 5.0 </div>
-                        <p class="lh-n"><a href="" class="text-secondary"><small>252 reviews / 453 sessions</small></a></p>
+                        <div class="thm ExpStar"><span class="star" data-title="{{floatval($experts->publishreviews()->avg('rating'))}}"></span> {{floatval($experts->publishreviews()->avg('rating'))}} </div>
+                        <p class="lh-n"><a href="" class="text-secondary"><small>{{count($experts->publishreviews)}} reviews / {{count($experts->slots)}} sessions</small></a></p>
                         <div class="text-center d-flex justify-content-between mb-2">
                             <a href="#" class="btn btn-thm3 px-3"><i class="fal fa-comment-alt-lines m-0 me-1"></i> Message me</a>
                             @if(count($experts->videos) > 0)
@@ -112,33 +112,32 @@
                             </div>
                         </div>
                         @endif
+                        @if(count($experts->publishreviews) > 0)
                         <h3 class="h5 thm mt-5 mb-3">Why it's valuable</h3>
                         <div class="card ReviewBlock">
+                            @foreach($experts->publishreviews as $item)
                             <div class="card-body">
-                                <div class="img"><img src="{{asset('frontend/img/man.svg')}}" width="50" height="50"></div>
+                                <div class="img">
+                                    <x-image-box>
+                                        <x-slot:image>{{$item->user->profile}}</x-slot>
+                                        <x-slot:path>/uploads/user/</x-slot>
+                                        <x-slot:alt>{{$item->user->name ?? ''}}</x-slot>
+                                        <x-slot:width>50</x-slot>
+                                        <x-slot:height>50</x-slot>
+                                    </x-image-box>
+                                </div>
                                 <div>
-                                    <h4 class="thm m-0">Nancy</h4>
-                                    <p class="lh-n mt-0 text-secondary"><small>1 Session</small></p>
-                                    <p class="mt0">Nicole is fantastic! Whip Smart and full of useful advice!!</p>
+                                    <h4 class="thm m-0">{{$item->user->name ?? ''}}</h4>
+                                    <p class="mt0">{{$item->description ?? ''}}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="star" title="star" data-title="4"></span>
-                                        <small class="text-secondary">Monday, Jul 26, 2022</small>
+                                        <span class="star" title="star" data-title="{{$item->rating ?? '0'}}"></span>
+                                        <small class="text-secondary">{{date('l d M, Y',strtotime($item->created_at))}}</small>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="img"><img src="{{asset('frontend/img/man.svg')}}" width="50" height="50"></div>
-                                <div>
-                                    <h4 class="thm m-0">Nancy</h4>
-                                    <p class="lh-n mt-0 text-secondary"><small>1 Session</small></p>
-                                    <p class="mt0">Nicole is fantastic! Whip Smart and full of useful advice!!</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="star" title="star" data-title="4"></span>
-                                        <small class="text-secondary">Monday, Jul 26, 2022</small>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach                           
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -229,10 +228,11 @@ body>main,body section{overflow:inherit!important}
 .ReviewBlock>div .star{margin-left:0}
 .ReviewBlock>div h4{font-size:16px;margin-top:0;font-weight:600}
 .ReviewBlock>div>div>span:last-child{font-size:12px!important}
-
 </style>
 @endpush
 @push('js')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     $(document).ready(function(){
         gettimeslots();       

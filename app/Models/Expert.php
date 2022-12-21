@@ -50,4 +50,13 @@ class Expert extends Authenticatable
     public function slotcharges(){
         return $this->hasMany(SlotCharge::class,'expert_id','id')->where('is_publish',1);
     }
+    public function publishreviews(){
+        return $this->hasMany(ExpertReview::class,'expert_id','id')->where(['is_publish'=>1]);
+    }
+    public function reviews(){
+        return $this->hasMany(ExpertReview::class,'expert_id','id');
+    }
+    public function slots(){
+        return $this->hasMany(SlotBook::class,'expert_id','id')->where(['payment'=>1]);
+    }    
 }

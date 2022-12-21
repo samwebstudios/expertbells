@@ -40,6 +40,11 @@
 .star[data-title="3"]:after{width:60%}
 .star[data-title="4"]:after{width:80%}
 .star[data-title="5"]:after{width:100%}
+.ExpStar .star[data-title=".5"]:after,.ExpStar .star[data-title="0.5"]:after{width:10%}
+.ExpStar .star[data-title="1.5"]:after{width:30%}
+.ExpStar .star[data-title="2.5"]:after{width:50%}
+.ExpStar .star[data-title="3.5"]:after{width:70%}
+.ExpStar .star[data-title="4.5"]:after{width:90%}
 .star:after{color:#e6af19;content:'\2605\2605\2605\2605\2605';/*text-shadow:0 1px 0 #ab5414;*/position:absolute;z-index:0;height:100%;left:0;width:attr(rating);overflow:hidden}
 .ads{padding:0!important}
 .ads a,.LOffer .owl-carousel .item a{border-radius:9px;display:inline-block;position:relative;overflow:hidden;width:100%;transition:all .5s}

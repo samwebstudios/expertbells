@@ -48,6 +48,7 @@ class HomeController extends Controller
         return view('user.otherinformation',compact('roles','betters','hears','industries'));
     }
 
+    /// SCHEDULES
     public function schedules(){
         $bookings = \App\Models\SlotBook::where(['user_id'=>userinfo()->id,'reschedule_slot'=>0])->orderBy('id','DESC')->paginate(50);
         $user = \App\Models\User::find(userinfo()->id);
@@ -154,5 +155,21 @@ class HomeController extends Controller
             return $html;
         }
     }
-    
+
+    /// Reviews
+    public function reviews(){
+        $bookings = \App\Models\SlotBook::where(['user_id'=>userinfo()->id,'payment'=>1])->groupBy('expert_id')->get();
+        $reviews = \App\Models\ExpertReview::where('user_id',userinfo()->id)->latest()->paginate(50);
+        return view('user.reviews',compact('bookings','reviews'));
+    }
+    public function editreviews(){
+        $bookings = \App\Models\SlotBook::where(['user_id'=>userinfo()->id,'payment'=>1])->groupBy('expert_id')->get();
+        $reviews = \App\Models\ExpertReview::find(request('editid'));
+        return view('user.edit-reviews',compact('bookings','reviews'));
+    }
+    public function removereviews($id){
+        $reviews = \App\Models\ExpertReview::find($id);
+        $reviews->delete();
+        return back()->with('success','Review remove!');
+    }
 }

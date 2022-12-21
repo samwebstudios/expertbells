@@ -78,20 +78,6 @@
                                 <div class="w-100">
                                     <h3 class="h5 thm m-0">Other Information</h3>
                                     <div class="row">
-                                        <div class="col-12 col-lg-6 mt-3">
-                                            <ul class="prolist AllDetail">
-                                                <li class="d-block"><span>Bio</span>
-                                                    {!! expertinfo()->bio ?? '' !!}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-12 col-lg-6 mt-3">
-                                            <ul class="prolist AllDetail">
-                                                <li class="d-block"><span>Strengths</span>
-                                                    {!! expertinfo()->your_strength ?? '' !!}
-                                                </li>
-                                            </ul>
-                                        </div>
                                         <div class="col-6 col-lg-6 mt-3">
                                             <ul class="prolist AllDetail">
                                                 <li class="d-block"><span>Qualification</span>
@@ -161,7 +147,20 @@
                                             </ul>
                                         </div>
                                         @endif
-                                        
+                                        <div class="col-12 mt-3">
+                                            <ul class="prolist AllDetail">
+                                                <li class="d-block"><span>Bio</span>
+                                                    {!! expertinfo()->bio ?? '' !!}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <ul class="prolist AllDetail">
+                                                <li class="d-block"><span>Strengths</span>
+                                                    {!! expertinfo()->your_strength ?? '' !!}
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -69,11 +69,11 @@
 
 <script src="{{asset('frontend/js/custom.js')}}"></script>
 @stack('js')
-<script>flatpickr(".inlinecal",{
+{{-- <script>flatpickr(".inlinecal",{
         inline:true,
         minDate: "today",        
         defaultDate: ["{{date('Y-m-d')}}"]
-    });</script>
+    });</script> --}}
 <script type="text/javascript">
 $(document).ready(function() {
     toastr.options =

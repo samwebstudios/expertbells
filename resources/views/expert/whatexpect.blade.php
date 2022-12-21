@@ -19,11 +19,8 @@
 </form>
 <script>
     $('.add').on('click',function(){
-        let box =  $('.InBox').first().clone();
-        $(box).find(".add").html('<i class="fas fa-trash"></i>');
-        $(box).find(".add").addClass(['remove','btn-danger']);        
-        $(box).find(".remove").removeClass(['add','btn-dark']);
-        $('.InBox').last().after(box);
+        let box =  '<div class="d-flex InBox mb-2"><div><input type="text" class="form-control" required name="description[]" placeholder="Write something here..."></div><button type="button" class="btn btn-danger btn-md remove"><i class="fas fa-trash"></i></button></div>';
+        $('.updateinformation .modal-body').append(box);
         $('.remove').on('click',function(){
             $(this).parent('.InBox').remove();
         });
@@ -47,9 +44,8 @@
                 $('.updateinformation').trigger('reset');
                 $('.otsbtn').show();
                 $('.otpbtn').hide();
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                $('.remove').parent('.InBox').remove();
+                window.location.reload();
             },
             error:function(response){            
                 if(response.responseJSON.errors.description!== undefined){

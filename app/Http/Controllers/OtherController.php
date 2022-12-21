@@ -123,15 +123,19 @@ class OtherController extends Controller
         $data->payment = 1;
         $data->status=1;
         $data->payment_date = date('Y-m-d H:i:s');
-        $data->save();
-
+        $data->save();        
         
-        $html = '<b>Hi '.$data->user_name.'</b><br>';
-        $html .= 'I just wanted to drop you a quick note to let you know that we have received your recent payment & your booked schedule #'.$data->booking_id.' has been confirmed by the '.ucwords(project()).'.<br>';
-        $html .='Thank you very much. We really appreciate it.';
-        $body = ['message'=>$html ];
-        \Mail::to($data->user_email)->send(new \App\Mail\PaymentReceived($body));
-        return redirect(route('paymentquery',['booking'=>$booking]))->with('success','Thankyou! we have received your payment.');
+        $body = ['slot'=>$data ];
+        if(!empty($data->user->email)){
+            \Mail::to($data->user_email)->send(new \App\Mail\User\PaymentReceived($body));
+        }
+        if(!empty($data->expert->email)){
+
+            \Mail::to($data->expert->email)->send(new \App\Mail\Expert\NewSlotBook($body));
+        }
+        \Mail::to(adminmail())->CC(ccadminmail())->send(new \App\Mail\Admin\NewSlotBook($body));
+
+        return redirect(route('paymentquery',['booking'=>$booking]))->with('success','Thank you very much. We really appreciate it.');
     }
     public function bookingquery(Request $request){
         $request->validate([

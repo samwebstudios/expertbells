@@ -112,10 +112,10 @@
                                                 @if(date('Y-m-d H:i:s') < date('Y-m-d H:i:s',strtotime($booking->booking_date.' '.$booking->booking_start_time)))
                                                     @if($booking->status==1 && $booking->reschedule_slot==0)
                                                         @php 
-                                                            $Start = date('Y-m-d H:i',strtotime('-30 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
+                                                            $Start = date('Y-m-d H:i',strtotime('-60 minutes'.$booking->booking_date.' '.$booking->booking_start_time));
                                                             $End = $booking->booking_date.' '.$booking->booking_start_time;
                                                         @endphp  
-                                                        @if($booking->send_invitation==1 && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+0 minutes'.$End)))
+                                                        @if($booking->send_invitation==1 && date('Y-m-d H:i') <= date('Y-m-d H:i',strtotime('+10 minutes'.$End)))
                                                             <a href="#" class="btn btni btn-success disable"><i class="fal fa-clock"></i> <span class="ms-md-1">Receive Invitation</span></a>
                                                         @endif
                                                         <button class="SendMessage btn btni btn-warning sws-top sws-bounce" type="button" data-title="Message"><i class="fal fa-comment-alt-lines"></i> <!-- <span class="ms-md-1">Message</span> --></button>

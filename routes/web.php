@@ -74,7 +74,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function(){
         
         Route::post('countrystates','countrystates')->name('countrystates');        
         Route::post('statecities','statecities')->name('statecities');
-
+        Route::post('reviews','reviews')->name('savereviews');
     });
     Route::controller(App\Http\Controllers\User\HomeController::class)->group(function(){
         // Route::middleware('userprofilecomplete')->group(function(){
@@ -88,6 +88,11 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function(){
             Route::get('reschedules','reschedules')->name('reschedules');
             Route::get('bookinginformation/{bookingid}/','bookinginformation')->name('bookinginformation');
         
+            Route::get('reviews','reviews')->name('reviews');
+            Route::get('removereviews/{id}','removereviews')->name('removereviews');
+            Route::get('editreviews','editreviews')->name('editreviews');
+
+            Route::get('help','help')->name('help');
 
         // });
     });
@@ -138,7 +143,8 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::get('reschedules','reschedules')->name('reschedules');
         Route::get('scheduleconfirm/{confirm}/{schedule}','scheduleconfirm')->name('scheduleconfirm');
         Route::get('bookinginformation/{bookingid}/','bookinginformation')->name('bookinginformation');
-        
+                
+        Route::get('help','help')->name('help');
     });
 });
 
@@ -251,8 +257,19 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::post('/assignexpertinfo',[App\Http\Controllers\Admin\ScheduleController::class, 'assignexpertinfo'])->name('schedules.assignexpertinfo');
         Route::get('/information',[App\Http\Controllers\Admin\ScheduleController::class, 'information'])->name('schedules.information');
         
+        Route::get('/help-center',[App\Http\Controllers\Admin\HelpCenterController::class, 'index'])->name('helpcenter.list');
+        Route::get('/add-help-center',[App\Http\Controllers\Admin\HelpCenterController::class, 'create'])->name('helpcenter.add');
+        Route::get('/edit-help-center/{id}',[App\Http\Controllers\Admin\HelpCenterController::class, 'edit'])->name('helpcenter.edit');
+        Route::get('/remove-help-center/{id}',[App\Http\Controllers\Admin\HelpCenterController::class, 'destroy'])->name('helpcenter.remove');
+        Route::post('/save-help-center',[App\Http\Controllers\Admin\HelpCenterController::class, 'store'])->name('helpcenter.save');
+        Route::post('/update-help-center',[App\Http\Controllers\Admin\HelpCenterController::class, 'update'])->name('helpcenter.update');
+        Route::post('/help-center-sequence',[App\Http\Controllers\Admin\HelpCenterController::class, 'sequence'])->name('helpcenter.sequence');
+        Route::post('/help-center-bulkremove',[App\Http\Controllers\Admin\HelpCenterController::class, 'bulkremove'])->name('helpcenter.bulkremove');
+        Route::get('/help-center-status',[App\Http\Controllers\Admin\HelpCenterController::class, 'status'])->name('helpcenter.status');
+       
+
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
         Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');
-        
+        Route::post('/editorimage',[App\Http\Controllers\Admin\CmsController::class, 'editorimage'])->name('editorimage');
     });
 });

@@ -71,6 +71,7 @@ class RegisterController extends Controller{
         $data->password = Hash::make($request->password);
         $data->email_verify = 1;
         $data->mobile_verify = 1;
+        $data->is_publish = 1;
         // $data->user_id = generateuserno();
         $data->last_login = date('Y-m-d H:i:s');
         $data->save();
