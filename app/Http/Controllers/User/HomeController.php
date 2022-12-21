@@ -172,4 +172,10 @@ class HomeController extends Controller
         $reviews->delete();
         return back()->with('success','Review remove!');
     }
+
+     /// Help
+     public function help(){
+        $lists = \App\Models\HelpCenter::where(['type'=>1,'is_publish'=>1])->paginate(50);
+        return view('user.help',compact('lists'));
+    }
 }

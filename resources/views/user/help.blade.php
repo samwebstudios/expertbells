@@ -11,7 +11,7 @@
             <div class="row MainBoxAc">
                 <div class="col-md-3">
                     <div class="position-sticky top-0">
-                        <x-expert.left-bar/>
+                        <x-user.left-bar/>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        @endforeach                       
+                        @endforeach                         
                     </div>
                     {{$lists->links()}}
                 </div>
