@@ -33,14 +33,19 @@
                                     <div class="col-sm-4 Uinfo">
                                         <small class="text-secondary">Hello,</small>
                                         <h3 class="h5 mb-1">{{userinfo()->name ?? ''}}</h3>
-                                        <a href="account/my-account.php"><i class="fal fa-edit"></i> Edit Account</a> | 
+                                        <a href="account/my-account.php"><i class="fal fa-edit"></i> Edit Account</a>  
                                         @if(userinfo()->complete_profile==0)
-                                        <a href="{{route('user.userregister2')}}" class="text-danger">Complete Profile ?</a>
+                                        | <a href="{{route('user.userregister2')}}" class="text-danger">Complete Profile ?</a>
                                         @endif
                                     </div>
                                     <div class="col-lg-8 text-end">
                                         <h1 class="h5 thm mb-0">Welcome to your Dashboard</h1>
-                                        <p class="text-secondary mb-2"><small>Complete your profile to get full access to ExpertBells features.</small></p>
+                                        @if(userinfo()->complete_profile==0)
+                                        <p class="text-danger mb-2"><small>Complete your profile to get full access to ExpertBells features.</small></p>
+                                        @endif
+                                        @if(userinfo()->complete_profile==1) 
+                                        <p class="text-secondary mb-2"><small>You have a full access to ExpertBells features.</small></p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +58,7 @@
                                     <div class="card UserBox TopBoxs mb-4">
                                         <div class="card-body">
                                             <i class="fal fa-phone-plus thm2 h1"></i>
-                                            <h3 class="h2 m-0 thm">2</h3>
+                                            <h3 class="h2 m-0 thm">{{\App\Models\SlotBook::where(['user_id'=>userinfo()->id,'payment'=>1])->where('booking_time','>=',date('Y-m-d H:i:s'))->count()}}</h3>
                                             <p class="m-0 text-secondary"><small>New Call Requests</small></p>
                                         </div>
                                     </div>
@@ -62,7 +67,7 @@
                                     <div class="card UserBox TopBoxs mb-4">
                                         <div class="card-body">
                                             <i class="fal fa-phone-alt thm2 h1"></i>
-                                            <h3 class="h2 m-0 thm">25</h3>
+                                            <h3 class="h2 m-0 thm">{{\App\Models\SlotBook::where(['user_id'=>userinfo()->id,'status'=>1])->count()}}</h3>
                                             <p class="m-0 text-secondary"><small>Call History</small></p>
                                         </div>
                                     </div>
@@ -71,7 +76,7 @@
                                     <div class="card UserBox TopBoxs mb-4">
                                         <div class="card-body">
                                             <i class="fal fa-comment-alt-lines thm2 h1"></i>
-                                            <h3 class="h2 m-0 thm">7</h3>
+                                            <h3 class="h2 m-0 thm">0</h3>
                                             <p class="m-0 text-secondary"><small>Message</small></p>
                                         </div>
                                     </div>
@@ -80,7 +85,7 @@
                                     <div class="card UserBox TopBoxs mb-4">
                                         <div class="card-body">
                                             <i class="fal fa-star thm2 h1"></i>
-                                            <h3 class="h2 m-0 thm">25</h3>
+                                            <h3 class="h2 m-0 thm">{{\App\Models\ExpertReview::where(['user_id'=>userinfo()->id])->count()}}</h3>
                                             <p class="m-0 text-secondary"><small>Reviews</small></p>
                                         </div>
                                     </div>

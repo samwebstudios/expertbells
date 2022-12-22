@@ -17,19 +17,22 @@
                 <div class="col-md-9">
                     <h3 class="text-center mb-4">How can we help you?</h3>
                     <div class="row pb-1">
-                        <div class="col-md-5"><input type="search" class="form-control SearchBox" placeholder="Search by name or keyword"></div>
-                        <div class="col-md-7 text-end"><a href="#PostQuery" data-bs-toggle="modal" class="btn btn-thm2 m-0 h-100"><i class="fal fa-user-headset m-0 me-2"></i> Post Query</a></div>
+                        <form action="" class="col-md-7 d-flex">@csrf
+                            <input type="search" class="form-control SearchBox" value="{{old('search',$_GET['search'] ?? '')}}" name="search" placeholder="Search by name or keyword">
+                            <button class="btn btn-thm2 m-0 ms-1"><i class="fas fa-search"></i></button>
+                            <a href="{{url()->current()}}" class="btn btn-thm2 m-0 ms-1"><i class="fas fa-sync-alt"></i></a>
+                        </form>
+                        <div class="col-md-5 text-end"><a href="#PostQuery" data-bs-toggle="modal" class="btn btn-thm2 m-0 h-100"><i class="fal fa-user-headset m-0 me-2"></i> Post Query</a></div>
                     </div>
                     <div class="accordion accordion-flush Faqs mt-4 border" id="Faqs">
+                        @if($lists->count()==0) <x-data-not-found data="Questions"/> @endif
                         @foreach ($lists as $item)
                         <div class="accordion-item">
                             <div class="accordion-header" id="Pay1">
-                                <button class="accordion-button {{$loop->iteration>1?'collapsed':''}}" type="button" data-bs-toggle="collapse" data-bs-target="#Faqs{{$loop->iteration}}" aria-expanded="true" aria-controls="Faqs1">What is Lorem Ipsum?</button>
+                                <button class="accordion-button {{$loop->iteration>1?'collapsed':''}}" type="button" data-bs-toggle="collapse" data-bs-target="#Faqs{{$loop->iteration}}" aria-expanded="{{$loop->iteration==1?true:false}}" aria-controls="Faqs1">{{$item->title ?? ''}}</button>
                             </div>
-                            <div id="Faqs{{$loop->iteration}}" class="accordion-collapse {{$loop->iteration==1?'collapse show':''}}" aria-labelledby="Pay1" data-bs-parent="#Faqs">
-                                <div class="accordion-body">
-                                    <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div>
+                            <div id="Faqs{{$loop->iteration}}" class="accordion-collapse collapse {{$loop->iteration==1?'show':''}}" aria-labelledby="Pay1" data-bs-parent="#Faqs">
+                                <div class="accordion-body">{!! $item->description !!}</div>
                             </div>
                         </div>
                         @endforeach                         
@@ -42,36 +45,31 @@
 </main>  
 <div class="modal fade" id="PostQuery" data-bs-keyboard="false" tabindex="-1" aria-labelledby="PostQueryLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
-        <form class="modal-content">
+        <form class="modal-content helpqueryform">
+            @csrf
+            <input type="hidden" name="type" value="user">
+            <input type="hidden" name="type_id" value="{{userinfo()->id}}">
             <div class="modal-header">
                 <h2 class="h5 modal-title" id="PostQueryLabel">Post Your Query</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body py-3 p-4">
                 <div class="mb-3">
-                    <label class="ms-2"><small>Your Name</small></label>
-                    <input type="text" class="form-control" placeholder="Your Name">
-                </div>
-                <div class="mb-3">
-                    <label class="ms-2"><small>Your Email ID</small></label>
-                    <input type="text" class="form-control" placeholder="Your Email ID">
-                </div>
-                <div class="mb-3">
-                    <label class="ms-2"><small>Your Contact No.</small></label>
-                    <input type="text" class="form-control" placeholder="Your Contact No.">
-                </div>
-                <div class="mb-3">
                     <label class="ms-2"><small>Your Query</small></label>
-                    <textarea class="form-control"></textarea>
+                    <textarea class="form-control summernote" name="description"></textarea>
+                    <span class="error query-error"></span>
                 </div>
-                <div class="text-center mt-3"><button class="btn btn-thm2">Send Query</button></div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-thm2 sbtn">Send Query</button>
+                    <button type="button" disabled class="btn btn-thm2 pbtn" style="display: none"><i class="fad fa-spinner-third fa-spin me-1"></i> Loading...</button>
+                </div>
             </div>
         </form>
     </div>
 </div>
 @endsection
 @push('css')
-<title>Help Center : Expert Bells</title>
+<title>Help Center : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <link rel="stylesheet" href="{{asset('frontend/css/account.css')}}">
@@ -83,5 +81,43 @@ input.SearchBox:focus{box-shadow:0 9px 20px -8px rgb(var(--blackrgb)/.6)!importa
 </style>
 @endpush
 @push('js')
-    
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script>
+        setTimeout(() => {
+            $('.summernote').summernote({
+                height: 100,
+                toolbar: []
+            });
+        }, 1000);
+        $('.helpqueryform').on('submit',function(e){
+            e.preventDefault();
+            $('.sbtn').hide();
+            $('.pbtn').show();
+            $('.error').html('');
+            $.ajax({
+                data:new FormData(this),
+                url:@json(route('posthelpquery')),
+                method:'POST',
+                dataType:'Json',
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function(data){
+                    $('#PostQuery').modal('hide');
+                    toastr.success(data.success);
+                    $('.helpqueryform').trigger('reset');
+                    $('.summernote').summernote('reset');
+                },
+                error:function(response){            
+                    if(response.responseJSON.errors.description!== undefined){
+                        $('.query-error').text(response.responseJSON.errors.description);
+                    } 
+                    $('.sbtn').show();
+                    $('.pbtn').hide(); 
+                }
+            });
+        });
+    </script>
 @endpush

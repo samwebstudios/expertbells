@@ -21,30 +21,31 @@
                     <div class="d-flex flex-wrap">
                         <div class="dropdown FilterDrop">
                             <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories<span></span></a>
-                            <div class="dropdown-menu p-3">
+                            <div class="dropdown-menu  p-3">
                                 <h3 class="text-u h6">Categories</h3>
                                 <input type="text" class="form-control SearchBox" placeholder="Search...">
                                 <ul>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="stup1"><label class="form-check-label" for="stup1">Career Advice</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="stup2"><label class="form-check-label" for="stup2">Idea Validation</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="stup3"><label class="form-check-label" for="stup3">Building a Team</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="stup4"><label class="form-check-label" for="stup4">Link Building</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="stup5"><label class="form-check-label" for="stup5">Content Creation</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="stup6"><label class="form-check-label" for="stup6">Leadership Skills</label></li>
+                                    @foreach ($categories as $item)
+                                    <li class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{$item->alias}}" data-bs-type="category" name="category[]" id="ct{{$item->id}}">
+                                        <label class="form-check-label" for="ct{{$item->id}}">{{$item->title}}</label>
+                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
                         <div class="dropdown FilterDrop">
                             <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Expertise<span></span></a>
-                            <div class="dropdown-menu p-3">
+                            <div class="dropdown-menu  p-3">
                                 <h3 class="text-u h6">Expertise</h3>
                                 <input type="text" class="form-control SearchBox" placeholder="Search...">
                                 <ul>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="gs1"><label class="form-check-label" for="gs1">Branding</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="gs2"><label class="form-check-label" for="gs2">Growth Marketing</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="gs3"><label class="form-check-label" for="gs3">Go to market strategy</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="gs4"><label class="form-check-label" for="gs4">Marketing Automation</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="gs5"><label class="form-check-label" for="gs5">Digital Growth</label></li>
+                                    @foreach ($expertise as $item)
+                                    <li class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{$item->alias}}" data-bs-type="expertise" name="expertise[]" id="gs{{$item->id}}">
+                                        <label class="form-check-label" for="gs{{$item->id}}">{{$item->title}}</label>
+                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -54,13 +55,12 @@
                                 <h3 class="text-u h6">Role</h3>
                                 <input type="text" class="form-control SearchBox" placeholder="Search...">
                                 <ul>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech1"><label class="form-check-label" for="tech1">Artificial Intelligence</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech2"><label class="form-check-label" for="tech2">Cloud Computing</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech3"><label class="form-check-label" for="tech3">Metaverse</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech4"><label class="form-check-label" for="tech4">Web 3.0</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech5"><label class="form-check-label" for="tech5">Cyber Security</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech6"><label class="form-check-label" for="tech6">Blockchain</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="tech7"><label class="form-check-label" for="tech7">Machine Learning</label></li>
+                                    @foreach ($roles as $item)
+                                    <li class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="roles[]" data-bs-type="roles" value="{{$item->alias}}" id="rl{{$item->id}}">
+                                        <label class="form-check-label" for="rl{{$item->id}}">{{$item->title}}</label>
+                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -70,12 +70,12 @@
                                 <h3 class="text-u h6">Industries</h3>
                                 <input type="text" class="form-control SearchBox" placeholder="Search...">
                                 <ul>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="sm1"><label class="form-check-label" for="sm1">Google Ads</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="sm2"><label class="form-check-label" for="sm2">Social Media Marketing</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="sm3"><label class="form-check-label" for="sm3">Search Engine Optimization</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="sm4"><label class="form-check-label" for="sm4">Sales & Lead Generation</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="sm5"><label class="form-check-label" for="sm5">Linkedin Marketing</label></li>
-                                    <li class="form-check"><input class="form-check-input" type="checkbox" id="sm6"><label class="form-check-label" for="sm6">Content Marketing</label></li>
+                                    @foreach ($industries as $item)
+                                    <li class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{$item->alias}}" data-bs-type="industries" name="industries[]" id="sm{{$item->id}}">
+                                        <label class="form-check-label" for="sm{{$item->id}}">{{$item->title}}</label>
+                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -208,9 +208,14 @@ $(document).ready(function(){
         $('.SelectExperts .dropdown-toggle span').text(exp);
     });
     $('.FilterDrop .dropdown-menu').on('click', function(event){event.stopPropagation();});
-    $('.FilterDrop .dropdown-menu input[type="checkbox"]').change(function(){
-        var countCheckedCheckboxes = $(this).find($('input[type="checkbox"]')).filter(':checked').length;
-        $('.FilterDrop>.dropdown-toggle span').text(countCheckedCheckboxes);
+    $('.FilterDrop .dropdown-menu input[type="checkbox"]').change(function(e){
+        let count = $('.FilterDrop>.dropdown-toggle span').text();
+        if($(this).is(':checked')==true){ count = parseInt(count) + parseInt(1);}
+        if($(this).is(':checked')==false){ count = parseInt(count) - parseInt(1);}
+        alert(count);
+        // var countCheckedCheckboxes = $(this).find($('input[type="checkbox"]')).filter(':checked').length;
+        // alert(countCheckedCheckboxes);
+        $('.FilterDrop>.dropdown-toggle span').text(count);
         $('.FilterDrop>.dropdown-toggle').addClass("selected")
     });
 });

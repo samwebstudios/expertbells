@@ -78,4 +78,23 @@ class HelpCenterController extends Controller
         endforeach;
         return back()->with(['success'=>'Data Removed!']);
     }
+
+
+    ///// Query
+    public function query(){
+        $lists =  \App\Models\HelpQuery::latest()->paginate(100);
+        return view('admin.help.query',compact('lists'));
+    }
+    public function querydestroy($id){
+        $data =  \App\Models\HelpQuery::find($id)->delete();
+        return back()->with(['success'=>'Data Removed!']);
+    }
+    public function querybulkremove(Request $request){
+        if(empty($request->check)){ return back()->with(['error'=>'Please choose at least one data']); }
+        foreach($request->check as $id ):
+            $data =  \App\Models\HelpQuery::find($id);
+            $data->delete();
+        endforeach;
+        return back()->with(['success'=>'Data Removed!']);
+    }
 }

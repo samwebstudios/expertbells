@@ -34,6 +34,7 @@ Route::post('couponapply', [App\Http\Controllers\OtherController::class, 'coupon
 Route::get('couponcancel/{booking}', [App\Http\Controllers\OtherController::class, 'couponcancel'])->name('couponcancel');
 Route::get('paymentresponse/{booking}', [App\Http\Controllers\OtherController::class, 'paymentresponse'])->name('paymentresponse');
 Route::post('bookingquery', [App\Http\Controllers\OtherController::class, 'bookingquery'])->name('bookingquery');
+Route::post('posthelpquery', [App\Http\Controllers\OtherController::class, 'posthelpquery'])->name('posthelpquery');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -232,6 +233,15 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/hearabout-remove/{id}',[App\Http\Controllers\Admin\HearAboutController::class, 'destroy'])->name('hearabout.remove');
         Route::get('/hearabout-status',[App\Http\Controllers\Admin\HearAboutController::class, 'status'])->name('hearabout.status');
 
+        Route::get('/expert-category',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'index'])->name('expertcategory');
+        Route::post('/expertcategory-save',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'store'])->name('expertcategory.save');
+        Route::post('/expertcategory-update',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'update'])->name('expertcategory.update');
+        Route::get('/expertcategory-edit',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'edit'])->name('expertcategory.edit');
+        Route::post('/expertcategory-sequence',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'sequence'])->name('expertcategory.sequence');
+        Route::post('/expertcategory-bulkremove',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'bulkremove'])->name('expertcategory.bulkremove');
+        Route::get('/expertcategory-remove/{id}',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'destroy'])->name('expertcategory.remove');
+        Route::get('/expertcategory-status',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'status'])->name('expertcategory.status');
+
         Route::get('/experts',[App\Http\Controllers\Admin\ExpertController::class, 'index'])->name('experts');
         Route::post('/experts-save',[App\Http\Controllers\Admin\ExpertController::class, 'store'])->name('experts.save');
         Route::post('/experts-update',[App\Http\Controllers\Admin\ExpertController::class, 'update'])->name('experts.update');
@@ -266,7 +276,11 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::post('/help-center-sequence',[App\Http\Controllers\Admin\HelpCenterController::class, 'sequence'])->name('helpcenter.sequence');
         Route::post('/help-center-bulkremove',[App\Http\Controllers\Admin\HelpCenterController::class, 'bulkremove'])->name('helpcenter.bulkremove');
         Route::get('/help-center-status',[App\Http\Controllers\Admin\HelpCenterController::class, 'status'])->name('helpcenter.status');
-       
+        
+        Route::get('/help-center-query',[App\Http\Controllers\Admin\HelpCenterController::class, 'query'])->name('helpcenterquery.list');
+        Route::get('/remove-help-center-query/{id}',[App\Http\Controllers\Admin\HelpCenterController::class, 'querydestroy'])->name('helpcenterquery.remove');
+        Route::post('/help-center-query-bulkremove',[App\Http\Controllers\Admin\HelpCenterController::class, 'querybulkremove'])->name('helpcenterquery.bulkremove');
+        
 
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
         Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');

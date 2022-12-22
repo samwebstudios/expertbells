@@ -103,7 +103,7 @@ class HomeController extends Controller
 
     ///Schedules
     public function schedules(){
-        $bookings = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id,'reschedule_slot'=>0])->orderBy('id','DESC')->paginate(50);
+        $bookings = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id,'reschedule_slot'=>0,'status'=>1])->orderBy('id','DESC')->paginate(50);
         $experts = \App\Models\Expert::find(expertinfo()->id);
         $slots = \App\Models\SlotAvailability::where(['is_publish'=>1,'expert_id'=>$experts->id,'day'=>date('l',strtotime('Y-m-d'))])->get();
         return view('expert.schedule',compact('bookings','experts'));
@@ -252,7 +252,15 @@ class HomeController extends Controller
 
      /// Help
      public function help(){
-        $lists = \App\Models\HelpCenter::where(['type'=>1,'is_publish'=>1])->paginate(50);
+        $lists = \App\Models\HelpCenter::where(['type'=>1,'is_publish'=>1]);
+        if(!empty(request('search'))){
+            $search = request('search');
+            $lists = $lists->where(function($q) use($search){
+                $q->where('title','LIKE','%'.$search.'%');
+                // $q->orwhere('description','Like','%'.$search.'%');
+            });
+        }
+        $lists = $lists->paginate(50);
         return view('expert.help',compact('lists'));
     }
 }

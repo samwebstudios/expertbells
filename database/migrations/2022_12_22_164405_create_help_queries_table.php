@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('help_centers', function (Blueprint $table) {
+        Schema::create('help_queries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->default(NULL);
             $table->integer('type')->default(0);
+            $table->string('type_id')->default(NULL);
             $table->longtext('description')->default(NULL);
             $table->integer('is_publish')->default(1);
             $table->integer('sequence')->default(0);
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('help_centers');
+        Schema::dropIfExists('help_queries');
     }
 };

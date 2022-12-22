@@ -18,9 +18,9 @@ class LeftPanel extends Component
     public function __construct()
     {
         $this->homemanagement = [''];
-        $this->helpcenter = ['help-center','add-help-center','edit-help-center'];
+        $this->helpcenter = ['help-center','add-help-center','edit-help-center','help-center-query'];
         $this->schedules = ['rejected','booked','expired'];
-        $this->others = ['qualifications','expertise','language','industry','role','working','getbetter','hearabout'];
+        $this->others = ['qualifications','expert-category','expertise','language','industry','role','working','getbetter','hearabout'];
     }
 
     /**

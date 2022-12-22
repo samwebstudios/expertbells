@@ -149,4 +149,23 @@ class OtherController extends Controller
         $data->save();
         return redirect(route('expert.schedules'))->with(['success'=>'Your query has been submited.']);
     }
+
+    //// HELP
+    public function posthelpquery(Request $request){
+        $request->validate([
+            'description' => 'required',
+        ],[
+            'description.required' => 'query field is required.'
+        ]);
+
+        $data = new \App\Models\HelpQuery();
+        $data->type_id = $request->type_id;
+        $data->type = $request->type;
+        $data->description = $request->description;
+        $data->sequence = (\App\Models\HelpQuery::max('sequence') + 1);
+        $data->save();
+        return response()->json([
+            'success'=>'Your query has been submited.'
+        ]);
+    }
 }

@@ -175,7 +175,15 @@ class HomeController extends Controller
 
      /// Help
      public function help(){
-        $lists = \App\Models\HelpCenter::where(['type'=>1,'is_publish'=>1])->paginate(50);
+        $lists = \App\Models\HelpCenter::where(['type'=>2,'is_publish'=>1]);
+        if(!empty(request('search'))){
+            $search = request('search');
+            $lists = $lists->where(function($q) use($search){
+                $q->where('title','LIKE','%'.$search.'%');
+                // $q->orwhere('description','Like','%'.$search.'%');
+            });
+        }
+        $lists = $lists->paginate(50);
         return view('user.help',compact('lists'));
     }
 }

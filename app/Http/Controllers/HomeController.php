@@ -24,7 +24,11 @@ class HomeController extends Controller{
         }else{
             $experts = $experts->whereNotIn('id',[expertinfo()->id ?? 0]);
             $experts = $experts->paginate(40);
-            return view('experts',compact('experts'));
+            $expertise = \App\Models\Expertise::where(['is_publish'=>1])->get();
+            $industries = \App\Models\Industry::where(['is_publish'=>1])->get();
+            $roles = \App\Models\Role::where(['is_publish'=>1])->get();
+            $categories = \App\Models\ExpertCategory::where(['is_publish'=>1])->get();
+            return view('experts',compact('experts','expertise','categories','industries','roles'));
         }
     }
     public function expertvideos($experid){

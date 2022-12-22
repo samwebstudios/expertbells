@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('help_centers', function (Blueprint $table) {
+        Schema::create('expert_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->default(NULL);
-            $table->integer('type')->default(0);
-            $table->longtext('description')->default(NULL);
+            $table->string('alias')->default(NULL);
             $table->integer('is_publish')->default(1);
             $table->integer('sequence')->default(0);
             $table->timestamps();
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('help_centers');
+        Schema::dropIfExists('expert_categories');
     }
 };

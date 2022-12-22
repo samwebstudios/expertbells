@@ -19,7 +19,7 @@
         <span class="menu-item-label">Users</span>
       </div>
     </a> 
-    <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$others) ? 'active' : '' }}">
+    <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$schedules) ? 'active' : '' }}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
         <span class="menu-item-label">Schedules </span>
@@ -40,6 +40,7 @@
     </a>  
     <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(2),$helpcenter) ? 'block' : 'none' }}">
       <li class="nav-item"><a href="{{route('admin.helpcenter.list')}}" class="nav-link {{in_array(Request::segment(2),['add-help-center','help-center','edit-help-center'])?'active':''}}">Help Center</a></li>
+      <li class="nav-item"><a href="{{route('admin.helpcenterquery.list')}}" class="nav-link {{in_array(Request::segment(2),['help-center-query'])?'active':''}}">Queries</a></li>
     </ul> 
     <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$others) ? 'active' : '' }}">
       <div class="br-menu-item">
@@ -50,6 +51,7 @@
     </a>  
     <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(2),$others) ? 'block' : 'none' }}">
       <li class="nav-item"><a href="{{route('admin.qualifications')}}" class="nav-link {{Request::segment(2)=='qualifications'?'active':''}}">Qualifications</a></li>
+      <li class="nav-item"><a href="{{route('admin.expertcategory')}}" class="nav-link {{Request::segment(2)=='expert-category'?'active':''}}">Expert Category</a></li>
       <li class="nav-item"><a href="{{route('admin.expertise')}}" class="nav-link {{Request::segment(2)=='expertise'?'active':''}}">Expertise</a></li>
       <li class="nav-item"><a href="{{route('admin.language')}}" class="nav-link {{Request::segment(2)=='language'?'active':''}}">Language</a></li>
       <li class="nav-item"><a href="{{route('admin.industry')}}" class="nav-link {{Request::segment(2)=='industry'?'active':''}}">Industry</a></li>

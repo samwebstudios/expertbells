@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="col-lg-7 text-end">
                                         <h1 class="h5 thm mb-0">Welcome to your Dashboard</h1>
-                                        <p class="text-secondary mb-2"><small>Complete your profile to get full access to ExpertBells features.</small></p>
+                                        <p class="text-secondary mb-2"><small>You have a full access to ExpertBells features.</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -49,8 +49,8 @@
                             <div class="card UserBox TopBoxs mb-4">
                                 <div class="card-body">
                                     <i class="fal fa-phone-plus thm2 h1"></i>
-                                    <h3 class="h2 m-0 thm">5</h3>
-                                    <p class="m-0 text-secondary"><small>Scheduled Calls</small></p>
+                                    <h3 class="h2 m-0 thm">{{\App\Models\SlotBook::where(['expert_id'=>expertinfo()->id,'payment'=>1])->where('booking_time','>=',date('Y-m-d H:i:s'))->count()}}</h3>
+                                    <p class="m-0 text-secondary"><small>New Call Requests</small></p>
                                 </div>
                             </div>
                         </div>
@@ -58,8 +58,8 @@
                             <div class="card UserBox TopBoxs mb-4">
                                 <div class="card-body">
                                     <i class="fal fa-phone-alt thm2 h1"></i>
-                                    <h3 class="h2 m-0 thm">10</h3>
-                                    <p class="m-0 text-secondary"><small>Close Calls</small></p>
+                                    <h3 class="h2 m-0 thm">{{\App\Models\SlotBook::where(['expert_id'=>expertinfo()->id,'status'=>1])->count()}}</h3>
+                                    <p class="m-0 text-secondary"><small>Call History</small></p>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                             <div class="card UserBox TopBoxs mb-4">
                                 <div class="card-body">
                                     <i class="fal fa-comment-alt-lines thm2 h1"></i>
-                                    <h3 class="h2 m-0 thm">2</h3>
+                                    <h3 class="h2 m-0 thm">0</h3>
                                     <p class="m-0 text-secondary"><small>Message</small></p>
                                 </div>
                             </div>
@@ -76,12 +76,12 @@
                             <div class="card UserBox TopBoxs mb-4">
                                 <div class="card-body">
                                     <i class="fal fa-star thm2 h1"></i>
-                                    <h3 class="h2 m-0 thm">25</h3>
+                                    <h3 class="h2 m-0 thm">{{\App\Models\ExpertReview::where(['expert_id'=>expertinfo()->id])->count()}}</h3>
                                     <p class="m-0 text-secondary"><small>Reviews</small></p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card UserBox Boxs">
