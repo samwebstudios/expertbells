@@ -168,4 +168,88 @@ class OtherController extends Controller
             'success'=>'Your query has been submited.'
         ]);
     }
+
+
+    // SEARCH
+    public function expertsearch(Request $r){
+        $experts = \App\Models\Expert::where(['is_publish'=>1,'profile_visibility'=>1]);
+        if(!empty($r->expertise)){
+            $experts = $experts->whereIn('your_expertise',$r->expertise);
+        }
+        if(!empty($r->category)){
+            foreach($r->category as $k => $category):
+                if($k==0){ $experts = $experts->whereJsonContains('category',$category); }
+                else{ $experts = $experts->orwhereJsonContains('category',$category); }
+            endforeach;
+        }
+        if(!empty($r->industries)){
+            foreach($r->industries as $k => $industries):
+                if($k==0){ $experts = $experts->whereJsonContains('suitable_industry',$industries); }
+                else{ $experts = $experts->orwhereJsonContains('suitable_industry',$industries); }
+            endforeach;            
+        }        
+        $experts = $experts->orderBy('sequence','ASC');
+        $experts = $experts->whereNotIn('id',[expertinfo()->id ?? 0]);
+        $experts = $experts->paginate(80);
+        $html='';
+        foreach($experts as $expert):
+            $html .='<div class="col-lg-3 col-md-4 col-sm-6">';
+                $html .='<div class="card ExpBlock verify">';
+                    $html .='<a href="'.route('experts',['alias'=>$expert->user_id]).'" class="card-header">';
+                    if (in_array(checkimagetype($expert->profile), ['SVG']) && file_exists(public_path('/uploads/expert/' . $expert->profile))):
+                        $html .='<img loading="lazy" src="'.asset('/uploads/expert/' . $expert->profile).'" alt="'.($expert->name ?? '').'" width="380" height="480">';
+                        $html .='<div loading="lazy" style="background:url('.asset('/uploads/expert/' . $expert->profile).')"></div>';
+                    elseif(in_array(checkimagetype($expert->profile), ['WEBP']) && file_exists(public_path('/uploads/expert/' . $expert->profile))):
+                        $html .='<picture>';
+                            $html .='<img loading="lazy" src="'.asset('/uploads/expert/' . $expert->profile).'" alt="'.($expert->name ?? '').'" width="380" height="480">';
+                        $html .='</picture>';
+                        $html .='<div loading="lazy" style="background:url('.asset('/uploads/expert/' . $expert->profile).')"></div>';
+                    elseif(file_exists(public_path('/uploads/expert/' . $expert->profile . '.webp'))):
+                        $html .='<picture>';
+                            $html .='<source srcset="'.asset('/uploads/expert/' . $expert->profile . '.webp').'" type="image/webp">';
+                            $html .='<img loading="lazy" src="'.asset('/uploads/expert/' . 'jpg/'. $expert->profile . '.jpg').'" alt="'.($expert->name ?? '').'" width="380" height="480">';
+                        $html .='</picture>';
+                        $html .='<div loading="lazy" style="background:url('.asset('/uploads/expert/' . $expert->profile . '.webp').')"></div>';
+                    elseif(file_exists(public_path('/uploads/expert/jpg/' . $expert->profile . '.jpg'))):
+                        $html .='<picture>';
+                            $html .='<source srcset="'.asset('/uploads/expert/' . $expert->profile . '.webp').'" type="image/webp">';
+                            $html .='<img loading="lazy" src="'.asset('/uploads/expert/' . 'jpg/'. $expert->profile . '.jpg').'" alt="'.($expert->name ?? '').'" width="380" height="480">';
+                        $html .='</picture>';
+                        $html .='<div loading="lazy" style="background:url('.asset('/uploads/expert/' . $expert->profile . '.webp').')"></div>';
+                    else:
+                        $html .='<picture>';
+                        $html .='<source srcset="'.asset('frontend/image/no-img.webp').'" type="image/webp">';
+                        $html .='<img loading="lazy" src="'.asset('frontend/image/no-img.jpg').'"  alt="'.($expert->name ?? '').'" width="380" height="480">';
+                        $html .='</picture>';
+                        $html .='<div loading="lazy" style="background:url('.asset('frontend/image/no-img.webp').')"></div>';
+                    endif;
+                    $html .='</a>';
+                    $html .='<a href="'.route('experts',['alias'=>$expert->user_id]).'" class="card-body text-center">';
+                        $html .='<h3>'.($expert->name ?? '').'</h3>';
+                        $html .='<small class="text-black">';
+                            if(!empty($expert->suitable_industry)):
+                                $html .='<strong class="Exptext">';
+                                    foreach(json_decode($expert->suitable_industry) as $k => $industry):
+                                        $industry = \App\Models\Industry::find($industry);
+                                        $html .= $industry->title ?? '';
+                                        if($k!=count(json_decode($expert->suitable_industry))){ $html .='+'; }
+                                    endforeach;
+                                $html .='</strong>';
+                            endif;
+                            $html .= !empty($expert->expertise->title) ? '('.$expert->expertise->title.')' : '' ;
+                        $html .='</small>';
+                    $html .='</a>';
+                $html .='</div>';
+            $html .='</div>';
+        endforeach;
+        if($experts->count()==0):
+            $html='<div class="col-12 text-center mt-5">
+                    <h6>WE ARE APOLOGIES.</h6>
+                    <p><small>NO ANY EXPERTS ARE FOUND IN OUR RECORDS.</small></p>
+                </div>';
+        endif;
+        return response()->json([
+            'html' => $html
+        ]);
+    }
 }

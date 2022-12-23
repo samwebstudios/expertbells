@@ -3,7 +3,7 @@
 <main>
     <section class="inner-banner"><div class="section"><div class="bg-white"></div></div></section>
     <section class="pt-3 bg-white">
-        <div class="container">
+        <form class="container filterform">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fal fa-home-alt"></i></a></li>
                 <li class="breadcrumb-item"><a aria-current="page">Find All Experts</a></li>
@@ -13,12 +13,13 @@
                     <h2 class="Heading h2">Choose an expert. <span>Book a meeting on video call.</span></h2>
                 </div>
                 <div class="col-lg-4 col-md-5 text-end">                    
-                    <input type="search" class="form-control SearchBox" placeholder="Search by name or keyword">
+                    <input type="search" class="form-control SearchBox" name="search" placeholder="Search by name or keyword">
                 </div>
             </div>
             <div class="row Filter">
                 <div class="col-12">
                     <div class="d-flex flex-wrap">
+                        @csrf
                         <div class="dropdown FilterDrop">
                             <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories<span></span></a>
                             <div class="dropdown-menu  p-3">
@@ -27,7 +28,7 @@
                                 <ul>
                                     @foreach ($categories as $item)
                                     <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$item->alias}}" data-bs-type="category" name="category[]" id="ct{{$item->id}}">
+                                        <input class="form-check-input" type="checkbox" value="{{$item->id}}" data-bs-type="category" name="category[]" id="ct{{$item->id}}">
                                         <label class="form-check-label" for="ct{{$item->id}}">{{$item->title}}</label>
                                     </li>
                                     @endforeach
@@ -42,23 +43,8 @@
                                 <ul>
                                     @foreach ($expertise as $item)
                                     <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$item->alias}}" data-bs-type="expertise" name="expertise[]" id="gs{{$item->id}}">
+                                        <input class="form-check-input" type="checkbox" value="{{$item->id}}" data-bs-type="expertise" name="expertise[]" id="gs{{$item->id}}">
                                         <label class="form-check-label" for="gs{{$item->id}}">{{$item->title}}</label>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="dropdown FilterDrop">
-                            <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Role<span></span></a>
-                            <div class="dropdown-menu p-3">
-                                <h3 class="text-u h6">Role</h3>
-                                <input type="text" class="form-control SearchBox" placeholder="Search...">
-                                <ul>
-                                    @foreach ($roles as $item)
-                                    <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[]" data-bs-type="roles" value="{{$item->alias}}" id="rl{{$item->id}}">
-                                        <label class="form-check-label" for="rl{{$item->id}}">{{$item->title}}</label>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -72,7 +58,7 @@
                                 <ul>
                                     @foreach ($industries as $item)
                                     <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$item->alias}}" data-bs-type="industries" name="industries[]" id="sm{{$item->id}}">
+                                        <input class="form-check-input" type="checkbox" value="{{$item->id}}" data-bs-type="industries" name="industries[]" id="sm{{$item->id}}">
                                         <label class="form-check-label" for="sm{{$item->id}}">{{$item->title}}</label>
                                     </li>
                                     @endforeach
@@ -82,7 +68,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="row">
+                    <div class="row databox my-5">
                         @if($experts->count()==0)
                         <x-data-not-found data="Experts"/>
                         @endif
@@ -97,7 +83,6 @@
                                         <x-slot:width>380</x-slot>
                                         <x-slot:height>480</x-slot>
                                     </x-image-box>
-                                    <div loading="lazy" style="background:url('img/exp-img1.webp')"></div>
                                 </a>
                                 <a href="{{route('experts',['alias'=>$expert->user_id])}}" class="card-body text-center">
                                     <h3>{{$expert->name ?? ''}}</h3>
@@ -115,11 +100,11 @@
                                 </a>
                             </div>
                         </div>
-                        @endforeach
+                        @endforeach                        
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </section>
     <section class="Sec2 py-5 Steps">
         <div class="container">
@@ -172,7 +157,7 @@
 .FilterDrop{margin:0 9px 9px 0}
 .FilterDrop .dropdown-menu{min-width:350px}
 .FilterDrop .dropdown-menu input.SearchBox{height:40px;font-size:16px;max-width:400px;background-color:rgb(var(--thmrgb)/.05)}
-.FilterDrop .dropdown-menu ul{-webkit-column-count:2;-moz-column-count:2;column-count:2;grid-column-gap:20px;-webkit-column-gap:20px;-moz-column-gap:20px;column-gap:20px;padding:0;margin:15px 0 0}
+.FilterDrop .dropdown-menu ul{-webkit-column-count:2;-moz-column-count:2;column-count:2;grid-column-gap:20px;-webkit-column-gap:20px;-moz-column-gap:20px;column-gap:20px;padding:0;margin:15px 0 0;}
 /*.FilterDrop .dropdown-menu ul:first-child{margin-top:6rem!important}*/
 .Exptext{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:1}
 @media only screen and (max-width:767px){.FilterDrop .dropdown-menu ul{-webkit-column-count:1;-moz-column-count:1;column-count:1;grid-column-gap:0;-webkit-column-gap:1;-moz-column-gap:1;column-gap:1;display:flex;flex-wrap:wrap;justify-content:space-between}}
@@ -209,14 +194,10 @@ $(document).ready(function(){
     });
     $('.FilterDrop .dropdown-menu').on('click', function(event){event.stopPropagation();});
     $('.FilterDrop .dropdown-menu input[type="checkbox"]').change(function(e){
-        let count = $('.FilterDrop>.dropdown-toggle span').text();
-        if($(this).is(':checked')==true){ count = parseInt(count) + parseInt(1);}
-        if($(this).is(':checked')==false){ count = parseInt(count) - parseInt(1);}
-        alert(count);
-        // var countCheckedCheckboxes = $(this).find($('input[type="checkbox"]')).filter(':checked').length;
-        // alert(countCheckedCheckboxes);
-        $('.FilterDrop>.dropdown-toggle span').text(count);
-        $('.FilterDrop>.dropdown-toggle').addClass("selected")
+        // let count = $('.FilterDrop>.dropdown-toggle span').text();
+        if($(this).is(':checked')==true){ count = 1;}
+        if($(this).is(':checked')==false){ count = 1;}
+        $('.filterform').submit();
     });
 });
 $('.FilterDrop .SearchBox').on( "keyup", function() {
@@ -224,6 +205,25 @@ $('.FilterDrop .SearchBox').on( "keyup", function() {
     $(".FilterDrop ul li").each(function () {
         $(this).toggle($(this).text().toLowerCase().includes(val));
     });
+});
+$('.filterform').on('submit',function(e){
+    e.preventDefault();
+    $('.databox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin fa-3x"></i></div>');
+    $.ajax({
+        data:new FormData(this),
+        url:@json(route('expertsearch')),
+        method:'Post',
+        dataType:'Json',
+        cache:false,
+        contentType:false,
+        processData:false,
+        success:function(success){
+            $('.databox').html(success.html);
+        }
+    });
+});
+$('input[name=search]').on('keyup',function(){
+    $('.filterform').submit();
 });
 </script>
 @endpush

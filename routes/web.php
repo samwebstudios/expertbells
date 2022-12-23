@@ -35,6 +35,7 @@ Route::get('couponcancel/{booking}', [App\Http\Controllers\OtherController::clas
 Route::get('paymentresponse/{booking}', [App\Http\Controllers\OtherController::class, 'paymentresponse'])->name('paymentresponse');
 Route::post('bookingquery', [App\Http\Controllers\OtherController::class, 'bookingquery'])->name('bookingquery');
 Route::post('posthelpquery', [App\Http\Controllers\OtherController::class, 'posthelpquery'])->name('posthelpquery');
+Route::post('expertsearch', [App\Http\Controllers\OtherController::class, 'expertsearch'])->name('expertsearch');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
