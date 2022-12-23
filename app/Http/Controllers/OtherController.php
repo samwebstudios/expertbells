@@ -173,6 +173,15 @@ class OtherController extends Controller
     // SEARCH
     public function expertsearch(Request $r){
         $experts = \App\Models\Expert::where(['is_publish'=>1,'profile_visibility'=>1]);
+        if(!empty($r->search)){
+            $search = $r->search;
+            $experts = $experts->where(function($q) use ($search){
+                $q->where('name','LIKE','%'.$search.'%');
+                $q->orwhere('mobile','LIKE','%'.$search.'%');
+                $q->orwhere('email','LIKE','%'.$search.'%');
+                $q->orwhere('user_id','LIKE','%'.$search.'%');
+            });
+        }
         if(!empty($r->expertise)){
             $experts = $experts->whereIn('your_expertise',$r->expertise);
         }

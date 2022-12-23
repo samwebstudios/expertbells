@@ -13,7 +13,7 @@
                     <h2 class="Heading h2">Choose an expert. <span>Book a meeting on video call.</span></h2>
                 </div>
                 <div class="col-lg-4 col-md-5 text-end">                    
-                    <input type="search" class="form-control SearchBox" name="search" placeholder="Search by name or keyword">
+                    <input type="text" class="form-control SearchBox" name="search" placeholder="Search by name or keyword">
                 </div>
             </div>
             <div class="row Filter">
