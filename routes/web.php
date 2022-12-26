@@ -282,9 +282,54 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/remove-help-center-query/{id}',[App\Http\Controllers\Admin\HelpCenterController::class, 'querydestroy'])->name('helpcenterquery.remove');
         Route::post('/help-center-query-bulkremove',[App\Http\Controllers\Admin\HelpCenterController::class, 'querybulkremove'])->name('helpcenterquery.bulkremove');
         
+        Route::get('/teams',[App\Http\Controllers\Admin\TeamController::class, 'index'])->name('teams');
+        Route::get('/teamslist',[App\Http\Controllers\Admin\TeamController::class, 'teamslist'])->name('teamslist');
+        Route::get('/addteams',[App\Http\Controllers\Admin\TeamController::class, 'create'])->name('addteams');
+        Route::get('/editteams/{id}',[App\Http\Controllers\Admin\TeamController::class, 'edit'])->name('editteams');
+        Route::post('/saveteams',[App\Http\Controllers\Admin\TeamController::class, 'store'])->name('saveteams');
+        Route::post('/updateteams',[App\Http\Controllers\Admin\TeamController::class, 'update'])->name('updateteams');
+        Route::any('/teamspublish',[App\Http\Controllers\Admin\TeamController::class, 'status'])->name('teamspublish');
+        Route::post('/teamssequence',[App\Http\Controllers\Admin\TeamController::class, 'sequence'])->name('teamssequence');
+        Route::post('/bulkdestory',[App\Http\Controllers\Admin\TeamController::class, 'bulkdestory'])->name('bulkdestoryteams');
+        Route::get('/removeteams/{removeid}',[App\Http\Controllers\Admin\TeamController::class, 'destory'])->name('removeteams');
+
+        Route::get('/career',[App\Http\Controllers\Admin\CareerController::class, 'create'])->name('career');
+        Route::get('/addcareer',[App\Http\Controllers\Admin\CareerController::class, 'add'])->name('addcareer');
+        Route::get('/editcareer/{id}',[App\Http\Controllers\Admin\CareerController::class, 'edit'])->name('editcareer');
+        Route::post('/savecareer',[App\Http\Controllers\Admin\CareerController::class, 'store'])->name('savecareer');
+        Route::post('/updatecareer',[App\Http\Controllers\Admin\CareerController::class, 'update'])->name('updatecareer');
+        Route::any('/careerpublish',[App\Http\Controllers\Admin\CareerController::class, 'status'])->name('careerpublish');
+        Route::post('/careersequence',[App\Http\Controllers\Admin\CareerController::class, 'sequence'])->name('careersequence');
+        Route::post('/bulkcareerdestory',[App\Http\Controllers\Admin\CareerController::class, 'bulkdestory'])->name('bulkcareerdestory');
+        Route::get('/removecareer/{removeid}',[App\Http\Controllers\Admin\CareerController::class, 'destory'])->name('removecareer');
+      
+        Route::get('/blog-category', [App\Http\Controllers\Admin\BlogCategoryController::class, 'index'])->name('blog-category');
+        Route::get('/new-blog-category', [App\Http\Controllers\Admin\BlogCategoryController::class, 'New'])->name('new-blog-category');
+        Route::post('/save-blog-category', [App\Http\Controllers\Admin\BlogCategoryController::class, 'Save'])->name('save-blog-category');
+        Route::get('/edit-blog-category/{id}', [App\Http\Controllers\Admin\BlogCategoryController::class, 'Edit'])->name('edit-blog-category');
+        Route::post('/update-blog-category', [App\Http\Controllers\Admin\BlogCategoryController::class, 'Update'])->name('update-blog-category');
+        Route::get('/blog-category-status/{status}/{id}', [App\Http\Controllers\Admin\BlogCategoryController::class, 'Status'])->name('blog-category-status');
+        Route::post('/remove-blog-category', [App\Http\Controllers\Admin\BlogCategoryController::class, 'Remove'])->name('blog-category-remove');
+
+        Route::get('/blog-management', [App\Http\Controllers\Admin\BlogController::class, 'index'])->name('blog-management');
+        Route::get('/new-blog', [App\Http\Controllers\Admin\BlogController::class, 'New'])->name('new-blog');
+        Route::post('/save-blog', [App\Http\Controllers\Admin\BlogController::class, 'Save'])->name('save-blog');
+        Route::get('/edit-blog/{id}', [App\Http\Controllers\Admin\BlogController::class, 'Edit'])->name('edit-blog');
+        Route::post('/update-blog', [App\Http\Controllers\Admin\BlogController::class, 'Update'])->name('update-blog');
+        Route::get('/blog-status/{status}/{id}', [App\Http\Controllers\Admin\BlogController::class, 'Status'])->name('blog-status');
+        Route::get('/blog-popular/{status}/{id}', [App\Http\Controllers\Admin\BlogController::class, 'Popular'])->name('blog-popular');
+        Route::get('/blog-top/{status}/{id}', [App\Http\Controllers\Admin\BlogController::class, 'Top'])->name('blog-top');
+        Route::post('/remove-blog', [App\Http\Controllers\Admin\BlogController::class, 'Remove'])->name('blog-remove');
 
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
+        Route::get('/about',[App\Http\Controllers\Admin\CmsController::class, 'about'])->name('about');
+        Route::get('/mission',[App\Http\Controllers\Admin\CmsController::class, 'mission'])->name('mission');
+        Route::get('/vission',[App\Http\Controllers\Admin\CmsController::class, 'vission'])->name('vission');
+        Route::get('/teamcms',[App\Http\Controllers\Admin\CmsController::class, 'teamcms'])->name('teamcms');
+        Route::get('/privacy-policy',[App\Http\Controllers\Admin\CmsController::class, 'privacypolicy'])->name('privacypolicy');
+        Route::get('/terms-condition',[App\Http\Controllers\Admin\CmsController::class, 'termscondition'])->name('termscondition');
         Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');
+        Route::post('/updatecms',[App\Http\Controllers\Admin\CmsController::class, 'updatecms'])->name('updatecms');
         Route::post('/editorimage',[App\Http\Controllers\Admin\CmsController::class, 'editorimage'])->name('editorimage');
     });
 });

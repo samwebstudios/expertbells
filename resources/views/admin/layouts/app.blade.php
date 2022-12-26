@@ -21,11 +21,18 @@
 
     @stack('css')
 
-    <style>.error{color:#f97d7d;font-size:13px;font-weight:500;}
+    <style>.error{color:#f97d7d!important;font-size:13px;font-weight:500;}
     .form-check-input:checked{background-color:#343a40;border-color:#343a40;}
     body{font-size:15px!important}
     a{text-decoration:none!important}
     .offcanvas{width:500px!important;}
+    .defaultimgcss {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+      width: 150px;
+    }
+
     /* .offcanvas-backdrop:last-child{z-index:-999999999!important;opacity:0;} */
     </style>
   </head>
