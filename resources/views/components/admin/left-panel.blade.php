@@ -52,7 +52,7 @@
         <span class="menu-item-label">Career</span>
       </div>
     </a>
-    <a href="{{route('admin.blog-management')}}" class="br-menu-link {{in_array(Request::segment(2),['blog-management','new-blog','edit-blog','blog-category','new-blog-category','edit-blog-category','blog-comments'])?'active':''}}">
+    <a href="{{route('admin.blogs')}}" class="br-menu-link {{in_array(Request::segment(2),['blogcms','blog-category','blog-management','new-blog','edit-blog','blog-category','new-blog-category','edit-blog-category','blog-comments'])?'active':''}}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
         <span class="menu-item-label">Blog Management</span>

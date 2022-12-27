@@ -27,7 +27,7 @@ class CmsController extends Controller
     public function teamcms(){
         $lists = \App\Models\Cms::find(7);
         return view('admin.cms.edit',compact('lists'));
-    }
+    }   
     public function privacypolicy(){
         $lists = \App\Models\Cms::find(8);
         return view('admin.cms.edit',compact('lists'));
@@ -36,7 +36,10 @@ class CmsController extends Controller
         $lists = \App\Models\Cms::find(9);
         return view('admin.cms.edit',compact('lists'));
     }
-
+    public function blogcms(){
+        $lists = \App\Models\Cms::find(10);
+        return view('admin.cms.edit',compact('lists'));
+    }
     public function updatecms(Request $request)
     {
       if(!empty($request->image)){
