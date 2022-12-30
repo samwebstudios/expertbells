@@ -16,13 +16,14 @@ class LeftPanel extends Component
     public $schedules;
     public $helpcenter;
     public $aboutus;
-    public function __construct()
-    {
+    public $faqs;
+    public function __construct(){
         $this->homemanagement = [''];
         $this->helpcenter = ['help-center','add-help-center','edit-help-center','help-center-query'];
         $this->schedules = ['rejected','booked','expired'];
         $this->aboutus = ['teams','about','mission','vission','teamcms','addteams','editteams','privacy-policy','terms-condition'];
         $this->others = ['qualifications','expert-category','expertise','language','industry','role','working','getbetter','hearabout'];
+        $this->faqs = ['faqs-category','new-faqs-category','edit-faqs-category','faqs','new-faqs','edit-faqs'];
     }
 
     /**

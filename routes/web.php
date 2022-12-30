@@ -324,6 +324,26 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::post('/bulkblogdestory',[App\Http\Controllers\Admin\BlogController::class, 'bulkdestory'])->name('bulkblogdestory');
         Route::get('/remove-blog/{removeid}', [App\Http\Controllers\Admin\BlogController::class, 'Remove'])->name('blogremove');
 
+        Route::get('/faqs-category/{id?}', [App\Http\Controllers\Admin\FaqCategoryController::class, 'index'])->name('faqscategory');
+        Route::get('/new-faqs-category/{id?}', [App\Http\Controllers\Admin\FaqCategoryController::class, 'New'])->name('newfaqscategory');
+        Route::post('/save-faqs-category', [App\Http\Controllers\Admin\FaqCategoryController::class, 'Save'])->name('savefaqscategory');
+        Route::get('/edit-faqs-category/{id}', [App\Http\Controllers\Admin\FaqCategoryController::class, 'Edit'])->name('editfaqscategory');
+        Route::post('/update-faqs-category', [App\Http\Controllers\Admin\FaqCategoryController::class, 'Update'])->name('updatefaqscategory');
+        Route::any('/faqs-category-publish',[App\Http\Controllers\Admin\FaqCategoryController::class, 'status'])->name('faqscategorypublish');
+        Route::post('/faqs-category-sequence',[App\Http\Controllers\Admin\FaqCategoryController::class, 'sequence'])->name('faqscategorysequence');
+        Route::post('/bulk-faqs-category-destory',[App\Http\Controllers\Admin\FaqCategoryController::class, 'bulkdestory'])->name('bulkfaqscategorydestory');
+        Route::get('/remove-faqs-category/{removeid}', [App\Http\Controllers\Admin\FaqCategoryController::class, 'Remove'])->name('faqscategoryremove');
+
+        Route::get('/faqs', [App\Http\Controllers\Admin\FaqController::class, 'index'])->name('faqs');
+        Route::get('/new-faqs/{id?}', [App\Http\Controllers\Admin\FaqController::class, 'New'])->name('newfaqs');
+        Route::post('/save-faqs', [App\Http\Controllers\Admin\FaqController::class, 'Save'])->name('savefaqs');
+        Route::get('/edit-faqs/{id}', [App\Http\Controllers\Admin\FaqController::class, 'Edit'])->name('editfaqs');
+        Route::post('/update-faqs', [App\Http\Controllers\Admin\FaqController::class, 'Update'])->name('updatefaqs');
+        Route::any('/faqs-publish',[App\Http\Controllers\Admin\FaqController::class, 'status'])->name('faqspublish');
+        Route::post('/faqs-sequence',[App\Http\Controllers\Admin\FaqController::class, 'sequence'])->name('faqssequence');
+        Route::post('/bulk-faqs-destory',[App\Http\Controllers\Admin\FaqController::class, 'bulkdestory'])->name('bulkfaqsdestory');
+        Route::get('/remove-faqs/{removeid}', [App\Http\Controllers\Admin\FaqController::class, 'Remove'])->name('faqsremove');
+
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
         Route::get('/about',[App\Http\Controllers\Admin\CmsController::class, 'about'])->name('about');
         Route::get('/mission',[App\Http\Controllers\Admin\CmsController::class, 'mission'])->name('mission');

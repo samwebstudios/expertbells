@@ -46,61 +46,34 @@ class BlogCategoryController extends Controller{
     }
 
     public function Save(Request $r){
-
         $validated = $r->validate([
-
-                'category_name' => 'required',
-
-            ]);
-
+            'category_name' => 'required|unique:blog_categories,title',
+        ]);
         $Data = new BlogCategory();
-
         $Data->title = $r->category_name;
-
-        $Data->alias = alias('blog_categories','alias',$r->category_name);
-
-        $Data->meta_title = $r->meta_title;
-
-        $Data->meta_keywords = $r->meta_keywords;
-
-        $Data->meta_description = $r->meta_description;
-
+        $Data->alias = generatealias('blog_categories','alias',$r->category_name);
+        $Data->meta_title = $r->meta_title ?? $r->category_name;
+        $Data->meta_keywords = $r->meta_keywords ?? $r->category_name;
+        $Data->meta_description = $r->meta_description ?? $r->category_name;
+        $data->sequence = (Blog::max('sequence') + 1); 
         $Data->save();
-
         return back()->with('success', 'Data have been saved successfully.');
-
     }
-
-
-
+    
     public function Update(Request $r){
-
         $validated = $r->validate([
-
             'category_name' => 'required',
-
             'alias' => 'required',
-
         ]);
 
-
-
         $Data = BlogCategory::find($r->preId);
-
         $Data->title = $r->category_name;
-
         $Data->alias = $r->alias;
-
         $Data->meta_title = $r->meta_title;
-
         $Data->meta_keywords = $r->meta_keywords;
-
         $Data->meta_description = $r->meta_description;
-
         $Data->save();
-
         return back()->with('success', 'Data have been updated successfully.');
-
     }
 
 }

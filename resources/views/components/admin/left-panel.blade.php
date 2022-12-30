@@ -18,7 +18,8 @@
         <i class="menu-item-icon icon ion-person-stalker tx-22"></i>
         <span class="menu-item-label">Users</span>
       </div>
-    </a> 
+    </a>
+
     <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$schedules) ? 'active' : '' }}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
@@ -31,6 +32,7 @@
       <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'rejected'])}}" class="nav-link {{Request::segment(3)=='rejected'?'active':''}}">Rejected</a></li>
       <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'expired'])}}" class="nav-link {{Request::segment(3)=='expired'?'active':''}}">Expired</a></li>
     </ul>
+
     <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$aboutus) ? 'active' : '' }}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
@@ -46,12 +48,26 @@
       <li class="nav-item"><a href="{{route('admin.privacypolicy')}}" class="nav-link {{in_array(Request::segment(2),['privacy-policy'])?'active':''}}">Privacy Policy</a></li>
       <li class="nav-item"><a href="{{route('admin.termscondition')}}" class="nav-link {{in_array(Request::segment(2),['terms-condition'])?'active':''}}">Terms and Conditions</a></li>
     </ul>
+
+    <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$faqs) ? 'active' : '' }}">
+      <div class="br-menu-item">
+        <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
+        <span class="menu-item-label">FAQs Management</span>
+        <i class="menu-item-arrow fa fa-angle-down"></i>
+      </div>
+    </a>  
+    <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(2),$faqs) ? 'block' : 'none' }}">
+      <li class="nav-item"><a href="{{route('admin.faqscategory')}}" class="nav-link {{in_array(Request::segment(2),['faqs-category','new-faqs-category','edit-faqs-category'])?'active':''}}">FAQs Category</a></li>
+      <li class="nav-item"><a href="{{route('admin.faqs')}}" class="nav-link {{in_array(Request::segment(2),['faqs','new-faqs','edit-faqs'])?'active':''}}">FAQs</a></li>
+    </ul>
+
     <a href="{{route('admin.career')}}" class="br-menu-link {{in_array(Request::segment(2),['career','addcareer','editcareer'])?'active':''}}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
         <span class="menu-item-label">Career</span>
       </div>
     </a>
+
     <a href="{{route('admin.blogs')}}" class="br-menu-link {{in_array(Request::segment(2),['blogcms','blog-category','blog-management','new-blog','edit-blog','blog-category','new-blog-category','edit-blog-category','blog-comments'])?'active':''}}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>

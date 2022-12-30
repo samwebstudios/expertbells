@@ -119,7 +119,7 @@ class BlogController extends Controller{
         $Data->alias = generatealias('blogs','alias',$r->title);
         $data->sequence = (Blog::max('sequence') + 1); 
         $Data->save();
-        return back()->with('success_msg', 'Data have been saved successfully.');
+        return back()->with('success', 'Data have been saved successfully.');
     }
     public function Update(Request $r){
         $validated = $r->validate([
