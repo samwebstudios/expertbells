@@ -8,6 +8,14 @@
                 <span class="breadcrumb-item active">{{$lists->title}}</span>
             </nav>
         </div>
+        <div class="col-6 text-right">
+            @if ($lists->id==12)
+                <a href="{{route('admin.contactcms')}}" class="btn btn-dark">Contact Cms</a>
+            @endif
+            @if ($lists->id==11)
+                <a href="{{route('admin.contact')}}" class="btn btn-dark">Contact</a>
+            @endif
+        </div>
     </div>
 
     <div class="br-pagebody">
@@ -16,7 +24,7 @@
                 @csrf
                 <input type="hidden" name="id" value="{{$lists->id}}">                
                 <div class="row mg-b-25">
-                    @if(in_array($lists->id,[4]))
+                    @if(in_array($lists->id,[4,11,13]))
                     <div class="col-lg-12">            
                         <div class="form-group">            
                             <label>Heading <span class="error">*</span></label>            
@@ -41,65 +49,8 @@
                             @error('description') <span class="text-danger error">{{$message}}</span>  @enderror        
                         </div>            
                     </div>
-                    @if($lists->id==15)
-                    <div class="col-lg-12">            
-                        <div class="form-group">            
-                            <label>Address <span class="error">*</span></label>            
-                            <input type="text" class="form-control" value="{{ old('address',$lists->address) }}" name="address"
-                                placeholder="Address Here...">            
-                                @error('address') <span class="text-danger error">{{$message}}</span>  @enderror        
-                        </div>            
-                    </div> 
-                    <div class="col-lg-12">            
-                        <div class="form-group">            
-                            <label>Email Address<span class="error">*</span></label>            
-                            <input type="text" class="form-control" value="{{ old('email',$lists->email) }}" name="email"
-                                placeholder="Email Address Here...">            
-                                @error('email') <span class="text-danger error">{{$message}}</span>  @enderror  
-                                
-                            <small class="mt-0"><b>NOTE:</b> if you want to add multiple email address than use comma (,) and enter a lot email address.</small>      
-                        </div>            
-                    </div> 
-                    <div class="col-lg-12">            
-                        <div class="form-group">            
-                            <label>Contact Numbers <span class="error">*</span></label>            
-                            <input type="text" class="form-control" value="{{ old('phones',$lists->phones) }}" name="phones"
-                                placeholder="Contact Numbers Here...">            
-                                @error('phones') <span class="text-danger error">{{$message}}</span>  @enderror  
-                            <small><b>NOTE:</b> if you want to add multiple contact number than use comma (,) and enter a lot contact number.</small>       
-                        </div>           
-                    </div> 
-                    <div class="col-lg-12">            
-                        <div class="form-group">            
-                            <label>Embed Code <span class="error">*</span></label>            
-                            <input type="text" class="form-control" value="{{ old('embed_code',$lists->embed_code) }}" name="embed_code"
-                                placeholder="Embed Code Here...">            
-                                @error('embed_code') <span class="text-danger error">{{$message}}</span>  @enderror        
-                        </div>            
-                    </div> 
-
-                    <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">For Sales Enquiries:</h6>
-                    <div class="col-lg-12">            
-                        <div class="form-group">            
-                            <label>Email Address <span class="error">*</span></label>            
-                            <input type="text" class="form-control" value="{{ old('sales_email_address',$lists->sales_email) }}" name="sales_email_address"
-                                placeholder="Email Address Here...">            
-                                @error('sales_email_address') <span class="text-danger error">{{$message}}</span>  @enderror        
-                            <small class="mt-0"><b>NOTE:</b> if you want to add multiple email address than use comma (,) and enter a lot email address.</small>      
-                        </div>            
-                    </div> 
-                    <div class="col-lg-12">            
-                        <div class="form-group">            
-                            <label>Contact Numbers <span class="error">*</span></label>            
-                            <input type="text" class="form-control" value="{{ old('sales_phones',$lists->sales_phones) }}" name="sales_phones"
-                                placeholder="Title Here...">            
-                                @error('sales_phones') <span class="text-danger error">{{$message}}</span>  @enderror        
-                            <small><b>NOTE:</b> if you want to add multiple contact number than use comma (,) and enter a lot contact number.</small>       
-                        </div>            
-                    </div> 
-                    @endif
-
-                    @if(in_array($lists->id,[5,6]))
+                    
+                    @if(in_array($lists->id,[5,6,15]))
                         <div class="col-lg-4">            
                             <div class="form-group">            
                                 <label>Image <span class="error">*</span></label>            
@@ -174,7 +125,7 @@
         }
     });
 
-    <?php if(in_array($lists->id,[5,6])){ ?>
+    <?php if(in_array($lists->id,[5,6,15])){ ?>
         imgInp.onchange = evt => {
             const [file] = imgInp.files
             if (file) {

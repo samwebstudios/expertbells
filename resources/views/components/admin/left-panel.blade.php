@@ -33,6 +33,23 @@
       <li class="nav-item"><a href="{{route('admin.schedules.booked',['booked'=>'expired'])}}" class="nav-link {{Request::segment(3)=='expired'?'active':''}}">Expired</a></li>
     </ul>
 
+    <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$becomeanexpert) ? 'active' : '' }}">
+      <div class="br-menu-item">
+        <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
+        <span class="menu-item-label">Become An Expert </span>
+        <i class="menu-item-arrow fa fa-angle-down"></i>
+      </div>
+    </a>  
+    <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(2),$becomeanexpert) ? 'block' : 'none' }}">
+      <li class="nav-item"><a href="{{route('admin.becomeanexpertbanner')}}" class="nav-link {{in_array(Request::segment(2),['become-an-expert-banner'])?'active':''}}">Banner</a></li>
+      <li class="nav-item"><a href="{{route('admin.becomeanexpertcontent')}}" class="nav-link {{in_array(Request::segment(2),['become-an-expert-content'])?'active':''}}">Content Section</a></li>
+      <li class="nav-item"><a href="{{route('admin.threeicons')}}" class="nav-link {{in_array(Request::segment(2),['three-icons'])?'active':''}}">3 Icons</a></li>
+      <li class="nav-item"><a href="{{route('admin.mentor')}}" class="nav-link {{in_array(Request::segment(2),['mentor','memtorcms'])?'active':''}}">Why should you mentor</a></li>
+      <li class="nav-item"><a href="{{route('admin.becomeanexpertabout')}}" class="nav-link {{in_array(Request::segment(2),['become-an-expert-about'])?'active':''}}">About Section</a></li>
+      <li class="nav-item"><a href="{{route('admin.callingprocess')}}" class="nav-link {{in_array(Request::segment(2),['calling-process','callingprocesscms'])?'active':''}}">Calling process</a></li>
+      <li class="nav-item"><a href="{{route('admin.testimonials')}}" class="nav-link {{in_array(Request::segment(2),['testimonials','addtestimonial','edittestimonial','testimonialcms'])?'active':''}}">Testimonials</a></li>
+    </ul>
+
     <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$aboutus) ? 'active' : '' }}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
@@ -44,6 +61,7 @@
       <li class="nav-item"><a href="{{route('admin.about')}}" class="nav-link {{in_array(Request::segment(2),['about'])?'active':''}}">About Us</a></li>
       <li class="nav-item"><a href="{{route('admin.mission')}}" class="nav-link {{in_array(Request::segment(2),['mission','help-center','edit-help-center'])?'active':''}}">Mission</a></li>
       <li class="nav-item"><a href="{{route('admin.vission')}}" class="nav-link {{in_array(Request::segment(2),['vission'])?'active':''}}">Vission</a></li>
+      <li class="nav-item"><a href="{{route('admin.contact')}}" class="nav-link {{in_array(Request::segment(2),['contact','contactcms'])?'active':''}}">Contact Us</a></li>
       <li class="nav-item"><a href="{{route('admin.teams')}}" class="nav-link {{in_array(Request::segment(2),['teams','teamcms','addteams','editteams'])?'active':''}}">Team</a></li>
       <li class="nav-item"><a href="{{route('admin.privacypolicy')}}" class="nav-link {{in_array(Request::segment(2),['privacy-policy'])?'active':''}}">Privacy Policy</a></li>
       <li class="nav-item"><a href="{{route('admin.termscondition')}}" class="nav-link {{in_array(Request::segment(2),['terms-condition'])?'active':''}}">Terms and Conditions</a></li>

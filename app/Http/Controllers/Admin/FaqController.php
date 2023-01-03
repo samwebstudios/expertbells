@@ -18,7 +18,8 @@ class FaqController extends Controller
     public function Edit($Id){
         $data = \App\Models\Faq::find($Id);
         if(empty($data )){ abort(404); }
-        return view('admin.faq.edit',compact('data'));    
+        $categories = \App\Models\FaqCategory::where(['is_publish'=>1,'parent'=>0])->get();
+        return view('admin.faq.edit',compact('data','categories'));    
     }
     public function Save(Request $r){
         $validated = $r->validate([

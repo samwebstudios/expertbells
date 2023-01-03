@@ -62,7 +62,7 @@
                                 </label>
                             </td>
                             <td>{{$list->title}}</td>
-                            <td>{{$list->title}}</td>
+                            <td>{{$list->category->title ?? ''}}</td>
                             <td><input type="text" class="form-control" style="width: 80px;"
                                 name="sequence[{{ $list->id }}]"
                                 value="{{ $list->sequence }}"></td>

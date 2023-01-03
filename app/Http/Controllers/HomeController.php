@@ -8,6 +8,43 @@ class HomeController extends Controller{
     public function index(){
         return view('home');
     }
+    public function contact(){
+        $cms = \App\Models\Cms::find(11);
+        $contact = \App\Models\Cms::find(12);
+        return view('contact',compact('contact','cms'));
+    }
+    public function termsandconditions(){
+        $cms = \App\Models\Cms::find(9);
+        return view('cms',compact('cms'));
+    }
+    public function privacypolicy(){
+        $cms = \App\Models\Cms::find(8);
+        return view('cms',compact('cms'));
+    }
+    public function about(){
+        $banner = \App\Models\Cms::find(4);
+        $mission = \App\Models\Cms::find(5);
+        $vission = \App\Models\Cms::find(6);
+        $teams = \App\Models\Team::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        return view('about',compact('banner','mission','vission','teams'));
+    }
+    public function teamdetails(){
+        $teams = \App\Models\Team::where(['is_publish'=>1,'id'=>request('member')])->first();
+        return view('team-detail',compact('teams'));
+    }
+    public function becomeanexpert(){
+        $banner = \App\Models\Cms::find(13);
+        $section2 = \App\Models\Cms::find(14);
+        $threeicons = \App\Models\ThreeIcon::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $section4 = \App\Models\Cms::find(16);
+        $mentors  = \App\Models\Mentor::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $section5 = \App\Models\Cms::find(15);
+        $callingcms = \App\Models\Cms::find(17);
+        $callingprocess  = \App\Models\CallingProcess::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        $testimonialscms = \App\Models\Cms::find(18);
+        $testimonials  = \App\Models\Testimonial::where('is_publish',1)->orderBy('sequence','ASC')->get();
+        return view('become-an-expert',compact('banner','testimonialscms','testimonials','callingcms','callingprocess','section2','threeicons','section5','section4','mentors'));
+    }
     public function experts($experid=null,$type=null){        
         $experts = \App\Models\Expert::where(['is_publish'=>1,'profile_visibility'=>1]);
         $experts = $experts->orderBy('sequence','ASC');

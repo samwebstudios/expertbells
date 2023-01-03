@@ -11,27 +11,26 @@
                         <div class="col-12 col-lg-4">
                             <h3 class="h5">Important Links</h3>
                             <ul class="links">
-                                <li><a href="experts.php">Find an Expert</a></li>
-                                <li><a href="become-an-expert.php">Become an Expert</a></li>
-                                <li><a href="about.php">About Us</a></li>
-                                <li><a href="blog.php">Blog</a></li>
-                                <!-- <li><a href="">How it works</a></li> -->
+                                <li><a href="{{route('experts')}}">Find an Expert</a></li>
+                                <li><a href="{{route('becomeanexpert')}}">Become an Expert</a></li>
+                                <li><a href="{{route('about')}}">About Us</a></li>
+                                <li><a href="{{route('blog')}}">Blog</a></li>
                             </ul>
                         </div>
                         <div class="col-12 col-lg-4">
                             <h3 class="h5">Informations</h3>
                             <ul class="links">
-                                <li><a href="contact.php">Contact us</a></li>
-                                <li><a href="faq.php">FAQ</a></li>
-                                <li><a href="privacy-policy.php">Privacy Policy</a></li>
-                                <li><a href="terms-and-conditions.php">Terms of Conditions</a></li>
-                                <li><a href="careers.php">Career</a></li>
+                                <li><a href="{{route('contact')}}">Contact us</a></li>
+                                <li><a href="{{route('faq')}}">FAQ</a></li>
+                                <li><a href="{{route('privacypolicy')}}">Privacy Policy</a></li>
+                                <li><a href="{{route('termsandconditions')}}">Terms of Conditions</a></li>
+                                <li><a href="{{route('careers')}}">Career</a></li>
                             </ul>
                         </div>
                         <div class="col-12 col-lg-4">
                             <h3 class="h5">Support</h3>
                             <p>Book the most in-demand experts & get advice over a video call</p>
-                            <a href="become-an-expert.php" class="btn btn-thm btn-lg">Become an Expert <img src="{{asset('frontend/img/arrow.svg')}}" class="ms-2" width="30" height="30"></a>
+                            <a href="{{route('becomeanexpert')}}" class="btn btn-thm btn-lg">Become an Expert <img src="{{asset('frontend/img/arrow.svg')}}" class="ms-2" width="30" height="30"></a>
                             <ul class="icons mt-3">
                                 <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
                                 <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>

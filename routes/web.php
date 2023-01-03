@@ -13,11 +13,25 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/become-an-expert', [App\Http\Controllers\HomeController::class, 'becomeanexpert'])->name('becomeanexpert');
+Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('/blog/{alias?}', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
+Route::get('/team-details', [App\Http\Controllers\HomeController::class, 'teamdetails'])->name('teamdetails');
+Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+Route::get('/faq', [App\Http\Controllers\HomeController::class, 'faq'])->name('faq');
+Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'privacypolicy'])->name('privacypolicy');
+Route::get('/terms-and-conditions', [App\Http\Controllers\HomeController::class, 'termsandconditions'])->name('termsandconditions');
+Route::get('/careers', [App\Http\Controllers\HomeController::class, 'careers'])->name('careers');
+Route::get('experts/{alias?}/{type?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
+
+
+
 Route::post('expert-login', [App\Http\Controllers\Auth\LoginController::class, 'expertlogin'])->name('expertlogin');
 Route::post('expert-login-otp-check', [App\Http\Controllers\Auth\LoginController::class, 'expertloginotpcheck'])->name('expertloginotpcheck');
 Route::get('expert-register', [App\Http\Controllers\Auth\RegisterController::class, 'expertregister'])->name('expertregister');
 Route::post('expert-register', [App\Http\Controllers\Auth\RegisterController::class, 'saveexpertregister'])->name('saveexpertregister');
-
 
 Route::post('user-login', [App\Http\Controllers\Auth\LoginController::class, 'userlogin'])->name('userlogin');
 Route::post('user-login-otp-check', [App\Http\Controllers\Auth\LoginController::class, 'userloginotpcheck'])->name('userloginotpcheck');
@@ -36,10 +50,6 @@ Route::get('paymentresponse/{booking}', [App\Http\Controllers\OtherController::c
 Route::post('bookingquery', [App\Http\Controllers\OtherController::class, 'bookingquery'])->name('bookingquery');
 Route::post('posthelpquery', [App\Http\Controllers\OtherController::class, 'posthelpquery'])->name('posthelpquery');
 Route::post('expertsearch', [App\Http\Controllers\OtherController::class, 'expertsearch'])->name('expertsearch');
-
-
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('experts/{alias?}/{type?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
 
 Route::post('expertslottimes', [App\Http\Controllers\HomeController::class, 'expertslottimes'])->name('expertslottimes');
 Route::post('bookingprocess', [App\Http\Controllers\HomeController::class, 'bookingprocess'])->name('bookingprocess');
@@ -344,16 +354,64 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::post('/bulk-faqs-destory',[App\Http\Controllers\Admin\FaqController::class, 'bulkdestory'])->name('bulkfaqsdestory');
         Route::get('/remove-faqs/{removeid}', [App\Http\Controllers\Admin\FaqController::class, 'Remove'])->name('faqsremove');
 
+        Route::get('/three-icons',[App\Http\Controllers\Admin\ThreeIconController::class, 'index'])->name('threeicons');
+        Route::post('/threeicons',[App\Http\Controllers\Admin\ThreeIconController::class, 'store'])->name('savethreeicons');
+        Route::post('/updatethreeicons',[App\Http\Controllers\Admin\ThreeIconController::class, 'update'])->name('updatethreeicons');
+        Route::get('/editthreeicons',[App\Http\Controllers\Admin\ThreeIconController::class, 'edit'])->name('editthreeicon');
+        Route::post('/threeiconsequence',[App\Http\Controllers\Admin\ThreeIconController::class, 'sequence'])->name('threeiconsequence');
+        Route::post('/bulkremovethreeicons',[App\Http\Controllers\Admin\ThreeIconController::class, 'bulkremove'])->name('bulkremovethreeicon');
+        Route::get('/remove-threeicons/{id}',[App\Http\Controllers\Admin\ThreeIconController::class, 'destroy'])->name('removethreeicons');
+        Route::get('/changethreeiconstatus',[App\Http\Controllers\Admin\ThreeIconController::class, 'status'])->name('changethreeiconstatus');
+
+        Route::get('/calling-process',[App\Http\Controllers\Admin\CallingProcessController::class, 'index'])->name('callingprocess');
+        Route::post('/callingprocess',[App\Http\Controllers\Admin\CallingProcessController::class, 'store'])->name('savecallingprocess');
+        Route::post('/updatecallingprocess',[App\Http\Controllers\Admin\CallingProcessController::class, 'update'])->name('updatecallingprocess');
+        Route::get('/editcallingprocess',[App\Http\Controllers\Admin\CallingProcessController::class, 'edit'])->name('editcallingprocess');
+        Route::post('/callingprocessequence',[App\Http\Controllers\Admin\CallingProcessController::class, 'sequence'])->name('callingprocessequence');
+        Route::post('/bulkremovecallingprocess',[App\Http\Controllers\Admin\CallingProcessController::class, 'bulkremove'])->name('bulkremovecallingprocess');
+        Route::get('/remove-callingprocess/{id}',[App\Http\Controllers\Admin\CallingProcessController::class, 'destroy'])->name('removecallingprocess');
+        Route::get('/changecallingprocesstatus',[App\Http\Controllers\Admin\CallingProcessController::class, 'status'])->name('changecallingprocesstatus');
+
+        Route::get('/mentor',[App\Http\Controllers\Admin\MentorController::class, 'index'])->name('mentor');
+        Route::post('/mentor',[App\Http\Controllers\Admin\MentorController::class, 'store'])->name('savementor');
+        Route::post('/updatementor',[App\Http\Controllers\Admin\MentorController::class, 'update'])->name('updatementor');
+        Route::get('/editmentor',[App\Http\Controllers\Admin\MentorController::class, 'edit'])->name('editmentor');
+        Route::post('/mentorequence',[App\Http\Controllers\Admin\MentorController::class, 'sequence'])->name('mentorsequence');
+        Route::post('/bulkremovementor',[App\Http\Controllers\Admin\MentorController::class, 'bulkremove'])->name('bulkremovementor');
+        Route::get('/remove-mentor/{id}',[App\Http\Controllers\Admin\MentorController::class, 'destroy'])->name('removementor');
+        Route::get('/changementortatus',[App\Http\Controllers\Admin\MentorController::class, 'status'])->name('changementorstatus');
+
+        Route::get('/testimonials',[App\Http\Controllers\Admin\TestimonialController::class, 'index'])->name('testimonials');
+        Route::get('/addtestimonial',[App\Http\Controllers\Admin\TestimonialController::class, 'create'])->name('addtestimonial');
+        Route::get('/edittestimonial/{id}',[App\Http\Controllers\Admin\TestimonialController::class, 'edit'])->name('edittestimonial');
+        Route::post('/savetestimonial',[App\Http\Controllers\Admin\TestimonialController::class, 'store'])->name('savetestimonial');
+        Route::post('/updatetestimonial',[App\Http\Controllers\Admin\TestimonialController::class, 'update'])->name('updatetestimonial');
+        Route::get('/testimonialpublish',[App\Http\Controllers\Admin\TestimonialController::class, 'status'])->name('testimonialpublish');
+        Route::post('/testimonialsequence',[App\Http\Controllers\Admin\TestimonialController::class, 'sequence'])->name('testimonialsequence');
+        Route::post('/bulkdestorytestimonial',[App\Http\Controllers\Admin\TestimonialController::class, 'bulkdestory'])->name('bulkdestorytestimonial');
+        Route::get('/removetestimonial/{removeid}',[App\Http\Controllers\Admin\TestimonialController::class, 'destroy'])->name('removetestimonial');
+
         Route::get('/cmsmodal/{id}',[App\Http\Controllers\Admin\CmsController::class, 'cmsmodal'])->name('cmsmodal');
         Route::get('/about',[App\Http\Controllers\Admin\CmsController::class, 'about'])->name('about');
         Route::get('/mission',[App\Http\Controllers\Admin\CmsController::class, 'mission'])->name('mission');
         Route::get('/vission',[App\Http\Controllers\Admin\CmsController::class, 'vission'])->name('vission');
         Route::get('/teamcms',[App\Http\Controllers\Admin\CmsController::class, 'teamcms'])->name('teamcms');
+        Route::get('/memtorcms',[App\Http\Controllers\Admin\CmsController::class, 'memtorcms'])->name('memtorcms');
+        Route::get('/testimonialcms',[App\Http\Controllers\Admin\CmsController::class, 'testimonialcms'])->name('testimonialcms');
+        Route::get('/callingprocesscms',[App\Http\Controllers\Admin\CmsController::class, 'callingprocesscms'])->name('callingprocesscms');
+        Route::get('/contact',[App\Http\Controllers\Admin\CmsController::class, 'contact'])->name('contact');
+        Route::get('/contactcms',[App\Http\Controllers\Admin\CmsController::class, 'contactcms'])->name('contactcms');
         Route::get('/blogcms',[App\Http\Controllers\Admin\CmsController::class, 'blogcms'])->name('blogcms');
         Route::get('/privacy-policy',[App\Http\Controllers\Admin\CmsController::class, 'privacypolicy'])->name('privacypolicy');
         Route::get('/terms-condition',[App\Http\Controllers\Admin\CmsController::class, 'termscondition'])->name('termscondition');
         Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');
         Route::post('/updatecms',[App\Http\Controllers\Admin\CmsController::class, 'updatecms'])->name('updatecms');
+        
+        Route::get('/become-an-expert-banner',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertbanner'])->name('becomeanexpertbanner');
+        Route::get('/become-an-expert-about',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertabout'])->name('becomeanexpertabout');
+        Route::get('/become-an-expert-content',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertcontent'])->name('becomeanexpertcontent');
+        
+        
         Route::post('/editorimage',[App\Http\Controllers\Admin\CmsController::class, 'editorimage'])->name('editorimage');
     });
 });

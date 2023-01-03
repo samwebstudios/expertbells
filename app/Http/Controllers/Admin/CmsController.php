@@ -40,6 +40,38 @@ class CmsController extends Controller
         $lists = \App\Models\Cms::find(10);
         return view('admin.cms.edit',compact('lists'));
     }
+    public function contactcms(){
+        $lists = \App\Models\Cms::find(11);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function contact(){
+        $lists = \App\Models\Cms::find(12);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function becomeanexpertbanner(){
+        $lists = \App\Models\Cms::find(13);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function becomeanexpertcontent(){
+        $lists = \App\Models\Cms::find(14);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function becomeanexpertabout(){
+        $lists = \App\Models\Cms::find(15);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function memtorcms(){
+        $lists = \App\Models\Cms::find(16);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function callingprocesscms(){
+        $lists = \App\Models\Cms::find(17);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function testimonialcms(){
+        $lists = \App\Models\Cms::find(18);
+        return view('admin.cms.edit',compact('lists'));
+    }
     public function updatecms(Request $request)
     {
       if(!empty($request->image)){
