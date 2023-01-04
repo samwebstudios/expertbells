@@ -16,6 +16,12 @@
                         <span class="pd-x-15">Add New</span>
                     </div>
                 </a>
+                <a href="{{route('admin.faqcms')}}" class="btn btn-dark btn-with-icon">
+                    <div class="ht-40">
+                        <span class="icon wd-40"><i class="fa fa-book"></i></span>
+                        <span class="pd-x-15">FAQs Page Content</span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

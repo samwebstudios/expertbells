@@ -18,14 +18,17 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/become-an-expert', [App\Http\Controllers\HomeController::class, 'becomeanexpert'])->name('becomeanexpert');
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 Route::get('/blog/{alias?}', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
+Route::get('/blogcategory/{alias}', [App\Http\Controllers\HomeController::class, 'blogcategory'])->name('blogcategory');
+Route::get('/blogarchive/{alias}', [App\Http\Controllers\HomeController::class, 'blogarchive'])->name('blogarchive');
 Route::get('/team-details', [App\Http\Controllers\HomeController::class, 'teamdetails'])->name('teamdetails');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
-Route::get('/faq', [App\Http\Controllers\HomeController::class, 'faq'])->name('faq');
+Route::get('/faq/{category?}/{child?}', [App\Http\Controllers\HomeController::class, 'faq'])->name('faq');
 Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'privacypolicy'])->name('privacypolicy');
 Route::get('/terms-and-conditions', [App\Http\Controllers\HomeController::class, 'termsandconditions'])->name('termsandconditions');
-Route::get('/careers', [App\Http\Controllers\HomeController::class, 'careers'])->name('careers');
+Route::get('/career/{alias?}', [App\Http\Controllers\HomeController::class, 'careers'])->name('careers');
 Route::get('experts/{alias?}/{type?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
 
+Route::get('autosearch', [App\Http\Controllers\HomeController::class, 'autosearch'])->name('autosearch');
 
 
 Route::post('expert-login', [App\Http\Controllers\Auth\LoginController::class, 'expertlogin'])->name('expertlogin');
@@ -167,7 +170,7 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
     });
 
     Route::middleware('admin')->group(function(){
-        Route::post('logout',[App\Http\Controllers\Admin\Auth\LoginController::class, 'destroy'])->name('logout');
+        Route::any('logout',[App\Http\Controllers\Admin\Auth\LoginController::class, 'destroy'])->name('logout');
         
         Route::get('/',[App\Http\Controllers\Admin\HomeController::class, 'create'])->name('index');
         Route::get('/dashboard',[App\Http\Controllers\Admin\HomeController::class, 'create'])->name('dashboard');
@@ -396,6 +399,8 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/mission',[App\Http\Controllers\Admin\CmsController::class, 'mission'])->name('mission');
         Route::get('/vission',[App\Http\Controllers\Admin\CmsController::class, 'vission'])->name('vission');
         Route::get('/teamcms',[App\Http\Controllers\Admin\CmsController::class, 'teamcms'])->name('teamcms');
+        Route::get('/careercms',[App\Http\Controllers\Admin\CmsController::class, 'careercms'])->name('careercms');
+        Route::get('/faqcms',[App\Http\Controllers\Admin\CmsController::class, 'faqcms'])->name('faqcms');
         Route::get('/memtorcms',[App\Http\Controllers\Admin\CmsController::class, 'memtorcms'])->name('memtorcms');
         Route::get('/testimonialcms',[App\Http\Controllers\Admin\CmsController::class, 'testimonialcms'])->name('testimonialcms');
         Route::get('/callingprocesscms',[App\Http\Controllers\Admin\CmsController::class, 'callingprocesscms'])->name('callingprocesscms');
@@ -410,8 +415,19 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/become-an-expert-banner',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertbanner'])->name('becomeanexpertbanner');
         Route::get('/become-an-expert-about',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertabout'])->name('becomeanexpertabout');
         Route::get('/become-an-expert-content',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertcontent'])->name('becomeanexpertcontent');
-        
-        
+                
         Route::post('/editorimage',[App\Http\Controllers\Admin\CmsController::class, 'editorimage'])->name('editorimage');
+        
+        Route::get('/social-media',[App\Http\Controllers\Admin\SocialMediaController::class, 'index'])->name('socialmedia');
+        Route::post('/remove-social-media',[App\Http\Controllers\Admin\SocialMediaController::class, 'Remove'])->name('social-media-remove');    
+        Route::post('/save-social-media',[App\Http\Controllers\Admin\SocialMediaController::class, 'Save'])->name('save-social-media');    
+        Route::post('/update-social-media',[App\Http\Controllers\Admin\SocialMediaController::class, 'Update'])->name('update-social-media');    
+        Route::get('/social-media-status/{status}/{id}',[App\Http\Controllers\Admin\SocialMediaController::class, 'Status'])->name('socialmediastatus');  
+
+        Route::get('/footersection',[App\Http\Controllers\Admin\HomeController::class, 'footersection'])->name('footersection');
+        Route::post('/savefooter', [App\Http\Controllers\Admin\HomeController::class, 'savefooter'])->name('savefooter');
+    
+        Route::get('/change-password', [App\Http\Controllers\Admin\HomeController::class, 'Change_Password'])->name('change-password');
+        Route::post('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'Update_Password'])->name('update-password');
     });
 });

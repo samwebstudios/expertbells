@@ -35,8 +35,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware(['guest','guest:expert']);
     }
 
@@ -105,7 +104,6 @@ class LoginController extends Controller
             return response()->json(['errors'=>['otp'=>'Invalid OTP!']],422);
         }       
     }
-
 
     /// EXPERT
     public function expertlogin(Request $r){ 

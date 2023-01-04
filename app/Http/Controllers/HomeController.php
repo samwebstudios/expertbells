@@ -32,6 +32,84 @@ class HomeController extends Controller{
         $teams = \App\Models\Team::where(['is_publish'=>1,'id'=>request('member')])->first();
         return view('team-detail',compact('teams'));
     }
+    public function blogcategory($alias){
+        $categories = \App\Models\BlogCategory::where(['is_publish'=>1,'alias'=>$alias])->first();
+        if(empty($categories)){ abort(404); }  
+        $lists = \App\Models\Blog::where(['is_publish'=>1,'category_id'=>$categories->id])->orderBy('sequence','ASC')->paginate(20);
+        $cms = \App\Models\Cms::find(10);
+        return view('blog',compact('lists','cms'));
+    }
+    public function blogarchive($alias){
+        $explode = explode('-',$alias);
+        $lists = \App\Models\Blog::where(['is_publish'=>1])->whereYear('post_date',$explode[0] ?? 0)->whereMonth('post_date',$explode[1] ?? 0)->orderBy('sequence','ASC')->paginate(20);
+        $cms = \App\Models\Cms::find(10);
+        return view('blog',compact('lists','cms'));
+    }
+    public function blog($alias=null){
+        if(!empty($alias)){
+            $list = \App\Models\Blog::where(['is_publish'=>1,'alias'=>$alias])->first();
+            if(empty($list)){ abort(404); }  
+            $archives = \App\Models\Blog::where(['is_publish'=>1]);
+            $archives = $archives->selectRaw('year(post_date) year,month(post_date) month');
+            $archives = $archives->groupBy('year','month')->orderBy('sequence','ASC')->get(); 
+            $categories = \App\Models\BlogCategory::where(['is_publish'=>1])->orderBy('sequence','ASC')->get();     
+            $populars = \App\Models\Blog::where(['is_publish'=>1,'latest'=>1])->whereNotIn('id',[$list->id])->orderBy('sequence','ASC')->paginate(5);
+            $next_record = \App\Models\Blog::where('id', '>', $list->id)->orderBy('id')->first();
+            $previous_record = \App\Models\Blog::where('id', '<', $list->id)->orderBy('id','desc')->first();
+            $relateds =  \App\Models\Blog::where(['is_publish'=>1,'category_id'=>$list->category_id])->whereNotIn('id',[$list->id])->orderBy('sequence','ASC')->paginate(5);
+            return view('blog-detail',compact('list','archives','relateds','next_record','previous_record','populars','categories'));
+        }else{
+            $cms = \App\Models\Cms::find(10);
+            $lists = \App\Models\Blog::where(['is_publish'=>1])->orderBy('sequence','ASC')->paginate(20);
+            return view('blog',compact('lists','cms'));
+        }
+    }
+    public function careers($alias=null){
+        if(!empty($alias)){
+            $list = \App\Models\Career::where(['is_publish'=>1,'alias'=>$alias])->orderBy('sequence','ASC')->first();
+            if(empty($list)){ abort(404); }  
+            return view('careers-detail',compact('list'));
+        }else{
+            $cms = \App\Models\Cms::find(19);
+            $lists = \App\Models\Career::where('is_publish',1)->orderBy('sequence','ASC')->get();
+            return view('careers',compact('lists','cms'));
+        }
+    }
+    public function faq($catgeory=null,$child=null){
+        $cms = \App\Models\Cms::find(20);
+        $category = \App\Models\FaqCategory::where(['is_publish'=>1,'parent'=>0])->orderBy('sequence','ASC')->get();
+        $activecategory = \App\Models\FaqCategory::where(['is_publish'=>1,'parent'=>0]);
+        if(!empty($catgeory)){ $activecategory = $activecategory->where('alias',$catgeory); }
+        $activecategory = $activecategory->orderBy('sequence','ASC')->first();
+
+        $categoryId = [];
+        if(count($activecategory->child) > 0){
+            foreach($activecategory->child as $activchild):
+                $categoryId[] = $activchild->id ;
+            endforeach;
+        }else{
+            $categoryId[] = $activecategory->id ;
+        }
+                
+        
+        if(!empty($child)){  
+            $categoryId = [];
+            $activechild = \App\Models\FaqCategory::where(['is_publish'=>1]);
+            $activechild = $activechild->where('alias',$child);
+            $activechild = $activechild->orderBy('sequence','ASC')->first(); 
+            $categoryId[] =  $activechild->id;    
+        }
+
+        $lists = \App\Models\Faq::where(['is_publish'=>1]);
+        $lists = $lists->whereIn('category_id',$categoryId);
+        if(!empty(request('search'))){
+            $lists = $lists->where('title','LIKE','%'.request('search').'%');
+        }
+        $lists = $lists->orderBy('sequence','ASC')->paginate(10);
+
+        return view('faqs',compact('lists','cms','category','activecategory'));
+    }
+
     public function becomeanexpert(){
         $banner = \App\Models\Cms::find(13);
         $section2 = \App\Models\Cms::find(14);
@@ -197,9 +275,75 @@ class HomeController extends Controller{
         return response()->json([
             'redirect' => $redirect
         ]);
+    } 
+
+    /// Auto Search
+    public function autosearch(Request $r){
+        $search = $r->search;
+        $experts = \App\Models\Expert::where('is_publish',1);
+        if(!empty($search)){
+            $experts = $experts->where(function($q) use($search){
+                $expertise = [];
+                $qualification = [];
+                $category = [];
+                $industry = array();
+
+                $expertiseArr = \App\Models\Expertise::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                $categoryArr = \App\Models\ExpertCategory::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                $qualificationArr = \App\Models\Qualification::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                $industryArr = \App\Models\Industry::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                foreach($expertiseArr as $exparr){
+                    $expertise[] = $exparr->id;
+                }
+                foreach($qualificationArr as $qualArr){
+                    $qualification[] = $qualArr->id;
+                }
+                foreach($categoryArr as $catArr){
+                    $category[] = $catArr->id;
+                }
+                
+                $q->where('name','LIKE','%'.$search.'%');
+                $q->orwhere('user_id','LIKE','%'.$search.'%');
+                $q->orwhere('email','LIKE','%'.$search.'%');
+                $q->orwhereIn('highest_qualification',$qualification);
+                $q->orwhereIn('your_expertise',$expertise);
+                $q->orwhereIn('category',$category);
+                foreach($industryArr as $indArr){
+                    $q->orwhereRaw('json_contains(suitable_industry, \'["'.$indArr->id.'"]\')');
+                }
+                
+            });
+        }
+        $experts = $experts->paginate(20);
+        $Html='';
+        $Html .='<ul>';
+        if($experts->count()==0){ $Html .='<li class="text-center">Sorry! No Data Found...</li>';}
+        foreach($experts as $expert):
+            $Html .='<li><a href="'.route('experts',['alias'=>$expert->user_id]).'" class="d-flex align-items-center img">';
+            if (in_array(checkimagetype($expert->image), ['SVG','WEB','AVIF']) && file_exists(public_path('uploads/expert/'. $expert->image))):
+                $Html .= '<img style="border-radius: 50%;width: 30px;" src="'.asset('uploads/expert/'.$expert->image).'"> ';
+            elseif(file_exists(public_path('uploads/expert/'.$expert->image . '.webp'))):
+                $Html .= '<img style="border-radius: 50%;width: 30px;" src="'.asset('uploads/expert/'.$expert->image. '.webp').'"> ';
+            elseif(file_exists(public_path('uploads/expert/jpg/'.$expert->image . '.jpg'))):
+                $Html .= '<img style="border-radius: 50%;width: 30px;" src="'.asset('uploads/expert/jpg/'.$expert->image. '.jpg').'">' ;
+            else:
+                $Html .= '<img style="border-radius: 50%;width: 30px;" src="'.asset('frontend/image/no-img.jpg').'"> ';
+            endif;
+                $Html .= '<div class="ms-2"><span>';
+                $Html .= $expert->name;
+                $Html .= !empty($expert->expertise->title) ? ' ('.$expert->expertise->title.')' : '';
+                $Html .= '<span><small class="d-block lh-n">';
+                foreach(json_decode($expert->suitable_industry) as $k=> $industry):
+                    $industry = \App\Models\Industry::find($industry);
+                    $Html .= $industry->title ?? '';
+                    if(($k + 1) < count(json_decode($expert->suitable_industry))){ $Html .= ' + '; }                    
+                endforeach;
+                $Html .= '</small></div>';
+            $Html .='</a></li>';
+        endforeach;            
+        $Html .='</ul>';
+        return response()->json([
+            'html' => $Html
+        ]);
     }
-
-
-   
-
 }

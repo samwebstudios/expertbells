@@ -195,7 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
-        Jorenvh\Share\Providers\ShareServiceProvider::class,
+        Jorenvh\Share\Providers\ShareServiceProvider::class,        
     ],
 
     /*

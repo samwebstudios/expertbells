@@ -24,12 +24,39 @@
 <link rel="dns-prefetch" href="//pro.fontawesome.com">
 <link rel="dns-prefetch" href="//code.jquery.com">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<style>.error{font-size: 13px;color:#ea6b6b}</style>
-
+<style>.error{font-size: 13px;color:#ea6b6b}
+.searchboxdata{background:var(--white)}
+.searchboxdata li{border-top:1px solid rgb(var(--blackrgb)/.1)!important;list-style:none;margin:0;padding:3px 9px;display:block}
+.searchboxdata li:first-child{border:none}
+.searchboxdata li:hover{background:rgb(var(--blackrgb)/.08)}
+.searchboxdata li a{padding:0!important;color:var(--black)!important;display:block;font-size:13px!important}.searchboxdata li az
+.searchboxdata li a:hover{background:none!important}
+.searchboxdata li a.img div{width:calc(100% - 60px);}
+.searchboxdata li a span{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:1}
+.searchboxdata li a small{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:1}
+</style>
 </head>
 <body id="app">
     <x-nav/> 
     @yield('content')    
     <x-footer/>
+    <script>
+        $('input[name=searchlist]').on('keyup',function(e){
+            let search = e.target.value;
+            $('.searchboxdata').html('');
+            if(search!=''){
+                $('.searchboxdata').html('<ul><li class="text-center"><i class="fad fa-spinner-third fa-spin" style="font-size: 25px;"></i></li></ul>'); 
+                $.ajax({
+                    url:@json(route('autosearch')),
+                    data:{search:search},
+                    method:'GET',
+                    dataType:'Json',
+                    success:function(success){
+                        $('.searchboxdata').html(success.html);
+                    }
+                });
+            }            
+        });
+    </script>
 </body>
 </html>

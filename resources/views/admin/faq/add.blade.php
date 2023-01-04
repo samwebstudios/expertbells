@@ -29,8 +29,10 @@
                                   <label class="form-control-label">Category : <span class="error">*</span></label>
                                     <select class="form-control" name="category">                    
                                         <option value="">Choose One</option>                    
-                                        @foreach($categories as $category)                    
+                                        @foreach($categories as $category)  
+                                            @if(count($category->child)==0)                  
                                             <option value="{{$category->id}}" @selected(old('category')==$category->id)>{{$category->title}}</option>
+                                            @endif
                                         @endforeach
                                     </select>                    
                                   @error('category')<span class="error">{{$message}}<span> @enderror                    

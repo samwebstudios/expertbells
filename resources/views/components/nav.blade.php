@@ -15,13 +15,13 @@
                             <div class="menu-bg"></div>
                             <div class="collapse navbar-collapse justify-content-between" id="navigatin">
                                 <ul class="navbar-nav">
-                                    <li class="nav-item"><a class="nav-link" href="experts.php">Find an Expert</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="">Expert Services</a></li>
-                                    <li class="nav-item active"><a class="nav-link" href="about.php"><span>About Us</span></a></li>
-                                    <li class="nav-item "><a class="nav-link" href="experts.php"><span>Experts</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="blog.php"><span>Blog</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="careers.php"><span>Career</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="contact.php"><span>Contact Us</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('experts')}}">Find an Expert</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Expert Services</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('about')}}"><span>About Us</span></a></li>
+                                    <li class="nav-item "><a class="nav-link" href="{{route('becomeanexpert')}}"><span>Become An Expert</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('blog')}}"><span>Blog</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('careers')}}"><span>Career</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('contact')}}"><span>Contact Us</span></a></li>
                                 </ul>
                             </div>
                         </li>
@@ -94,10 +94,12 @@
                         <li class="SearchBoxs">
                             <a data-bs-toggle="collapse" href="#Hsearch" role="button" aria-expanded="false" aria-controls="Search" title="Search"><span><img src="{{asset('frontend/img/search1.svg')}}" width="36" height="36"><!-- <i class="fal h5 fa-search m-0"></i> --></span></a>
                             <div id="Hsearch" class="collapse">
-                                <div class="input-group mb-0">
-                                    <input type="text" placeholder="Search..." aria-label="Search..." aria-describedby="searchbox" class="form-control">
+                                @csrf
+                                <form action="{{url('search')}}" class="input-group mb-0">
+                                    <input type="text" name="searchlist" placeholder="Search..." required aria-label="Search..." aria-describedby="searchbox" class="form-control">
                                     <button id="searchbox" class="input-group-text"><i class="fal fa-search"></i></button>
-                                </div>
+                                </form>
+                                <div class="searchboxdata"></div>
                             </div>
                         </li>
                     </ul>

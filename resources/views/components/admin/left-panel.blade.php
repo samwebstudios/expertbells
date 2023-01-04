@@ -76,10 +76,10 @@
     </a>  
     <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(2),$faqs) ? 'block' : 'none' }}">
       <li class="nav-item"><a href="{{route('admin.faqscategory')}}" class="nav-link {{in_array(Request::segment(2),['faqs-category','new-faqs-category','edit-faqs-category'])?'active':''}}">FAQs Category</a></li>
-      <li class="nav-item"><a href="{{route('admin.faqs')}}" class="nav-link {{in_array(Request::segment(2),['faqs','new-faqs','edit-faqs'])?'active':''}}">FAQs</a></li>
+      <li class="nav-item"><a href="{{route('admin.faqs')}}" class="nav-link {{in_array(Request::segment(2),['faqcms','faqs','new-faqs','edit-faqs'])?'active':''}}">FAQs</a></li>
     </ul>
 
-    <a href="{{route('admin.career')}}" class="br-menu-link {{in_array(Request::segment(2),['career','addcareer','editcareer'])?'active':''}}">
+    <a href="{{route('admin.career')}}" class="br-menu-link {{in_array(Request::segment(2),['career','careercms','addcareer','editcareer'])?'active':''}}">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
         <span class="menu-item-label">Career</span>

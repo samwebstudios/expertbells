@@ -11,9 +11,12 @@ class Footer extends Component
      *
      * @return void
      */
+    public $footer;
+    public $icons;
     public function __construct()
     {
-        //
+        $this->footer = \App\Models\Setting::find(1);
+        $this->icons = \App\Models\SocialMedia::where('status',1)->get();
     }
 
     /**

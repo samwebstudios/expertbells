@@ -12,7 +12,8 @@ class FaqController extends Controller
         return view('admin.faq.list',compact('lists'));
     }
     public function New(){
-        $categories = \App\Models\FaqCategory::where(['is_publish'=>1,'parent'=>0])->get();
+        $categories = \App\Models\FaqCategory::where(['faq_categories.is_publish'=>1]);
+        $categories = $categories->get();
         return view('admin.faq.add',compact('categories'));    
     }
     public function Edit($Id){

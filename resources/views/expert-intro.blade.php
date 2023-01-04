@@ -88,8 +88,8 @@
                     </div>
                 </div>
                 @endif
-                <div class="col-lg-{{ empty(\Auth::guard('expert')->user()) && count($experts->slotcharges) > 0 ? '6' : '9'}} ">
-                    <div class="{{ empty(\Auth::guard('expert')->user()) && count($experts->slotcharges) > 0 ? 'mx-lg-3' : 'ms-lg-3'}}">
+                <div class="col-lg-{{ empty(\Auth::guard('expert')->user())  && empty(\Auth::guard('admin')->user()) && count($experts->slotcharges) > 0 ? '6' : '9'}} ">
+                    <div class="{{ empty(\Auth::guard('expert')->user()) && empty(\Auth::guard('admin')->user()) && count($experts->slotcharges) > 0 ? 'mx-lg-3' : 'ms-lg-3'}}">
                         <h1 class="h3 text-black m-0">Expert Introduction</h1>
                         <h3 class="h5 thm mt-4">About me</h3>
                         <div class="CmsPage">

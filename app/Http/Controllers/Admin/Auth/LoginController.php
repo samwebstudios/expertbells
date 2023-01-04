@@ -55,6 +55,7 @@ class LoginController extends Controller
         return redirect()->route("admin.login")->withErrors(['email'=>'These credentials do not match our records.']);
     }
     public function destroy(){
-        Auth::guard('admin')->user()->token()->delete();
+        \Auth::guard('admin')->logout();
+        return back()->with('success','Logout!');
     }
 }

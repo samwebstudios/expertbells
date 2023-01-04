@@ -40,11 +40,11 @@
 
             <ul class="list-unstyled user-profile-nav">
 
-              <li><a href=""><i class="icon ion-ios-unlocked"></i> Change Password</a></li>
+              <li><a href="{{route('admin.change-password')}}"><i class="icon ion-ios-unlocked"></i> Change Password</a></li>
 
-              <li><a href=""><i class="icon ion-link"></i> Social Media</a></li>
+              <li><a href="{{route('admin.socialmedia')}}"><i class="icon ion-link"></i> Social Media</a></li>
 
-              <li><a href=""><i class="icon ion-ios-gear"></i> Footer Section</a></li>
+              <li><a href="{{route('admin.footersection')}}"><i class="icon ion-ios-gear"></i> Footer Section</a></li>
 
               <li><a href="{{route('admin.logout')}}"><i class="icon ion-power"></i> Sign Out</a></li>
 

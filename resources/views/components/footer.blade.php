@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12 col-lg-3">
                     <a href="" class="flogo"><img src="{{asset('frontend/img/logo-w.svg')}}" alt="Expert Bells" width="150" height="120"></a>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                    <p>{{$footer->footer_about}}</p>
                 </div>
                 <div class="col-12 col-lg-9 ps-lg-5">
                     <div class="row">
@@ -29,14 +29,21 @@
                         </div>
                         <div class="col-12 col-lg-4">
                             <h3 class="h5">Support</h3>
-                            <p>Book the most in-demand experts & get advice over a video call</p>
+                            <p>{{$footer->footer_support}}</p>
                             <a href="{{route('becomeanexpert')}}" class="btn btn-thm btn-lg">Become an Expert <img src="{{asset('frontend/img/arrow.svg')}}" class="ms-2" width="30" height="30"></a>
                             <ul class="icons mt-3">
-                                <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
-                                <!-- <li><a href="#" title="Pinterest"><i class="fab fa-pinterest-p"></i></a></li> -->
-                                <li><a href="#" title="Instagram"><i class="fab fa-instagram"></i></a></li>
+                                @foreach ($icons as $icon)
+                                    <li>
+                                        <a href="{{$icon->link}}" target="_blank" title="{{ucwords($icon->title)}}">
+                                            @if($icon->title=='facebook') <i class="fab fa-facebook-f"></i> @endif
+                                            @if($icon->title=='twitter') <i class="fab fa-twitter"></i> @endif
+                                            @if($icon->title=='linkedin') <i class="fab fa-linkedin-in"></i> @endif
+                                            @if($icon->title=='pinterest') <i class="fab fa-pinterest-p"></i> @endif
+                                            @if($icon->title=='instagram') <i class="fab fa-instagram"></i> @endif
+                                            @if($icon->title=='youtube') <i class="fab fa-youtube"></i> @endif
+                                        </a>
+                                    </li>
+                                @endforeach                                
                             </ul>
                         </div>
                     </div>

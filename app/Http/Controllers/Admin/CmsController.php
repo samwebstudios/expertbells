@@ -72,6 +72,14 @@ class CmsController extends Controller
         $lists = \App\Models\Cms::find(18);
         return view('admin.cms.edit',compact('lists'));
     }
+    public function careercms(){
+        $lists = \App\Models\Cms::find(19);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function faqcms(){
+        $lists = \App\Models\Cms::find(20);
+        return view('admin.cms.edit',compact('lists'));
+    }
     public function updatecms(Request $request)
     {
       if(!empty($request->image)){
