@@ -19,6 +19,24 @@
         <span class="menu-item-label">Users</span>
       </div>
     </a>
+    <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$home) ? 'active' : '' }}">
+      <div class="br-menu-item">
+        <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
+        <span class="menu-item-label">Home Management </span>
+        <i class="menu-item-arrow fa fa-angle-down"></i>
+      </div>
+    </a> 
+    <ul class="br-menu-sub nav flex-column" style="display:{{in_array(Request::segment(2),$home) ? 'block' : 'none' }}">
+      <li class="nav-item"><a href="{{route('admin.banner')}}" class="nav-link {{in_array(Request::segment(2),['banner','bannercms'])?'active':''}}">Banner</a></li>
+      <li class="nav-item"><a href="{{route('admin.findexpertstep')}}" class="nav-link {{in_array(Request::segment(2),['find-expert-step','findexpertstepcms'])?'active':''}}">Find Expert Steps</a></li>
+      <li class="nav-item"><a href="{{route('admin.homeexpertcms')}}" class="nav-link {{in_array(Request::segment(2),['homeexpertcms'])?'active':''}}">Your Expert (CMS)</a></li>
+      <li class="nav-item"><a href="{{route('admin.featured')}}" class="nav-link {{in_array(Request::segment(2),['featured','featuredcms'])?'active':''}}">Featured in</a></li>
+      <li class="nav-item"><a href="{{route('admin.homeexpertcategory')}}" class="nav-link {{in_array(Request::segment(2),['home-expert-category','homeexpertcategorycms'])?'active':''}}">Find Expert Category</a></li>
+      <li class="nav-item"><a href="#" class="nav-link {{in_array(Request::segment(2),['become-an-expert-banner'])?'active':''}}">Experts Video Gallery</a></li>
+      <li class="nav-item"><a href="{{route('admin.hometestimonialcms')}}" class="nav-link {{in_array(Request::segment(2),['hometestimonialcms'])?'active':''}}">Customer Testimonials (CMS)</a></li>
+      <li class="nav-item"><a href="{{route('admin.youanexpert')}}" class="nav-link {{in_array(Request::segment(2),['youanexpert'])?'active':''}}">You an Expert?</a></li>
+      <li class="nav-item"><a href="{{route('admin.homenewscms')}}" class="nav-link {{in_array(Request::segment(2),['homenewscms'])?'active':''}}">We are in the News (CMS)</a></li>
+    </ul>
 
     <a href="javascript:void(0)" class="br-menu-link {{in_array(Request::segment(2),$schedules) ? 'active' : '' }}">
       <div class="br-menu-item">

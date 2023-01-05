@@ -24,7 +24,7 @@
                 @csrf
                 <input type="hidden" name="id" value="{{$lists->id}}">                
                 <div class="row mg-b-25">
-                    @if(in_array($lists->id,[4,11,13]))
+                    @if(in_array($lists->id,[4,11,13,25,28]))
                     <div class="col-lg-12">            
                         <div class="form-group">            
                             <label>Heading <span class="error">*</span></label>            

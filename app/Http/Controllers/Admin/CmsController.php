@@ -80,6 +80,38 @@ class CmsController extends Controller
         $lists = \App\Models\Cms::find(20);
         return view('admin.cms.edit',compact('lists'));
     }
+    public function homeexpertcms(){
+        $lists = \App\Models\Cms::find(21);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function homeexpertcategorycms(){
+        $lists = \App\Models\Cms::find(22);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function hometestimonialcms(){
+        $lists = \App\Models\Cms::find(23);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function homenewscms(){
+        $lists = \App\Models\Cms::find(24);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function youanexpert(){
+        $lists = \App\Models\Cms::find(25);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function findexpertstepcms(){
+        $lists = \App\Models\Cms::find(26);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function featuredcms(){
+        $lists = \App\Models\Cms::find(27);
+        return view('admin.cms.edit',compact('lists'));
+    }
+    public function bannercms(){
+        $lists = \App\Models\Cms::find(28);
+        return view('admin.cms.edit',compact('lists'));
+    }
     public function updatecms(Request $request)
     {
       if(!empty($request->image)){

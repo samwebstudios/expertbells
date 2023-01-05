@@ -230,4 +230,10 @@ if(!function_exists('generatealias')){
 
     }
 }
+if(!function_exists('youtube_preview')){
+    function youtube_preview($data,$width,$height){
+        $url = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", "<iframe class='".$width."' height='" . $height . "' src='//www.youtube.com/embed/$1\' frameborder='0' allowfullscreen></iframe>", $data);
+        return $url;
+    }
+}
 ?>

@@ -19,7 +19,9 @@
             <div class="col-md-6">
 
                 <div class="text-right">
-
+                    <a href="{{route('admin.homeexpertcategorycms')}}" target="_blank" class="btn btn-dark">
+                        Section Heading
+                    </a>
                 </div>
 
             </div>
@@ -45,7 +47,7 @@
 
                         <div class="card-body justify-content-between align-items-center">
 
-                            <form method="post" action="{{ route('admin.expertcategory.save') }}"
+                            <form method="post" action="{{ route('admin.homeexpertcategory.save') }}"
                                 enctype="multipart/form-data">
 
                                 @csrf
@@ -69,7 +71,7 @@
                                         </div>
 
                                     </div>
-                                    {{-- <div class="col-lg-12">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
                                             <label>Short Description <span class="error">*</span></label>
                                             <textarea name="short_description" class="form-control" placeholder="Short Description Here...">{{ old('short_description') }}</textarea>
@@ -90,7 +92,7 @@
                                     </div>
                                     <div class="col-4">
                                         <img src="{{asset('admin/img/img12.jpg')}}" id="defaultimg" class="w-100 mt-3 defaultimgcss">
-                                    </div> --}}
+                                    </div>
                                 </div>
 
                                 <div class="form-layout-footer text-right">
@@ -145,9 +147,9 @@
 
                                             </th>
 
-                                            <th>Title</th>
+                                            <th>Icon</th>
 
-                                            <th>alias</th>
+                                            <th>Title</th>
 
                                             <th>Sequence</th>
 
@@ -193,8 +195,14 @@
                                                     </label>
                                                 </td>
 
+                                                <td class="tblimg">
+                                                    <x-admin.image-preview>
+                                                        <x-slot:image>{{$list->image}}</x-slot>
+                                                        <x-slot:path>/uploads/homecategory/</x-slot>
+                                                        <x-slot:alt>{{$list->title ?? ''}}</x-slot>
+                                                    </x-admin.image-preview>
+                                                </td>
                                                 <td>{{ $list->title }}</td>
-                                                <td>{{ $list->alias }}</td>
                                                 <td><input type="text" class="form-control" style="width: 80px;"
                                                         name="sequence[{{ $list->id }}]"
                                                         value="{{ $list->sequence }}"></td>
@@ -216,7 +224,7 @@
                                                             <li><a href="#editmodal" data-bs-toggle="offcanvas" data-bs-id="{{$list->id}}" ><i
                                                                         class="fa fa-pencil"></i> Edit</a></li>
 
-                                                            <li><a href="{{route('admin.expertcategory.remove',['id'=>$list->id])}}" class="text-danger"
+                                                            <li><a href="{{route('admin.homeexpertcategory.remove',['id'=>$list->id])}}" class="text-danger"
                                                                     onclick="return RemoveRecord()"><i
                                                                         class="fa fa-trash"></i> Remove</a></li>
 
@@ -258,21 +266,21 @@
         if(confirm('Are you sure! you want to remove this qualification.')){ return true;}
         return false;
     }
-    $('.sequenceform').on('click',function(){ $('.table-wrapper').attr('action',@json(route('admin.expertcategory.sequence'))); $('.table-wrapper').submit(); });
-    $('.bulkremoveform').on('click',function(){ $('.table-wrapper').attr('action',@json(route('admin.expertcategory.bulkremove'))); $('.table-wrapper').submit(); });
+    $('.sequenceform').on('click',function(){ $('.table-wrapper').attr('action',@json(route('admin.homeexpertcategory.sequence'))); $('.table-wrapper').submit(); });
+    $('.bulkremoveform').on('click',function(){ $('.table-wrapper').attr('action',@json(route('admin.homeexpertcategory.bulkremove'))); $('.table-wrapper').submit(); });
     function changestatus(id){
         let status = 0;
         if($('#flexSwitchCheckDefault'+id).prop('checked')==true){
             status = 1;
         }
-        let url = @json(route('admin.expertcategory.status'));
+        let url = @json(route('admin.homeexpertcategory.status'));
         databasestatuschange(url,status,id);
     }
     $('[data-bs-id]').on('click',function(){
         let id = $(this).attr('data-bs-id');
-        $('.offcanvas-title').text('Edit Expert Category');
+        $('.offcanvas-title').text('Edit Home Expert Category');
         loadingbox();
-        $('.offcanvas-body').load(@json(route('admin.expertcategory.edit'))+'?id='+id);
+        $('.offcanvas-body').load(@json(route('admin.homeexpertcategory.edit'))+'?id='+id);
     });
     imgInp.onchange = evt => {
         const [file] = imgInp.files
@@ -285,4 +293,7 @@
 @push('css')
 <title>Expert Category : {{project()}}</title>
     <link href="{{asset('admin/lib/SpinKit/spinkit.css')}}" rel="stylesheet">
+    <style>
+        .tblimg{width: 10%!important}
+    </style>
 @endpush

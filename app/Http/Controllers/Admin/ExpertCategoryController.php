@@ -12,20 +12,19 @@ class ExpertCategoryController extends Controller
         return view('admin.experts.categtory.list',compact('lists'));
     }
     public function store(Request $request){
-       $request->validate([
-        'title' => 'required|max:255|string|unique:expert_categories'
-       ],[
-        'title.required'=>'title filed is required.',
-        'title.unique'=>'this title already exsist.'
-       ]);
-       $data = new \App\Models\ExpertCategory();
-       $data->title = $request->title;
-       $data->alias = generatealias('expert_categories','alias',$request->title);
-       $data->is_publish = 1;
-       $data->sequence = (\App\Models\ExpertCategory::max('sequence') + 1);
-       $data->save();
-       return back()->with(['success'=>'Data Saved!']);
+        $request->validate([
+            'title' => 'required|max:255|string|unique:expert_categories',
+        ],[
+            'title.required'=>'title filed is required.',
+            'title.unique'=>'this title already exsist.'
+        ]);
+        
+        $data = new \App\Models\ExpertCategory();
+        $data->title = $request->title;
+        $data->alias = generatealias('expert_categories','alias',$request->title);
+        $data->is_publish = 1;
     }
+
     public function edit(Request $request){
         $lists = \App\Models\ExpertCategory::find($request->id);
         return view('admin.experts.categtory.edit',compact('lists'));

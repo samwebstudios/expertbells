@@ -247,6 +247,42 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/hearabout-remove/{id}',[App\Http\Controllers\Admin\HearAboutController::class, 'destroy'])->name('hearabout.remove');
         Route::get('/hearabout-status',[App\Http\Controllers\Admin\HearAboutController::class, 'status'])->name('hearabout.status');
 
+        Route::get('/featured',[App\Http\Controllers\Admin\FeaturedController::class, 'index'])->name('featured');
+        Route::post('/featured-save',[App\Http\Controllers\Admin\FeaturedController::class, 'store'])->name('featured.save');
+        Route::post('/featured-update',[App\Http\Controllers\Admin\FeaturedController::class, 'update'])->name('featured.update');
+        Route::get('/featured-edit',[App\Http\Controllers\Admin\FeaturedController::class, 'edit'])->name('featured.edit');
+        Route::post('/featured-sequence',[App\Http\Controllers\Admin\FeaturedController::class, 'sequence'])->name('featured.sequence');
+        Route::post('/featured-bulkremove',[App\Http\Controllers\Admin\FeaturedController::class, 'bulkremove'])->name('featured.bulkremove');
+        Route::get('/featured-remove/{id}',[App\Http\Controllers\Admin\FeaturedController::class, 'destroy'])->name('featured.remove');
+        Route::get('/featured-status',[App\Http\Controllers\Admin\FeaturedController::class, 'status'])->name('featured.status');
+
+        Route::get('/banner',[App\Http\Controllers\Admin\BannerController::class, 'index'])->name('banner');
+        Route::post('/banner-save',[App\Http\Controllers\Admin\BannerController::class, 'store'])->name('banner.save');
+        Route::post('/banner-update',[App\Http\Controllers\Admin\BannerController::class, 'update'])->name('banner.update');
+        Route::get('/banner-edit',[App\Http\Controllers\Admin\BannerController::class, 'edit'])->name('banner.edit');
+        Route::post('/banner-sequence',[App\Http\Controllers\Admin\BannerController::class, 'sequence'])->name('banner.sequence');
+        Route::post('/banner-bulkremove',[App\Http\Controllers\Admin\BannerController::class, 'bulkremove'])->name('banner.bulkremove');
+        Route::get('/banner-remove/{id}',[App\Http\Controllers\Admin\BannerController::class, 'destroy'])->name('banner.remove');
+        Route::get('/banner-status',[App\Http\Controllers\Admin\BannerController::class, 'status'])->name('banner.status');
+
+        Route::get('/find-expert-step',[App\Http\Controllers\Admin\FindExpertStepController::class, 'index'])->name('findexpertstep');
+        Route::post('/findexpertstep-save',[App\Http\Controllers\Admin\FindExpertStepController::class, 'store'])->name('findexpertstep.save');
+        Route::post('/findexpertstep-update',[App\Http\Controllers\Admin\FindExpertStepController::class, 'update'])->name('findexpertstep.update');
+        Route::get('/findexpertstep-edit',[App\Http\Controllers\Admin\FindExpertStepController::class, 'edit'])->name('findexpertstep.edit');
+        Route::post('/findexpertstep-sequence',[App\Http\Controllers\Admin\FindExpertStepController::class, 'sequence'])->name('findexpertstep.sequence');
+        Route::post('/findexpertstep-bulkremove',[App\Http\Controllers\Admin\FindExpertStepController::class, 'bulkremove'])->name('findexpertstep.bulkremove');
+        Route::get('/findexpertstep-remove/{id}',[App\Http\Controllers\Admin\FindExpertStepController::class, 'destroy'])->name('findexpertstep.remove');
+        Route::get('/findexpertstep-status',[App\Http\Controllers\Admin\FindExpertStepController::class, 'status'])->name('findexpertstep.status');
+
+        Route::get('/home-expert-category',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'index'])->name('homeexpertcategory');
+        Route::post('/homeexpertcategory-save',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'store'])->name('homeexpertcategory.save');
+        Route::post('/homeexpertcategory-update',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'update'])->name('homeexpertcategory.update');
+        Route::get('/homeexpertcategory-edit',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'edit'])->name('homeexpertcategory.edit');
+        Route::post('/homeexpertcategory-sequence',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'sequence'])->name('homeexpertcategory.sequence');
+        Route::post('/homeexpertcategory-bulkremove',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'bulkremove'])->name('homeexpertcategory.bulkremove');
+        Route::get('/homeexpertcategory-remove/{id}',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'destroy'])->name('homeexpertcategory.remove');
+        Route::get('/homeexpertcategory-status',[App\Http\Controllers\Admin\HomeExpertCategoryController::class, 'status'])->name('homeexpertcategory.status');
+
         Route::get('/expert-category',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'index'])->name('expertcategory');
         Route::post('/expertcategory-save',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'store'])->name('expertcategory.save');
         Route::post('/expertcategory-update',[App\Http\Controllers\Admin\ExpertCategoryController::class, 'update'])->name('expertcategory.update');
@@ -410,6 +446,16 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         Route::get('/privacy-policy',[App\Http\Controllers\Admin\CmsController::class, 'privacypolicy'])->name('privacypolicy');
         Route::get('/terms-condition',[App\Http\Controllers\Admin\CmsController::class, 'termscondition'])->name('termscondition');
         Route::post('/updatecmsmodal',[App\Http\Controllers\Admin\CmsController::class, 'updatecmsmodal'])->name('updatecmsmodal');
+        
+        Route::get('/homeexpertcms',[App\Http\Controllers\Admin\CmsController::class, 'homeexpertcms'])->name('homeexpertcms');
+        Route::get('/findexpertstepcms',[App\Http\Controllers\Admin\CmsController::class, 'findexpertstepcms'])->name('findexpertstepcms');
+        Route::get('/featuredcms',[App\Http\Controllers\Admin\CmsController::class, 'featuredcms'])->name('featuredcms');
+        Route::get('/bannercms',[App\Http\Controllers\Admin\CmsController::class, 'bannercms'])->name('bannercms');
+        Route::get('/homeexpertcategorycms',[App\Http\Controllers\Admin\CmsController::class, 'homeexpertcategorycms'])->name('homeexpertcategorycms');
+        Route::get('/hometestimonialcms',[App\Http\Controllers\Admin\CmsController::class, 'hometestimonialcms'])->name('hometestimonialcms');
+        Route::get('/homenewscms',[App\Http\Controllers\Admin\CmsController::class, 'homenewscms'])->name('homenewscms');
+        Route::get('/youanexpert',[App\Http\Controllers\Admin\CmsController::class, 'youanexpert'])->name('youanexpert');
+        
         Route::post('/updatecms',[App\Http\Controllers\Admin\CmsController::class, 'updatecms'])->name('updatecms');
         
         Route::get('/become-an-expert-banner',[App\Http\Controllers\Admin\CmsController::class, 'becomeanexpertbanner'])->name('becomeanexpertbanner');
