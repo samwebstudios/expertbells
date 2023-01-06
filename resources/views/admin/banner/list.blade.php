@@ -35,6 +35,7 @@
                                             <label>Type <span class="error">*</span></label>
                                             <select name="type" class="form-control">
                                                 <option value="image" @selected(old('type')=='image')>Image</option>
+                                                <option value="video" @selected(old('type')=='video')>Video</option>
                                                 <option value="youtube" @selected(old('type')=='youtube')>Youtube</option>
                                             </select>
                                             @error('type')
@@ -63,8 +64,9 @@
                                         </div>
                                     </div>                                                                      
                                     <div class="col-lg-8 imagebox" style="display: {{old('type')!='youtube'?'':'none'}}">
-                                        <div class="form-group">
-                                            <small class="p-0">Image Size is 1150px * 620px</small>                              
+                                        <div class="form-group">'
+                                            <small class="p-0 videobox" style="display:{{old('type')=='video'?'':'none'}}">Choose Video</small>
+                                            <small class="p-0 imagehebox" style="display: {{old('type')=='image' || old('type')==''?'':'none'}}">Image Size is 1150px * 620px</small>                         
                                             <label class="custom-file">                              
                                               <input type="file" id="imgInp" name="image" class="custom-file-input">                              
                                               <span class="custom-file-control"></span>                              
@@ -134,6 +136,13 @@
                                                         <span></span>
                                                     </label>
                                                 </td>
+                                                @if($list->type=='video')
+                                                <td>
+                                                    <video class="w-100" controls="true">
+                                                        <source src="{{asset('uploads/banner/'.$list->image)}}"type="video/mp4">
+                                                    </video>
+                                                </td>
+                                                @endif
                                                 @if($list->type=='image')
                                                 <td class="tblimg">
                                                     <x-admin.image-preview>
@@ -146,7 +155,7 @@
                                                 </td>
                                                 @endif
                                                 @if($list->type=='youtube')
-                                                <td class="tblimg">
+                                                <td>
                                                    {!! youtube_preview($list->title,100,150) !!}
                                                 </td>
                                                 @endif
@@ -236,9 +245,11 @@
         }
     }
     $('select[name=type]').on('change',function(e){
-        if(e.target.value=='image'){ 
+        if(e.target.value=='image' || e.target.value=='video'){ 
             $('.imagebox').show();
             $('.youtubebox').hide();
+            if(e.target.value=='image'){ $('.imagehebox').show(); $('.videobox').hide();}
+            if(e.target.value=='video'){ $('.imagehebox').hide(); $('.videobox').show(); }
         }
         if(e.target.value=='youtube'){ 
             $('.imagebox').hide();

@@ -32,7 +32,7 @@
       <li class="nav-item"><a href="{{route('admin.homeexpertcms')}}" class="nav-link {{in_array(Request::segment(2),['homeexpertcms'])?'active':''}}">Your Expert (CMS)</a></li>
       <li class="nav-item"><a href="{{route('admin.featured')}}" class="nav-link {{in_array(Request::segment(2),['featured','featuredcms'])?'active':''}}">Featured in</a></li>
       <li class="nav-item"><a href="{{route('admin.homeexpertcategory')}}" class="nav-link {{in_array(Request::segment(2),['home-expert-category','homeexpertcategorycms'])?'active':''}}">Find Expert Category</a></li>
-      <li class="nav-item"><a href="#" class="nav-link {{in_array(Request::segment(2),['become-an-expert-banner'])?'active':''}}">Experts Video Gallery</a></li>
+      <li class="nav-item"><a href="{{route('admin.homeexpertvidoes')}}" class="nav-link {{in_array(Request::segment(2),['home-expert-vidoes'])?'active':''}}">Experts Video Gallery</a></li>
       <li class="nav-item"><a href="{{route('admin.hometestimonialcms')}}" class="nav-link {{in_array(Request::segment(2),['hometestimonialcms'])?'active':''}}">Customer Testimonials (CMS)</a></li>
       <li class="nav-item"><a href="{{route('admin.youanexpert')}}" class="nav-link {{in_array(Request::segment(2),['youanexpert'])?'active':''}}">You an Expert?</a></li>
       <li class="nav-item"><a href="{{route('admin.homenewscms')}}" class="nav-link {{in_array(Request::segment(2),['homenewscms'])?'active':''}}">We are in the News (CMS)</a></li>

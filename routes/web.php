@@ -472,7 +472,9 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
 
         Route::get('/footersection',[App\Http\Controllers\Admin\HomeController::class, 'footersection'])->name('footersection');
         Route::post('/savefooter', [App\Http\Controllers\Admin\HomeController::class, 'savefooter'])->name('savefooter');
-    
+        Route::get('/home-expert-vidoes',[App\Http\Controllers\Admin\HomeController::class, 'homeexpertvidoes'])->name('homeexpertvidoes');
+        Route::post('/home-expert-vidoes-status', [App\Http\Controllers\Admin\HomeController::class, 'homeexpertvidoesstaus'])->name('changehomeexpertvidoesstatus');
+        
         Route::get('/change-password', [App\Http\Controllers\Admin\HomeController::class, 'Change_Password'])->name('change-password');
         Route::post('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'Update_Password'])->name('update-password');
     });

@@ -16,8 +16,10 @@
                 </div>
                 <div class="col-md-9">
                     <div class="pb-2 mb-3 border-bottom d-block d-md-flex justify-content-between">
-                        <h3 class="m-0 h4">My Videos</h3>
-                        <a href="#videomodal" data-bs-toggle="modal" data-bs-type="addvideo" class="btn btn-thm4 m-0"><i class="fal fa-plus me-2"></i>Add New Video</a>
+                        <h3 class="m-0 h4">My Video</h3>
+                        @if($videos->count()==0)
+                        <a href="#videomodal" data-bs-toggle="modal" data-bs-type="addvideo" class="btn btn-thm4 m-0"><i class="fal fa-plus me-2"></i>Add a Demo Video</a>
+                        @endif
                     </div>
                     <div class="row VideoBox">
                         @if($videos->count()==0)
@@ -31,7 +33,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     {{-- {{route('expert.removevideo',['id'=>$video->id])}} --}}
-                                    <a href="#DeleteModal" data-bs-toggle="modal" onclick="$('.removerecord').attr('href','{{route('expert.removevideo',['id'=>$video->id])}}');" class="RemoveVideo"><i class="fal fa-trash-alt"></i></a>
+                                    {{-- <a href="#DeleteModal" data-bs-toggle="modal" onclick="$('.removerecord').attr('href','{{route('expert.removevideo',['id'=>$video->id])}}');" class="RemoveVideo"><i class="fal fa-trash-alt"></i></a> --}}
                                     <a href="#videomodal" data-bs-toggle="modal" data-bs-id="{{$video->id}}" data-bs-type="editvideo" class="EditVideo"><i class="fas fa-pencil-alt"></i></a>
                                     @if($video->video_type==1)
                                         <div class="youtube-player" data-id="{{$arr[1] ?? ''}}"></div>

@@ -6,7 +6,24 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller{    
     public function index(){
-        return view('home');
+        $bannercms = \App\Models\Cms::find(28);
+        $banners = \App\Models\Banner::where('is_publish',1)->orderBy('sequence','ASC')->get();
+
+        $findexpertcms = \App\Models\Cms::find(26);
+        $findexperts = \App\Models\FindExpertStep::where('is_publish',1)->orderBy('sequence','ASC')->get();
+
+        $expertcms = \App\Models\Cms::find(21);
+        $experts = \App\Models\Expert::where(['is_publish'=>1,'top_expert'=>1])->orderBy('sequence','ASC')->paginate(6);
+        
+        $featuredcms = \App\Models\Cms::find(27);
+        $featureds = \App\Models\Featured::where(['is_publish'=>1])->orderBy('sequence','ASC')->get();
+
+        $expertcategorycms = \App\Models\Cms::find(22);
+        $expertcategories = \App\Models\HomeExpertCategory::where(['is_publish'=>1])->orderBy('sequence','ASC')->get();
+        
+        $videoscms = \App\Models\Cms::find(29);
+        $videos = \App\Models\ExpertVideo::where(['is_publish'=>1,'set_home'=>1])->orderBy('sequence','ASC')->paginate(6);
+        return view('home',compact('videoscms','videos','expertcategorycms','expertcategories','featuredcms','featureds','bannercms','banners','findexpertcms','findexperts','expertcms','experts'));
     }
     public function contact(){
         $cms = \App\Models\Cms::find(11);

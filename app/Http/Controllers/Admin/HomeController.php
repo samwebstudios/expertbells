@@ -40,4 +40,21 @@ class HomeController extends Controller
         $data->save();
         return back()->with('success', 'Detail have been updated!');
     }
+
+    /// Home Videos 
+    public function homeexpertvidoes(){
+        $lists = \App\Models\ExpertVideo::where('is_publish',1)->paginate(30);
+        return view('admin.expert-video',compact('lists'));
+    }
+    public function homeexpertvidoesstaus(Request $r){
+        \App\Models\ExpertVideo::where('is_publish',1)->update(['set_home'=>0]);
+        if(!empty($r->set)):
+            foreach($r->set as $id => $value):
+                $data = \App\Models\ExpertVideo::find($id);
+                $data->set_home = 1;
+                $data->save();
+            endforeach;
+        endif;       
+        return back()->with('success', 'Status have been updated!');
+    }
 }

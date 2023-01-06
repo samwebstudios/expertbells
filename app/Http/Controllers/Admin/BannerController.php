@@ -23,8 +23,11 @@ class BannerController extends Controller
             if(strtoupper($extension)=='SVG' || strtoupper($extension)=='WEBP' || strtoupper($extension)=='AVIF'){
                 $FileName = directFile('uploads/banner/',$request->image);
             }else{
-                $FileName = autoheight('uploads/banner/',220,$request->image);
+                $FileName = autoheight('uploads/banner/',1150,$request->image);
             }
+        }
+        if(!empty($request->image) && $request->type=='video'){
+            $FileName = directFile('uploads/banner/',$request->image);
         }
         $data = new \App\Models\Banner();
         $data->type = $request->type;
@@ -45,19 +48,29 @@ class BannerController extends Controller
     }    
     public function update(Request $request){
         $request->validate([
-            'title' => 'required|max:255|string',
+            'type' => 'required',
+            'youtube' => 'required_if:type,==,youtube',
+            'title' => 'required_if:type,==,image',
         ]);
-        if(!empty($r->image)){
+        if(!empty($r->image) && $request->type=='image'){
             $extension =  $r->image->getClientOriginalExtension();
             if(strtoupper($extension)=='SVG' || strtoupper($extension)=='WEBP' || strtoupper($extension)=='AVIF'){
                 $FileName = directFile('uploads/banner/',$r->image);
             }else{
-                $FileName = autoheight('uploads/banner/',220,$r->image);
+                $FileName = autoheight('uploads/banner/',1150,$r->image);
             }
         }
+        if(!empty($request->image) && $request->type=='video'){
+            $FileName = directFile('uploads/banner/',$request->image);
+        }
         $data = \App\Models\Banner::find($request->id);
-        $data->title = $request->title;
-        if(!empty($r->image)){ $data->image = $FileName; }
+        $data->type = $request->type;
+        if($request->type=='youtube'){ 
+            $data->title = $request->youtube;
+        }else{            
+            $data->title = $request->title;
+            if(!empty($r->image)){ $data->image = $FileName; }
+        }        
         $data->save();
         return response()->json([
             'success'=>'Data Updated!'

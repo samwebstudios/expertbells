@@ -23,7 +23,7 @@ class LeftPanel extends Component
         $this->homemanagement = [''];
         $this->helpcenter = ['help-center','add-help-center','edit-help-center','help-center-query'];
         $this->schedules = ['rejected','booked','expired'];
-        $this->home = ['home-expert-category','featured','banner','bannercms','featuredcms','findexpertstepcms','find-expert-step','homeexpertcms','homeexpertcategorycms','hometestimonialcms','homenewscms','youanexpert'];
+        $this->home = ['home-expert-category','home-expert-vidoes','featured','banner','bannercms','featuredcms','findexpertstepcms','find-expert-step','homeexpertcms','homeexpertcategorycms','hometestimonialcms','homenewscms','youanexpert'];
         $this->aboutus = ['teams','contact','contactcms','about','mission','vission','teamcms','addteams','editteams','privacy-policy','terms-condition'];
         $this->others = ['qualifications','expert-category','expertise','language','industry','role','working','getbetter','hearabout'];
         $this->faqs = ['faqs-category','faqcms','new-faqs-category','edit-faqs-category','faqs','new-faqs','edit-faqs'];

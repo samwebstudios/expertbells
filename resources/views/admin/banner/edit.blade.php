@@ -8,44 +8,63 @@
 
             <div class="form-group">
 
-                <label>Title <span class="error">*</span></label>
-
-                <input type="text" class="form-control" value="{{ old('title', $lists->title) }}" name="title"
-                    placeholder="Title Here...">
-
-                    <span class="error title-error"><span>
-
+                <label>Type <span class="error">*</span></label>
+                <select name="type" class="form-control">
+                    <option value="image" @selected(old('type', $lists->type)=='image')>Image</option>
+                    <option value="video" @selected(old('type', $lists->type)=='video')>Video</option>
+                    <option value="youtube" @selected(old('type', $lists->type)=='youtube')>Youtube</option>
+                </select>
+                <span class="error type-error"><span>
             </div>
 
         </div>
-
-        <div class="col-lg-8">
-
+        <div class="col-lg-12 eyoutubebox" style="display: {{old('type', $lists->type)=='youtube'?'':'none'}}">
             <div class="form-group">
-
-                <label class="p-0">Image Size is 500px * 450px</label>
-  
-                <label class="custom-file">
-  
-                  <input type="file" id="imgInp" name="image" class="custom-file-input">
-  
-                  <span class="custom-file-control"></span>
-  
-                </label>
-  
-                @error('image')<span class="error">{{$message}}<span> @enderror
-  
-              </div>
-
+                <label>Youtube Url</label>
+                <input type="text" class="form-control" value="{{ $lists->type == 'youtube' ? old('youtube', $lists->title) : '' }}"
+                    name="youtube" placeholder="Youtube Url Here...">
+                @error('youtube')
+                    <span class="error">{{ $message }}<span>
+                        @enderror
+            </div>
         </div>
-        <div class="col-4">
+        <div class="col-lg-12 eyoutubebox" style="display: {{old('type', $lists->type)=='youtube'?'':'none'}}">
+            {!! $lists->type == 'youtube' ? youtube_preview($lists->title,100,150) : '' !!}
+        </div>
+        <div class="col-lg-12 eimagebox" style="display: {{old('type', $lists->type)!='youtube'?'':'none'}}">
+            <div class="form-group">
+                <label>Alt <span class="error">*</span></label>
+                <input type="text" class="form-control" value="{{ $lists->type != 'youtube' ? old('title', $lists->title) : '' }}" name="title"
+                    placeholder="Title Here...">
+                    <span class="error title-error"><span>
+            </div>
+        </div>
+        <div class="col-lg-8 eimagebox" style="display: {{old('type', $lists->type)!='youtube'?'':'none'}}">
+            <div class="form-group">
+                <small class="p-0 evideobox" style="display:{{old('type', $lists->type)=='video'?'':'none'}}">Choose Video</small>
+                <small class="p-0 eimagehebox" style="display: {{old('type', $lists->type)=='image' || old('type')==''?'':'none'}}">Image Size is 1150px * 620px</small>                         
+                <label class="custom-file">  
+                  <input type="file" id="imgInp" name="image" class="custom-file-input">  
+                  <span class="custom-file-control"></span>  
+                </label>  
+                @error('image')<span class="error">{{$message}}<span> @enderror  
+              </div>
+        </div>
+        <div class="col-4 eimagebox" style="display: {{old('type', $lists->type)!='youtube'?'':'none'}}">
+            @if($lists->type=='image')
             <x-admin.image-preview>
                 <x-slot:image>{{$lists->image}}</x-slot>
-                <x-slot:path>/uploads/featured/</x-slot>
+                <x-slot:path>/uploads/banner/</x-slot>
                 <x-slot:alt>{{$lists->title ?? ''}}</x-slot>
                 <x-slot:id>defaultimg</x-slot>
                 <x-slot:class>w-100 defaultimgcss</x-slot>
             </x-admin.image-preview>
+            @endif
+            @if($lists->type=='video')
+            <video class="w-100" controls="true">
+                <source src="{{asset('uploads/banner/'.$lists->image)}}"type="video/mp4">
+            </video>
+            @endif
         </div>
 
     </div>
@@ -55,12 +74,23 @@
         <button class="btn btn-dark esvbtn">Confirm & Update</button>
         <button type="button" style="display:none;" class="btn btn-dark eprcbtn"><i
                 class="fad fa-spinner-third fa-spin"></i> Loading...</button>
-        <a href="{{route('admin.featured')}}" class="btn btn-danger">Cancel</a>
+        <a href="{{route('admin.banner')}}" class="btn btn-danger">Cancel</a>
     </div><!-- form-layout-footer -->
 
 </form>
 <script>
-    
+    $('select[name=type]').on('change',function(e){
+        if(e.target.value=='image' || e.target.value=='video'){ 
+            $('.eimagebox').show();
+            $('.eyoutubebox').hide();   
+            if(e.target.value=='image'){ $('.eimagehebox').show(); $('.evideobox').hide();}
+            if(e.target.value=='video'){ $('.eimagehebox').hide(); $('.evideobox').show(); }         
+        }
+        if(e.target.value=='youtube'){ 
+            $('.eimagebox').hide();
+            $('.eyoutubebox').show();           
+        }
+    });
     $('.updateform').on('submit',function(e){
         $('.error').html('');
         $('.esvbtn').hide();
@@ -68,7 +98,7 @@
         e.preventDefault();
         $.ajax({
             data:new FormData(this),
-            url:@json(route('admin.featured.update')),
+            url:@json(route('admin.banner.update')),
             method:'POST',
             dataType:'Json',
             cache:false,
@@ -76,7 +106,7 @@
             processData:false,
             success:function(data){
                 loadingbox();
-                $('.offcanvas-body').load(@json(route('admin.featured.edit',['id'=>$lists->id])));
+                $('.offcanvas-body').load(@json(route('admin.banner.edit',['id'=>$lists->id])));
                 toastr.success(data.success);
             },
             error:function(response){
