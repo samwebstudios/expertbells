@@ -6,67 +6,10 @@
         <form class="container filterform">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fal fa-home-alt"></i></a></li>
-                <li class="breadcrumb-item"><a aria-current="page">Find All Experts</a></li>
+                <li class="breadcrumb-item"><a aria-current="page">Search</a></li>
+                <li class="breadcrumb-item"><a aria-current="page">{{request('searchlist')}}</a></li>
             </ol>
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-md-7">
-                    <h2 class="Heading h2">Choose an expert. <span>Book a meeting on video call.</span></h2>
-                </div>
-                <div class="col-lg-4 col-md-5 text-end">                    
-                    <input type="text" class="form-control SearchBox" name="search" placeholder="Search by name or keyword">
-                </div>
-            </div>
             <div class="row Filter">
-                <div class="col-12">
-                    <div class="d-flex flex-wrap">
-                        @csrf
-                        <div class="dropdown FilterDrop">
-                            <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories<span></span></a>
-                            <div class="dropdown-menu  p-3">
-                                <h3 class="text-u h6">Categories</h3>
-                                <input type="text" class="form-control SearchBox" placeholder="Search...">
-                                <ul>
-                                    @foreach ($categories as $item)
-                                    <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$item->id}}" data-bs-type="category" name="category[]" id="ct{{$item->id}}">
-                                        <label class="form-check-label" for="ct{{$item->id}}">{{$item->title}}</label>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="dropdown FilterDrop">
-                            <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Expertise<span></span></a>
-                            <div class="dropdown-menu  p-3">
-                                <h3 class="text-u h6">Expertise</h3>
-                                <input type="text" class="form-control SearchBox" placeholder="Search...">
-                                <ul>
-                                    @foreach ($expertise as $item)
-                                    <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$item->id}}" data-bs-type="expertise" name="expertise[]" id="gs{{$item->id}}">
-                                        <label class="form-check-label" for="gs{{$item->id}}">{{$item->title}}</label>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="dropdown FilterDrop">
-                            <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Industries<span></span></a>
-                            <div class="dropdown-menu p-3">
-                                <h3 class="text-u h6">Industries</h3>
-                                <input type="text" class="form-control SearchBox" placeholder="Search...">
-                                <ul>
-                                    @foreach ($industries as $item)
-                                    <li class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{$item->id}}" data-bs-type="industries" name="industries[]" id="sm{{$item->id}}">
-                                        <label class="form-check-label" for="sm{{$item->id}}">{{$item->title}}</label>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-12">
                     <div class="row databox my-5">
                         @if($experts->count()==0)
@@ -111,7 +54,7 @@
 </main>
 @endsection
 @push('css')
-<title>Find All Experts : Expert Bells</title>
+<title>Search Experts : {{project()}}</title>
 <meta name="description" content="Welcome to expert Bells">
 <meta name="keywords" content="Welcome to expert Bells">
 <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" onload="this.rel='stylesheet'" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
@@ -146,53 +89,5 @@ input.SearchBox{padding-left:40px;height:48px;font-size:18px;margin:0;width:100%
 </style>
 @endpush
 @push('js')
-<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" onload="this.rel='stylesheet'" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" />
 
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $(".CatIcons").owlCarousel({items:9,margin:20,loop:false,dots:false,nav:false,navText:['<i class="fal fa-chevron-left"></i>','<i class="fal fa-chevron-right"></i>'],autoplay:false,autoplayTimeout:3000,autoplayHoverPause:true,responsiveClass:true,responsive:{250:{items:2},350:{items:3},575:{items:5},768:{items:6},992:{items:7},1200:{items:8},1600:{items:9}}});
-});
-</script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.SelectExperts .dropdown-menu li').on('click', function(e) {
-        e.preventDefault();
-        var exp = $(this).data('name');
-        $('.SelectExperts .dropdown-toggle span').text(exp);
-    });
-    $('.FilterDrop .dropdown-menu').on('click', function(event){event.stopPropagation();});
-    $('.FilterDrop .dropdown-menu input[type="checkbox"]').change(function(e){
-        // let count = $('.FilterDrop>.dropdown-toggle span').text();
-        if($(this).is(':checked')==true){ count = 1;}
-        if($(this).is(':checked')==false){ count = 1;}
-        $('.filterform').submit();
-    });
-});
-$('.FilterDrop .SearchBox').on( "keyup", function() {
-    val = $(this).val().toLowerCase();
-    $(".FilterDrop ul li").each(function () {
-        $(this).toggle($(this).text().toLowerCase().includes(val));
-    });
-});
-$('.filterform').on('submit',function(e){
-    e.preventDefault();
-    $('.databox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin fa-3x"></i></div>');
-    $.ajax({
-        data:new FormData(this),
-        url:@json(route('expertsearch')),
-        method:'Post',
-        dataType:'Json',
-        cache:false,
-        contentType:false,
-        processData:false,
-        success:function(success){
-            $('.databox').html(success.html);
-        }
-    });
-});
-$('input[name=search]').on('keyup',function(){
-    $('.filterform').submit();
-});
-</script>
 @endpush

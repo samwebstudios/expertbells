@@ -29,6 +29,7 @@ Route::get('/career/{alias?}', [App\Http\Controllers\HomeController::class, 'car
 Route::get('experts/{alias?}/{type?}', [App\Http\Controllers\HomeController::class, 'experts'])->name('experts');
 
 Route::get('autosearch', [App\Http\Controllers\HomeController::class, 'autosearch'])->name('autosearch');
+Route::get('search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
 
 
 Route::post('expert-login', [App\Http\Controllers\Auth\LoginController::class, 'expertlogin'])->name('expertlogin');
@@ -53,6 +54,8 @@ Route::get('paymentresponse/{booking}', [App\Http\Controllers\OtherController::c
 Route::post('bookingquery', [App\Http\Controllers\OtherController::class, 'bookingquery'])->name('bookingquery');
 Route::post('posthelpquery', [App\Http\Controllers\OtherController::class, 'posthelpquery'])->name('posthelpquery');
 Route::post('expertsearch', [App\Http\Controllers\OtherController::class, 'expertsearch'])->name('expertsearch');
+Route::post('savenewsletter', [App\Http\Controllers\OtherController::class, 'savenewsletter'])->name('savenewsletter');
+Route::post('contactus', [App\Http\Controllers\OtherController::class, 'contactus'])->name('contactus');
 
 Route::post('expertslottimes', [App\Http\Controllers\HomeController::class, 'expertslottimes'])->name('expertslottimes');
 Route::post('bookingprocess', [App\Http\Controllers\HomeController::class, 'bookingprocess'])->name('bookingprocess');

@@ -261,4 +261,40 @@ class OtherController extends Controller
             'html' => $html
         ]);
     }
+
+
+    //// Frontend Form
+    public function savenewsletter(Request $r){
+        $r->validate([
+            'subscribe_email' => 'required|unique:newsletters,email',
+        ]);
+        $data = new \App\Models\Newsletter();
+        $data->email = $r->subscribe_email;
+        $data->ip = request()->ip();
+        $data->save();
+        return response()->json([
+            'message' => 'Thankyou for subscribe our newsletter!'
+        ]);
+    }
+    public function contactus(Request $r){
+        $r->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'mobile' => 'required|min:8|max:12',
+            'reason' => 'required',
+            'message' => 'required'
+        ]);
+        $data = new \App\Models\ContactInquiry();
+        $data->name = $r->name;
+        $data->email = $r->email;
+        $data->mobile = $r->mobile;
+        $data->reason = $r->reason;
+        $data->message = $r->message;
+        $data->business_sector = $r->business_sector;
+        $data->ip = request()->ip();
+        $data->save();
+        return response()->json([
+            'message' => 'Thankyou for subscribe our newsletter!'
+        ]);
+    }
 }

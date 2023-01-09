@@ -20,36 +20,57 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 order-lg-last">
-                    <form action="" class="ConForm card">
+                    <form action="{{route('contactus')}}" method="POST" class="ConForm card">
+                        @csrf
                         <div class="card-header">
                             <h3 class="h4 m-0 d-flex justify-content-between w-100">Contact Us <i class="fal fa-envelope-open"></i></h3>
                         </div>
                         <div class="card-body">
                             <div class="form-floating mb-4">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                                <input type="text" class="form-control inputTextBox" id="name" name="name" placeholder="Name">
                                 <label for="name" class="form-label">Name</label>
+                                @error('name') <small class="text-danger">{{$message}}</small> @enderror
                             </div>
                             <div class="form-floating mb-4">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email ID">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Email ID">
                                 <label for="Email" class="form-label">Email</label>
+                                @error('email') <small class="text-danger">{{$message}}</small> @enderror
                             </div>
                             <div class="form-floating mb-4">
-                                <input type="number" class="form-control" id="Phone" name="mobile" placeholder="Mobile No.">
+                                <input type="number" class="form-control" id="phone" name="mobile" placeholder="Mobile No.">
                                 <label for="Phone" class="form-label">Mobile No.</label>
+                                @error('mobile') <small class="text-danger">{{$message}}</small> @enderror
                             </div>
                             <div class="form-floating mb-4">
-                                <select class="form-control form-select"><option selected disabled>Select Reason</option></select>
+                                <select class="form-control form-select" name="reason">
+                                    <option selected disabled>Select Reason</option>
+                                    <option value="general">General</option>
+                                    <option value="payment-related">Payment Related</option>
+                                    <option value="spam-emails">Spam Emails</option>
+                                    <option value="error-issue">Error Issue</option>
+                                    <option value="other">Other</option>
+                                </select>
                                 <label for="Subject" class="form-label">Select Reason</label>
+                                @error('reason') <small class="text-danger">{{$message}}</small> @enderror
                             </div>
                             <div class="form-floating mb-4">
-                                <select class="form-control form-select"><option selected disabled>Select Business Sector</option></select>
+                                <select class="form-control form-select" name="business_sector">
+                                    <option selected disabled>Select Business Sector</option>
+                                    @foreach ($businesssectors as $item)
+                                    <option value="{{$item->id}}">{{$item->title}}</option>
+                                    @endforeach                                    
+                                </select>
                                 <label for="Subject" class="form-label">Select Business Sector</label>
                             </div>
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Leave a Message here" name="message" id="Message"></textarea>
                                 <label for="Message">Message</label>
+                                @error('message') <small class="text-danger">{{$message}}</small> @enderror
                             </div>
-                            <div class="text-center"><button type="submit" class="btn btn-thm4">Request Call Back</button></div>
+                            <div class="text-center">
+                                <button type="submit" onclick="$('.csbtn').hide(); $('.cpbtn').show();" class="btn btn-thm4 csbtn">Request Call Back</button>
+                                <button type="button" style="display:none;" class="btn btn-thm4 cpbtn" disabled><i class="fad fa-spinner-third me-1 fa-spin"></i> Loading...</button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -708,3 +708,32 @@ function expertlogin(){
         }
     });
 }
+
+//// Other
+$('.newsletterform').on('submit',function(e){
+    $('.ncsbtn').hide();
+    $('.nspbtn').show();
+    e.preventDefault();
+    $.ajax({
+        data:new FormData(this),
+        url:newsletterform,
+        method:'POST',
+        dataType:'Json',
+        cache:false,
+        contentType:false,
+        processData:false,
+        success:function(data){
+            $('.newsletterform').trigger('reset');
+            toastr.success(data.message);
+            $('.ncsbtn').show();
+            $('.nspbtn').hide();
+        },
+        error:function(response){            
+            if(response.responseJSON.errors.subscribe_email!== undefined){
+                toastr.error(response.responseJSON.errors.subscribe_email);
+            } 
+            $('.ncsbtn').show();
+            $('.nspbtn').hide();
+        }
+    });
+});

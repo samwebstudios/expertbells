@@ -23,12 +23,22 @@ class HomeController extends Controller{
         
         $videoscms = \App\Models\Cms::find(29);
         $videos = \App\Models\ExpertVideo::where(['is_publish'=>1,'set_home'=>1])->orderBy('sequence','ASC')->paginate(6);
-        return view('home',compact('videoscms','videos','expertcategorycms','expertcategories','featuredcms','featureds','bannercms','banners','findexpertcms','findexperts','expertcms','experts'));
+        
+        $youexpert = \App\Models\Cms::find(25);
+
+        $blogcms = \App\Models\Cms::find(24);
+        $blogs = \App\Models\Blog::where(['is_publish'=>1,'latest'=>1])->orderBy('sequence','ASC')->paginate(6);
+        
+        $testimonialscms = \App\Models\Cms::find(23);
+        $testimonials = \App\Models\Testimonial::where(['is_publish'=>1])->whereIn('rating',[4,5])->orderBy('sequence','ASC')->paginate(6);
+        
+        return view('home',compact('testimonialscms','testimonials','blogcms','blogs','videoscms','youexpert','videos','expertcategorycms','expertcategories','featuredcms','featureds','bannercms','banners','findexpertcms','findexperts','expertcms','experts'));
     }
     public function contact(){
         $cms = \App\Models\Cms::find(11);
         $contact = \App\Models\Cms::find(12);
-        return view('contact',compact('contact','cms'));
+        $businesssectors = \App\Models\ExpertCategory::where('is_publish',1)->get();
+        return view('contact',compact('contact','cms','businesssectors'));
     }
     public function termsandconditions(){
         $cms = \App\Models\Cms::find(9);
@@ -126,7 +136,6 @@ class HomeController extends Controller{
 
         return view('faqs',compact('lists','cms','category','activecategory'));
     }
-
     public function becomeanexpert(){
         $banner = \App\Models\Cms::find(13);
         $section2 = \App\Models\Cms::find(14);
@@ -187,8 +196,7 @@ class HomeController extends Controller{
         $videos = \App\Models\ExpertVideo::where('expert_id',$experts->id)->orderBy('sequence','DESC')->paginate(45);        
         return view('expert-videos',compact('experts','videos'));
     }
-
-
+    
 
     //// Booking
     public function bookinglogin($bookingid){
@@ -362,5 +370,44 @@ class HomeController extends Controller{
         return response()->json([
             'html' => $Html
         ]);
+    }
+    public function search(Request $r){
+        $search = $r->searchlist;
+        $experts = \App\Models\Expert::where('is_publish',1);
+        if(!empty($search)){
+            $experts = $experts->where(function($q) use($search){
+                $expertise = [];
+                $qualification = [];
+                $category = [];
+                $industry = array();
+
+                $expertiseArr = \App\Models\Expertise::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                $categoryArr = \App\Models\ExpertCategory::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                $qualificationArr = \App\Models\Qualification::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                $industryArr = \App\Models\Industry::where('is_publish',1)->where('title','LIKE','%'.$search.'%')->get();
+                foreach($expertiseArr as $exparr){
+                    $expertise[] = $exparr->id;
+                }
+                foreach($qualificationArr as $qualArr){
+                    $qualification[] = $qualArr->id;
+                }
+                foreach($categoryArr as $catArr){
+                    $category[] = $catArr->id;
+                }
+                
+                $q->where('name','LIKE','%'.$search.'%');
+                $q->orwhere('user_id','LIKE','%'.$search.'%');
+                $q->orwhere('email','LIKE','%'.$search.'%');
+                $q->orwhereIn('highest_qualification',$qualification);
+                $q->orwhereIn('your_expertise',$expertise);
+                $q->orwhereIn('category',$category);
+                foreach($industryArr as $indArr){
+                    $q->orwhereRaw('json_contains(suitable_industry, \'["'.$indArr->id.'"]\')');
+                }
+                
+            });
+        }
+        $experts = $experts->paginate(20);
+        return view('search',compact('experts'));
     }
 }
