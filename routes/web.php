@@ -56,6 +56,7 @@ Route::post('posthelpquery', [App\Http\Controllers\OtherController::class, 'post
 Route::post('expertsearch', [App\Http\Controllers\OtherController::class, 'expertsearch'])->name('expertsearch');
 Route::post('savenewsletter', [App\Http\Controllers\OtherController::class, 'savenewsletter'])->name('savenewsletter');
 Route::post('contactus', [App\Http\Controllers\OtherController::class, 'contactus'])->name('contactus');
+Route::post('requestjob',[App\Http\Controllers\OtherController::class, 'requestjob'])->name('requestjob');
 
 Route::post('expertslottimes', [App\Http\Controllers\HomeController::class, 'expertslottimes'])->name('expertslottimes');
 Route::post('bookingprocess', [App\Http\Controllers\HomeController::class, 'bookingprocess'])->name('bookingprocess');

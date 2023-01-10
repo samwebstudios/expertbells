@@ -335,7 +335,7 @@ input[type="date"]::-webkit-datetime-edit-day-field{position:absolute!important;
 .Contact .accordion-button:not(.collapsed):after{filter:brightness(22)}
 .Contact .accordion-button:after{width:1rem;height:1rem;background-size:1rem}
 .Contact .accordion-body{background:var(--white)}
-.Contact form{border-radius:9px;width:100%!important;background:rgb(var(--thmrgb)/.1);box-shadow:0 5px 9px rgb(var(--blackrgb)/.3);border:1px solid rgb(var(--blackrgb)/.1)}
+.Contact .ConForm{border-radius:9px;width:100%!important;background:rgb(var(--thmrgb)/.1);box-shadow:0 5px 9px rgb(var(--blackrgb)/.3);border:1px solid rgb(var(--blackrgb)/.1)}
 .Contact .con-info li{position:relative;margin-bottom:9px;padding:0 0 0 35px!important}
 .Contact .con-info li i{position:absolute;left:0;top:5px}
 .Contact .form-floating>.form-control:focus,.Contact .form-floating>.form-control:not(:placeholder-shown){padding-top:1rem}

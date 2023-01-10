@@ -737,3 +737,52 @@ $('.newsletterform').on('submit',function(e){
         }
     });
 });
+$('.jobapply').on('submit',function(e){
+    $('.error').html('');
+    $('.jsvbtn').hide();
+    $('.jpbtn').show();
+    e.preventDefault();
+    $.ajax({
+        data:new FormData(this),
+        url:RequestJobUrl,
+        method:'POST',
+        dataType:'Json',
+        cache:false,
+        contentType:false,
+        processData:false,
+        success:function(data){
+            $('.jsvbtn').show();
+            $('.jpbtn').hide(); 
+            $('.jobapply').trigger('reset');     
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+            toastr.success(data.success);  
+            $('#ApplyPopup').modal('hide');   
+        },
+        error:function(response){
+            if(response.responseJSON.errors.name!== undefined){
+                $('.name-error').text(response.responseJSON.errors.name);
+            }
+            if(response.responseJSON.errors.email!== undefined){
+                $('.email-error').text(response.responseJSON.errors.email);
+            }
+            if(response.responseJSON.errors.phone!== undefined){
+                $('.phone-error').text(response.responseJSON.errors.phone);
+            }
+            if(response.responseJSON.errors.experience!== undefined){
+                $('.experience-error').text(response.responseJSON.errors.experience);
+            }
+            if(response.responseJSON.errors.message!== undefined){
+                $('.message-error').text(response.responseJSON.errors.message);
+            } 
+            if(response.responseJSON.errors.resume!== undefined){
+                $('.resume-error').text(response.responseJSON.errors.resume);
+            }
+            $('.jsvbtn').show();
+            $('.jpbtn').hide();
+        }
+    });
+});

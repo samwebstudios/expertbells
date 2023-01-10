@@ -290,11 +290,76 @@ class OtherController extends Controller
         $data->mobile = $r->mobile;
         $data->reason = $r->reason;
         $data->message = $r->message;
-        $data->business_sector = $r->business_sector;
+        $data->sequence = (\App\Models\ContactInquiry::max('sequence') + 1);
+        $data->business_sector = $r->business_sector ?? 0;
         $data->ip = request()->ip();
         $data->save();
+        return back()->with(['success' => 'Thankyou! we are contact you soon.']);
+    }
+
+
+    public function requestjob(Request $r){
+        $r->validate([
+            'name'=>'required|max:255|string',
+            'email'=>'required|email',
+            'phone' => 'required|min:10|max:15',
+            'experience' => 'required',
+            'message' => 'required',
+            'resume' => 'required',
+        ]);
+
+        if(!empty($r->resume)){ $FileName = directFile('uploads/resume/',$r->resume); }
+        
+
+        $data = new \App\Models\JobApply();
+        $data->job = $r->jobid;        
+        $data->name = $r->name;        
+        $data->experience = $r->experience;
+        $data->email = $r->email;        
+        $data->phone = $r->ccode.$r->phone;  
+        if(!empty($r->resume)){ $data->resume = $FileName;  }     
+        $data->message = $r->message;
+        $data->save();
+
+        /*****ADMIN*/
+        $Message ='<h5>Hi,</h5>';
+        $Message .='<p>We have recived a new job enquiry. below are customer information:</p>';
+        $Message .='<table class="table">';
+            $Message .='<tr>';
+                $Message .='<th>Name : '.$data->name.'</th>';
+            $Message .='</tr>';
+            if(!empty($data->jobinfo)):
+            $Message .='<tr>';
+                $Message .='<th>Job : '.$data->jobinfo->title.'</th>';
+            $Message .='</tr>';
+            endif;
+            if(!empty($data->experience)):
+            $Message .='<tr>';
+                $Message .='<th>Experience : '.$data->experience.'</th>';
+            $Message .='</tr>';
+            endif;
+            $Message .='<tr>';
+                $Message .='<th>Email : '.$data->email.'</th>';
+            $Message .='</tr>';
+            $Message .='<tr>';
+                $Message .='<th>Phone : '.$data->phone.'</th>';
+            $Message .='</tr>';
+            if(!empty($data->resume)):
+            $Message .='<tr>';
+                $Message .='<th>Resume : <a href='.asset('storage/uploads/resume/'.$data->resume).' download>Download Resume</a></th>';
+            $Message .='</tr>';
+            endif;
+            $Message .='<tr>';
+                $Message .='<th>Message : '.$data->message.'</th>';
+            $Message .='</tr>';
+        $Message .='</table>';
+        $mailData = [
+            'subject' => 'Job Enquiry Have Recived From '.project().'.',
+            'message' => $Message
+        ];         
+        \Mail::to(mailsupportemail())->CC(ccadminmail())->send(new \App\Mail\EnquiryMail($mailData));
         return response()->json([
-            'message' => 'Thankyou for subscribe our newsletter!'
+            'success'=>'It was a pleasure to receive your inquiry.'
         ]);
     }
 }

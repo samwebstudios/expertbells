@@ -195,13 +195,17 @@
                         @endif
                         <h3>Newsletter</h3>
                         <div class="card Newsletter">
-                            <div class="card-body">
+                            <form class="card-body newsletterform">
+                                @csrf
                                 <div class="form-group">
                                     <label for="name" class="form-label">Email Address*</label>
-                                    <input type="email" class="form-control" id="name" name="email" placeholder="Email ">
+                                    <input type="text" class="form-control" id="subscribe_email" name="email" placeholder="Email ">
                                 </div>
-                                <div class="text-center"><button type="submit" class="btn btn-thm btn-sm mt-3">Subscribe</button></div>
-                            </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-thm btn-sm mt-3 ncsbtn">Subscribe</button>
+                                    <button type="button" class="btn btn-thm btn-sm mt-3 nspbtn" style="display:none" disabled><i class="fad fa-spinner-third fa-spin me-1"></i> Loading...</button>
+                                </div>
+                            </form>
                         </div>
                         <h3>Archives</h3>
                         <div class="card MostBlogs">
@@ -291,5 +295,7 @@
 $(document).ready(function() {
   $("#Blog").owlCarousel({items:2,margin:15,loop:false,dots:false,nav:true,navText:['<span class="icon fal fa-chevron-left"></span>','<span class="fal fa-chevron-right"></span>'],autoplay:false,autoplayTimeout:3000,autoplayHoverPause:true,responsiveClass:true,responsive:{250:{items:1},350:{items:1},460:{items:1},600:{items:2},768:{items:2},992:{items:2},1200:{items:2},1600:{items:2}}});
 });
-</script> 
+
+    const newsletterform = @json(route('savenewsletter'));
+</script>
 @endpush

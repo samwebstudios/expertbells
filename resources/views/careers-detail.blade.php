@@ -39,11 +39,13 @@
 
 <div class="modal fade" id="ApplyPopup" tabindex="-1" aria-labelledby="ApplyPopupLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <form class="modal-content">
+      <form class="modal-content jobapply">
+        @csrf
+        <input type="hidden" name="jobid" id="jobid" value="{{$list->id}}">
         <div class="modal-header">
           <div>
-            <h5 class="modal-title text-black m-0">Lorem Ipsum is simply dummy</h5>
-            <strong class="text-black-50 m-0"><small>India, UAE, Singapore, Hong Kong</small></strong>
+            <h5 class="modal-title text-black m-0">{{$list->title}}</h5>
+            <strong class="text-black-50 m-0"><small>{{$list->location ?? ''}}</small></strong>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -51,25 +53,28 @@
           <div class="row">
             <div class="col-sm-6 mb-3">
               <div class="form-floating">
-                <input type="text" class="form-control" id="name" name="Name" placeholder="Name">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
                 <label for="name" class="form-label">Name</label>
+                <small class="name-error error text-danger"></small>
               </div>
             </div>
             <div class="col-sm-6 mb-3">
               <div class="form-floating">
-                <input type="email" class="form-control" id="Email" name="Email" placeholder="Email ID">
+                <input type="email" class="form-control" id="Email" name="email" placeholder="Email ID">
                 <label for="Email" class="form-label">Email</label>
+                <small class="email-error error text-danger"></small>
               </div>
             </div>
             <div class="col-sm-6 mb-3">
               <div class="form-floating">
-                <input type="number" class="form-control" id="Phone" name="Phone" placeholder="Phone No.">
+                <input type="number" class="form-control" id="Phone" name="phone" placeholder="Phone No.">
                 <label for="Phone" class="form-label">Phone No.</label>
+                <small class="phone-error error text-danger"></small>
               </div>
             </div>
             <div class="col-sm-6 mb-3">
               <div class="form-floating">
-                <select class="form-select mb-3" aria-label=".form-select-lg example" name="Services">
+                <select class="form-select" aria-label=".form-select-lg example" name="experience">
                   <option disabled="" selected="" class="d-none">Select Experience</option>
                   <option value="0-1 Year">0-1 Year</option>
                   <option value="1-2 Year">1-2 Year</option>
@@ -77,33 +82,35 @@
                   <option value="5-8 Year">5-8 Year</option>
                   <option value="8+ Year">8+ Year</option>
                 </select>
-                <label for="floatingSelect">Works with selects</label>
+                <small class="experience-error error text-danger"></small>
               </div>
             </div>
             <div class="col-sm-12 mb-3">
               <div class="form-floating">
-                <input type="file" class="form-control" id="upResume">
+                <input type="file" class="form-control" name="resume" id="upResume">
                 <label class="input-group-text" for="upResume">Upload <span class="d-none d-md-block">&nbsp;Your Resume</span></label>
               </div>
+              <small class="resume-error error text-danger"></small>
             </div>
             <div class="col-sm-12 mb-3">
               <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" name="Message" id="Comments"></textarea>
-                <label for="Comments">Comments</label>
+                <textarea class="form-control" placeholder="Leave a comment here" name="message" id="Comments"></textarea>
+                <label for="Comments">Comments</label>                
+                <small class="message-error error text-danger"></small>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer text-center d-block">
-          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-          <button type="button" class="btn btn-thm2 mt-0">Send Now</button>
+          <button class="btn btn-thm2 jsvbtn mt-0">Send Now</button>
+          <button type="button" style="display:none;" class="btn btn-thm2 mt-0 jpbtn" disabled><i class="fad fa-spinner-third me-1 fa-spin"></i> Loading...</button>
         </div>
       </form>
     </div>
   </div>
 @endsection
 @push('css')
-<title>Careers View : Expert Bells</title>
+<title>Careers View : {{project()}}</title>
 <meta name="description" content="Welcome to Expert Bells">
 <meta name="keywords" content="Welcome to Expert Bells">
 <style type="text/css">
@@ -117,5 +124,7 @@
 </style>
 @endpush
 @push('js')
-    
+<script>
+  let RequestJobUrl = @json(route('requestjob'));
+</script>
 @endpush
