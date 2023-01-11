@@ -57,6 +57,7 @@ Route::post('expertsearch', [App\Http\Controllers\OtherController::class, 'exper
 Route::post('savenewsletter', [App\Http\Controllers\OtherController::class, 'savenewsletter'])->name('savenewsletter');
 Route::post('contactus', [App\Http\Controllers\OtherController::class, 'contactus'])->name('contactus');
 Route::post('requestjob',[App\Http\Controllers\OtherController::class, 'requestjob'])->name('requestjob');
+Route::post('saveblogcomment',[App\Http\Controllers\OtherController::class, 'saveblogcomment'])->name('saveblogcomment');
 
 Route::post('expertslottimes', [App\Http\Controllers\HomeController::class, 'expertslottimes'])->name('expertslottimes');
 Route::post('bookingprocess', [App\Http\Controllers\HomeController::class, 'bookingprocess'])->name('bookingprocess');
@@ -481,5 +482,11 @@ Route::namespace('Admin')->name('admin.')->prefix('control-panel')->group(functi
         
         Route::get('/change-password', [App\Http\Controllers\Admin\HomeController::class, 'Change_Password'])->name('change-password');
         Route::post('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'Update_Password'])->name('update-password');
+        
+        Route::get('/enquiry/{type}',[App\Http\Controllers\Admin\EnquiryController::class, 'enquiry'])->name('enquiry');
+        Route::get('/enquiryinfo/{type}',[App\Http\Controllers\Admin\EnquiryController::class, 'enquiryinfo'])->name('enquiryinfo');
+        Route::get('/enquirypublish/{type}',[App\Http\Controllers\Admin\EnquiryController::class, 'publish'])->name('enquirypublish');
+        Route::post('/enquirybulkdestory/{type}',[App\Http\Controllers\Admin\EnquiryController::class, 'bulkdestory'])->name('enquirybulkdestory');
+        Route::post('/enquirysequence/{type}',[App\Http\Controllers\Admin\EnquiryController::class, 'sequence'])->name('enquirysequence');
     });
 });

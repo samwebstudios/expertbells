@@ -786,3 +786,42 @@ $('.jobapply').on('submit',function(e){
         }
     });
 });
+
+$('.comtform').on('submit',function(e){
+    $('.error').html('');
+    $('.bcsbtn').hide();
+    $('.bcpbtn').show();
+    e.preventDefault();
+    $.ajax({
+        data:new FormData(this),
+        url:commentform,
+        method:'POST',
+        dataType:'Json',
+        cache:false,
+        contentType:false,
+        processData:false,
+        success:function(data){
+            $('.bcsbtn').show();
+            $('.bcpbtn').hide(); 
+            $('.comtform').trigger('reset');     
+            toastr.options = {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+            toastr.success(data.message);  
+        },
+        error:function(response){
+            if(response.responseJSON.errors.name!== undefined){
+                $('.nmerr').text(response.responseJSON.errors.name);
+            }
+            if(response.responseJSON.errors.email!== undefined){
+                $('.emerr').text(response.responseJSON.errors.email);
+            }
+            if(response.responseJSON.errors.message!== undefined){
+                $('.cmerr').text(response.responseJSON.errors.message);
+            }             
+            $('.bcsbtn').show();
+            $('.bcpbtn').hide();
+        }
+    });
+});

@@ -135,31 +135,32 @@
                                 <div class="card">
                                     <div class="card-body p-4">
                                         <p>Your email address will not be published. Required fields are marked *</p>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="contact" value="yes">
+                                        <form action="" class="comtform" method="post">
+                                            @csrf
+                                            <input type="hidden" name="blog_id" value="{{$list->id}}">
                                             <div class="form-floating mb-3">
-                                                <textarea class="form-control" placeholder="Leave a comment here" name="Message" id="Comments"></textarea>
+                                                <textarea class="form-control" placeholder="Leave a comment here" name="message" id="Comments"></textarea>
                                                 <label for="Comments">Comments</label>
+                                                <small class="error cmerr"></small>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3">
-                                                        <input type="text" class="form-control" id="name" name="Name" placeholder="Name">
+                                                        <input type="text" class="form-control inputTextBox" id="name" name="name" placeholder="Name">
                                                         <label for="name" class="form-label">Name</label>
-                                                    </div>
+                                                        <small class="error nmerr"></small>
+                                                    </div>                                                    
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3">
-                                                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Email ID">
+                                                        <input type="email" class="form-control" id="Email" name="email" placeholder="Email ID">
                                                         <label for="Email" class="form-label">Email</label>
+                                                        <small class="error emerr"></small>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="lstay">
-                                                <label class="form-check-label" for="lstay">Save my name, email, and website in this browser for the next time I comment.</label>
-                                            </div>
-                                            <button type="submit" class="btn btn-thm4">Post Comment</button>
+                                            </div>                                            
+                                            <button type="submit" class="btn btn-thm4 bcsbtn">Post Comment</button>
+                                            <button type="button" style="display:none;" class="btn btn-thm4 bcpbtn" disabled><i class="fad fa-spinner-third me-1 fa-spin"></i> Loading...</button>
                                         </form>
                                     </div>
                                 </div>
@@ -292,10 +293,10 @@
 <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" onload="this.rel='stylesheet'" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-  $("#Blog").owlCarousel({items:2,margin:15,loop:false,dots:false,nav:true,navText:['<span class="icon fal fa-chevron-left"></span>','<span class="fal fa-chevron-right"></span>'],autoplay:false,autoplayTimeout:3000,autoplayHoverPause:true,responsiveClass:true,responsive:{250:{items:1},350:{items:1},460:{items:1},600:{items:2},768:{items:2},992:{items:2},1200:{items:2},1600:{items:2}}});
-});
-
+    $(document).ready(function() {
+        $("#Blog").owlCarousel({items:2,margin:15,loop:false,dots:false,nav:true,navText:['<span class="icon fal fa-chevron-left"></span>','<span class="fal fa-chevron-right"></span>'],autoplay:false,autoplayTimeout:3000,autoplayHoverPause:true,responsiveClass:true,responsive:{250:{items:1},350:{items:1},460:{items:1},600:{items:2},768:{items:2},992:{items:2},1200:{items:2},1600:{items:2}}});
+    });
     const newsletterform = @json(route('savenewsletter'));
+    const commentform = @json(route('saveblogcomment'));
 </script>
 @endpush

@@ -296,8 +296,24 @@ class OtherController extends Controller
         $data->save();
         return back()->with(['success' => 'Thankyou! we are contact you soon.']);
     }
-
-
+    public function saveblogcomment(Request $r){
+        $r->validate([
+            'email' => 'required|email',
+            'name'=>'required|max:255|string',
+            'message' => 'required'
+        ]);
+        $data = new \App\Models\BlogComment();
+        $data->blog_id = $r->blog_id;
+        $data->email = $r->email;
+        $data->name = $r->name;
+        $data->message = $r->message;
+        $data->ip = request()->ip();
+        $data->sequence = (\App\Models\BlogComment::max('sequence') + 1);
+        $data->save();
+        return response()->json([
+            'message' => 'Thankyou! your comment saved!'
+        ]);
+    }
     public function requestjob(Request $r){
         $r->validate([
             'name'=>'required|max:255|string',
@@ -319,6 +335,7 @@ class OtherController extends Controller
         $data->phone = $r->ccode.$r->phone;  
         if(!empty($r->resume)){ $data->resume = $FileName;  }     
         $data->message = $r->message;
+        $data->sequence = (\App\Models\JobApply::max('sequence') + 1);
         $data->save();
 
         /*****ADMIN*/

@@ -19,8 +19,9 @@ class LeftPanel extends Component
     public $faqs;
     public $becomeanexpert;
     public $home;
+    public $enquiry;
     public function __construct(){
-        $this->homemanagement = [''];
+        $this->enquiry = ['comments','jobs','contact','newsletter'];
         $this->helpcenter = ['help-center','add-help-center','edit-help-center','help-center-query'];
         $this->schedules = ['rejected','booked','expired'];
         $this->home = ['home-expert-category','home-expert-vidoes','featured','banner','bannercms','featuredcms','findexpertstepcms','find-expert-step','homeexpertcms','homeexpertcategorycms','hometestimonialcms','homenewscms','youanexpert'];

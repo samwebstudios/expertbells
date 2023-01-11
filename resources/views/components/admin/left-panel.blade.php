@@ -139,6 +139,21 @@
       <li class="nav-item"><a href="{{route('admin.getbetter')}}" class="nav-link {{Request::segment(2)=='getbetter'?'active':''}}">Get Better</a></li>
       <li class="nav-item"><a href="{{route('admin.hearabout')}}" class="nav-link {{Request::segment(2)=='hearabout'?'active':''}}">Hear About us</a></li>
       <li class="nav-item"><a href="{{route('admin.working')}}" class="nav-link {{Request::segment(2)=='working'?'active':''}}">Working As</a></li>
-    </ul>  
+    </ul> 
+    
+    <a href="javascript:void(0)" class="br-menu-link {{Request::segment(2)=='enquiry' && in_array(Request::segment(3),$enquiry) ? 'active' : '' }}">
+      <div class="br-menu-item">
+        <i class="menu-item-icon icon ion-ios-photos-outline tx-24"></i>
+        <span class="menu-item-label">Enquiry Management </span>
+        <i class="menu-item-arrow fa fa-angle-down"></i>
+      </div>
+    </a>  
+    <ul class="br-menu-sub nav flex-column" style="display:{{Request::segment(2)=='enquiry' && in_array(Request::segment(3),$enquiry) ? 'block' : 'none' }}">
+      <li class="nav-item"><a href="{{route('admin.enquiry',['type'=>'comments'])}}" class="nav-link {{Request::segment(3)=='comments'?'active':''}}">Blog Comments</a></li>
+      <li class="nav-item"><a href="{{route('admin.enquiry',['type'=>'jobs'])}}" class="nav-link {{Request::segment(3)=='jobs'?'active':''}}">Job</a></li>
+      <li class="nav-item"><a href="{{route('admin.enquiry',['type'=>'contact'])}}" class="nav-link {{Request::segment(3)=='contact'?'active':''}}">Contact</a></li>
+      <li class="nav-item"><a href="{{route('admin.enquiry',['type'=>'newsletter'])}}" class="nav-link {{Request::segment(3)=='newsletter'?'active':''}}">Newsletter</a></li>
+    </ul> 
+
   </div>  
 </div>
