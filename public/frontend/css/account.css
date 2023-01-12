@@ -67,7 +67,7 @@ button#AccMenuBar:focus:not(:focus-visible){box-shadow:none}
 .SendInquiryPopup>div ~ div .MsgHead .ccbox,.SendInquiryPopup>div ~ div .MsgHead .bccbox{position:absolute;top:6px;right:0;font-size:14px}
 .SendInquiryPopup>div ~ div .MsgHead .ccbox{right:30px}
 .SendInquiryPopup>div ~ div .MsgBox{min-height:300px;max-height:400px;padding:15px 0 0;margin-bottom:15px;font-size:14px;overflow:auto;position:relative}
-.SendInquiryPopup>div ~ div .MsgBox .MsgBoxType{min-height:250px}
+.SendInquiryPopup>div ~ div .MsgBox .MsgBoxType{min-height:150px}
 .SendInquiryPopup>div ~ div .MsgBox .Attach{position:sticky; bottom:0;width:100%}
 .SendInquiryPopup>div ~ div .MsgBox .Attach .alert{padding:6px 9px;width:calc(100% - 80px);margin-bottom:8px;display:flex;flex-wrap:wrap}
 .SendInquiryPopup>div ~ div .MsgBox .Attach .alert>strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;max-width:235px;margin-right:5px}

@@ -825,3 +825,332 @@ $('.comtform').on('submit',function(e){
         }
     });
 });
+
+
+function generatescheduledchart(){
+    $('.ScheduledChatBox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin" style="font-size:15px;"></i> Loading...</div>');
+    const year = $('select[name=scheduledyear]').val();
+    $.ajax({
+        url:scheduledcharturl,
+        data:{year:year},
+        method:'Get',
+        dataType:'Json',
+        success:function(success){
+            const labels = [
+                success.month[0],
+                success.month[1],
+                success.month[2],
+                success.month[3],
+                success.month[4],
+                success.month[5],
+                success.month[6],
+                success.month[7],
+                success.month[8],
+                success.month[9],
+                success.month[10],
+                success.month[11]
+            ];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Scheduled Calls',
+                    backgroundColor: 'rgb(19 94 173)',
+                    borderColor: 'rgb(19 94 173)',
+                    data: [
+                        success.data[0],
+                        success.data[1],
+                        success.data[2],
+                        success.data[3],
+                        success.data[4],
+                        success.data[5],
+                        success.data[6],
+                        success.data[7],
+                        success.data[8],
+                        success.data[9],
+                        success.data[10],
+                        success.data[11]
+                    ],
+                }]
+            };
+           
+            const config = {
+                type: 'line',
+                data: data,
+                options: {}
+            };
+            $('.ScheduledChatBox').html('<canvas id="myChart"></canvas>');
+            var grapharea = document.getElementById("myChart").getContext("2d");
+            new Chart(grapharea, config);    
+        }
+    });
+}
+function generateclosescheduledchart(){
+    $('.CloseScheduledChatBox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin" style="font-size:15px;"></i> Loading...</div>');
+    const year = $('select[name=closescheduledyear]').val();
+    $.ajax({
+        url:closescheduledcharturl,
+        data:{year:year},
+        method:'Get',
+        dataType:'Json',
+        success:function(success){
+            const labels1 = [
+                success.month[0],
+                success.month[1],
+                success.month[2],
+                success.month[3],
+                success.month[4],
+                success.month[5],
+                success.month[6],
+                success.month[7],
+                success.month[8],
+                success.month[9],
+                success.month[10],
+                success.month[11]
+            ];
+            const data1 = {
+                labels: labels1,
+                datasets: [{
+                    label: 'Close Scheduled',
+                    backgroundColor: 'rgb(255 99 132)',
+                    borderColor: 'rgb(255 99 132)',
+                    data: [
+                        success.data[0],
+                        success.data[1],
+                        success.data[2],
+                        success.data[3],
+                        success.data[4],
+                        success.data[5],
+                        success.data[6],
+                        success.data[7],
+                        success.data[8],
+                        success.data[9],
+                        success.data[10],
+                        success.data[11]
+                    ],
+                }]
+            };
+            const config = {
+                type: 'line',
+                data: data1,
+                options: {}
+            };
+            $('.CloseScheduledChatBox').html('<canvas id="myChart2"></canvas>');
+            var grapharea = document.getElementById("myChart2").getContext("2d");
+            new Chart(grapharea, config);   
+        }
+    });
+}
+function generaterescheduledchart(){
+    $('.ReScheduledChatBox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin" style="font-size:15px;"></i> Loading...</div>');
+    const year = $('select[name=rescheduledyear]').val();
+    $.ajax({
+        url:rescheduledcharturl,
+        data:{year:year},
+        method:'Get',
+        dataType:'Json',
+        success:function(success){
+            const labels2 = [
+                success.month[0],
+                success.month[1],
+                success.month[2],
+                success.month[3],
+                success.month[4],
+                success.month[5],
+                success.month[6],
+                success.month[7],
+                success.month[8],
+                success.month[9],
+                success.month[10],
+                success.month[11]
+            ];
+            const data2 = {
+                labels: labels2,
+                datasets: [{
+                    label: 'Rescheduled Calls',
+                    backgroundColor: 'rgb(32 185 5)',
+                    borderColor: 'rgb(32 185 5)',
+                    data: [
+                        success.data[0],
+                        success.data[1],
+                        success.data[2],
+                        success.data[3],
+                        success.data[4],
+                        success.data[5],
+                        success.data[6],
+                        success.data[7],
+                        success.data[8],
+                        success.data[9],
+                        success.data[10],
+                        success.data[11]
+                    ],
+                }]
+            };
+            const config = {
+                type: 'line',
+                data: data2,
+                options: {}
+            };
+            $('.ReScheduledChatBox').html('<canvas id="myChart3"></canvas>');
+            var grapharea = document.getElementById("myChart3").getContext("2d");
+            new Chart(grapharea, config);    
+        }
+    });
+}
+function generatepiechart(){
+    $('.PieChatBox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin" style="font-size:15px;"></i> Loading...</div>');
+    const year = $('select[name=pieyear]').val();
+    $.ajax({
+        url:generatepiecharturl,
+        data:{year:year},
+        method:'Get',
+        dataType:'Json',
+        success:function(success){
+            const piedata = {
+                labels: ['Scheduled Calls','Close Calls','Rescheduled Calls'],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [success.data[0], success.data[1], success.data[2]],
+                    backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)', 'rgb(255, 205, 86)'],
+                    hoverOffset: 4
+                }]
+            };
+            const pieconfig = {
+                type: 'pie',
+                data: piedata,
+            };
+            $('.PieChatBox').html('<canvas id="mypie" style="max-width:230px;margin:0 auto"></canvas>');
+            var grapharea = document.getElementById("mypie").getContext("2d");
+            new Chart(grapharea, pieconfig);                
+        }
+    });
+}
+function generatematerialchart(){
+    $('.MaterialChatBox').html('<div class="text-center my-5"><i class="fad fa-spinner-third fa-spin" style="font-size:15px;"></i> Loading...</div>');
+    const year = $('select[name=materialyear]').val();
+    $.ajax({
+        url:generatematerialcharturl,
+        data:{year:year},
+        method:'Get',
+        dataType:'Json',
+        success:function(success){
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Month','Booking','Tax','TDS','Earning'],
+                    success.data[0],
+                    success.data[1],
+                    success.data[2],
+                    success.data[3],
+                    success.data[4],
+                    success.data[5],
+                    success.data[6],
+                    success.data[7],
+                    success.data[8],
+                    success.data[9],
+                    success.data[10],
+                    success.data[11]
+                ]);
+                var options = {
+                    chart: {
+                        // title: 'Company Performance',
+                        subtitle: 'Year 2022',
+                    }
+                };
+                $('.MaterialChatBox').html('<div id="multi" class="w-100" style="height:400px"></div>');
+                var grapharea = document.getElementById("multi");
+                var chart = new google.charts.Bar(grapharea);
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+            }
+        }
+    });
+}
+
+function f1() {
+    document.execCommand('bold',false,null);      
+}
+function f10() {
+    document.execCommand('underline',false,null);      
+}  
+function f2() {
+    document.execCommand('italic',false,null);   
+}  
+function f3() {
+    document.getElementById("fake_textarea").style.textAlign = "left";
+}  
+function f4() {
+    document.getElementById("fake_textarea").style.textAlign = "center";
+}  
+function f5() {
+    document.getElementById("fake_textarea").style.textAlign = "right";
+}  
+function f6() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    let newtext = text.toUpperCase();
+    text = FullText.replace(text,newtext);
+    $('#fake_textarea').html(text);
+}  
+function f7() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    let newtext = text.toLowerCase();
+    text = FullText.replace(text,newtext);
+    $('#fake_textarea').html(text);
+}  
+function f8() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    let newtext = text.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
+    text = FullText.replace(text,newtext);
+    $('#fake_textarea').html(text);
+}  
+function f9() {
+    $('#fake_textarea').html('');
+    $('#fake_textarea').css('');
+}
+function f11() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    if(text!=''){
+        let newtext = text.fontsize(1);
+        text = FullText.replace(text,newtext);
+        $('#fake_textarea').html(text);
+    }
+} 
+function f12() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    if(text!=''){
+        let newtext = text.fontsize(3);
+        text = FullText.replace(text,newtext);
+        $('#fake_textarea').html(text);
+    }
+} 
+function f13() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    if(text!=''){
+        let newtext = text.fontsize(6);
+        text = FullText.replace(text,newtext);
+        $('#fake_textarea').html(text);
+    }
+} 
+function f14() {
+    let FullText = $('#fake_textarea').html();
+    let text = getSelectionText();
+    if(text!=''){
+        let newtext = text.fontsize(7);
+        text = FullText.replace(text,newtext);
+        $('#fake_textarea').html(text);
+    }
+} 
+function getSelectionText() {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        text = document.selection.createRange().text;
+    }
+    return text;
+}

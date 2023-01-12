@@ -353,4 +353,15 @@ class ExpertController extends Controller
             'success' => 'Booking has been reschedule with booking #'.$data->booking_id.'.'
         ]);
     }
+
+
+    //// MESSAGE
+    public function sendmessage(Request $r){
+        $r->validate([
+            'to_recipient_email' => 'required|email',
+            'subject' => 'required|string|max:200'
+        ]);
+
+        dd($r->all());
+    }
 }

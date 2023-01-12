@@ -141,7 +141,8 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::post('addexpertslotprice','addexpertslotprice')->name('addexpertslotprice');
         Route::post('expertslotavailability','expertslotavailability')->name('expertslotavailability');
         Route::post('bookingrescheduleprocess','bookingrescheduleprocess')->name('bookingrescheduleprocess');
-        
+                
+        Route::post('sendmessage','sendmessage')->name('sendmessage');
     });
     Route::controller(App\Http\Controllers\Expert\HomeController::class)->group(function(){
         Route::get('dashboard','dashboard')->name('dashboard');
@@ -165,6 +166,16 @@ Route::middleware('expert')->name('expert.')->prefix('expert')->group(function()
         Route::get('bookinginformation/{bookingid}/','bookinginformation')->name('bookinginformation');
                 
         Route::get('help','help')->name('help');
+
+        Route::get('message','message')->name('message');
+
+        Route::get('reports','reports')->name('reports');
+        Route::get('reportpdf','reportpdf')->name('reportpdf');
+        Route::get('generatepiechart','generatepiechart')->name('generatepiechart');
+        Route::get('rescheduledchart','rescheduledchart')->name('rescheduledchart');
+        Route::get('scheduledchart','scheduledchart')->name('scheduledchart');
+        Route::get('closescheduledchart','closescheduledchart')->name('closescheduledchart');
+        Route::get('generatematerialchart','generatematerialchart')->name('generatematerialchart');
     });
 });
 

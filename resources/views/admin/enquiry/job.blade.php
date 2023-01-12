@@ -39,8 +39,6 @@
                             <th>Date</th>
                             <th>User</th>
                             <th>Resume</th>
-                            <th>Sequence</th>
-                            <th>Publish</th>
                             <th class="wd-5p">
                                 <div class="dropdown TAction show">
                                     <a href="#" class="nav-link p-0 w-auto text-white text-center"
@@ -94,32 +92,24 @@
                                 </small>
                                 @endif
                             </td>
-                            <td><input type="text" class="form-control" style="width: 80px;"
-                                name="sequence[{{ $list->id }}]"
-                                value="{{ $list->sequence }}"></td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" @checked($list->is_publish)
-                                    type="checkbox" value="{{ $list->id }}" role="switch" onclick="changestatus(this.value)" id="flexSwitchCheckDefault{{ $list->id }}">
-                            </div>
-                        </td>
-                        <td class="pd-r-0-force tx-center">
+                            
+                            <td class="pd-r-0-force tx-center">
 
-                            <div class="dropdown TAction show">
+                                <div class="dropdown TAction show">
 
-                                <a href="#" class="nav-link" data-toggle="dropdown"
-                                    aria-expanded="true"><i class="fa fa-ellipsis-v"></i></a>
+                                    <a href="#" class="nav-link" data-toggle="dropdown"
+                                        aria-expanded="true"><i class="fa fa-ellipsis-v"></i></a>
 
-                                <ul class="dropdown-menu" x-placement="bottom-end">
+                                    <ul class="dropdown-menu" x-placement="bottom-end">
 
-                                    <li><a href="#informationmodal" data-bs-id="{{ $list->id }}"><i class="fa fa-book"></i> Detail</a></li>
+                                        <li><a href="#editmodal" data-bs-toggle="offcanvas" data-bs-id="{{ $list->id }}"><i class="fa fa-book"></i> Detail</a></li>
 
-                                   
-                                </ul>
+                                    
+                                    </ul>
 
-                            </div>
+                                </div>
 
-                        </td>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -146,7 +136,10 @@
         databasestatuschange(url,status,id);
     }
     $('[data-bs-id]').on('click',function(){
-        let id = $(this).attr('data-bs-id');        
+        let id = $(this).attr('data-bs-id');     
+        $('.offcanvas-title').text('Job Information');
+        $('.offcanvas-body').html('<div class="text-center mt-5"><i class="fad fa-spinner-third fa-spin"></i> Loading....</div>');
+        $('.offcanvas-body').load(@json(route('admin.enquiryinfo',['type'=>'jobs'])) + '?id=' + id);   
     });
 </script>
 @endpush

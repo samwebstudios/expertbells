@@ -136,7 +136,7 @@
     $('[data-bs-id]').on('click',function(){
         let id = $(this).attr('data-bs-id');     
         $('.offcanvas-title').text('Comment Information');
-        loadingbox();
+        $('.offcanvas-body').html('<div class="text-center mt-5"><i class="fad fa-spinner-third fa-spin"></i> Loading....</div>');
         $('.offcanvas-body').load(@json(route('admin.enquiryinfo',['type'=>'comments'])) + '?id=' + id);   
     });
 </script>

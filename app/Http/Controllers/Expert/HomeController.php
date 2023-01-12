@@ -10,6 +10,17 @@ class HomeController extends Controller
     public function dashboard(){
         return view('expert.dashboard');
     }
+    public function reports(){     
+        $histories = \App\Models\SlotBook::where('expert_id',expertinfo()->id)->latest()->paginate(20);
+        return view('expert.reports',compact('histories'));
+    }
+    public function reportpdf(){
+        $histories = \App\Models\SlotBook::where('expert_id',expertinfo()->id)->latest()->paginate(100);
+        $pdf = \PDF::loadView('expert.pdf.reports', array('histories' =>  $histories))
+        ->setPaper('a4', 'portrait');
+        return $pdf->download('expertbells-report.pdf'); 
+        // return view('expert.pdf.reports',compact('histories'));  
+    }
 
     /// PROFILE
     public function editprofile(){
@@ -251,7 +262,7 @@ class HomeController extends Controller
     }
 
      /// Help
-     public function help(){
+    public function help(){
         $lists = \App\Models\HelpCenter::where(['type'=>1,'is_publish'=>1]);
         if(!empty(request('search'))){
             $search = request('search');
@@ -263,4 +274,82 @@ class HomeController extends Controller
         $lists = $lists->paginate(50);
         return view('expert.help',compact('lists'));
     }
+
+
+    /// GRAPH
+    public function generatepiechart(){
+        $scheduled = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->whereYear('booking_date',request('year'))->count();
+        $closescheduled = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->whereYear('booking_date',request('year'))->count();
+        $rescheduled = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->whereYear('booking_date',request('year'))->where('reschedule_slot','>',0)->count();
+        return response()->json([
+            'data' => [$scheduled,$closescheduled,$rescheduled]
+        ]);
+    }
+    public function scheduledchart(){
+        $months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'];
+        $result=[];
+        foreach($months as $m => $month):
+            $scheduled = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id]);
+            $scheduled = $scheduled->whereMonth('booking_date',($m+1));
+            $scheduled = $scheduled->whereYear('booking_date',request('year'));
+            $scheduled = $scheduled->where('reschedule_slot',0);
+            $scheduled = $scheduled->count();
+            $result[]=$scheduled;
+        endforeach;
+        return response()->json([
+            'data' => $result,
+            'month' => $months
+        ]);
+    }
+    public function rescheduledchart(){
+        $months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'];
+        $result=[];
+        foreach($months as $m => $month):
+            $scheduled = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id]);
+            $scheduled = $scheduled->whereMonth('booking_date',($m+1));
+            $scheduled = $scheduled->whereYear('booking_date',request('year'));
+            $scheduled = $scheduled->where('reschedule_slot','>',0);
+            $scheduled = $scheduled->count();
+            $result[]=$scheduled;
+        endforeach;
+        return response()->json([
+            'data' => $result,
+            'month' => $months
+        ]);
+    }
+    public function closescheduledchart(){
+        $months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'];
+        $result=[];
+        foreach($months as $m => $month):
+            $scheduled = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id]);
+            $scheduled = $scheduled->whereMonth('booking_date',($m+1));
+            $scheduled = $scheduled->whereYear('booking_date',request('year'));
+            $scheduled = $scheduled->count();
+            $result[]=$scheduled;
+        endforeach;
+        return response()->json([
+            'data' => $result,
+            'month' => $months
+        ]);
+    }
+    public function generatematerialchart(){
+        $months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'];
+        foreach($months as $m => $month):
+            $Booking = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->whereYear('booking_date',request('year'))->sum('paid_amount');
+            $Tax = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->whereYear('booking_date',request('year'))->sum('gst_amount');
+            $TDS = \App\Models\SlotBook::where(['expert_id'=>expertinfo()->id])->whereYear('booking_date',request('year'))->sum('tds_amount');;
+            $Earning= ($Booking - $Tax - $TDS);
+            $result[] = [$month, $Booking, $Tax, $TDS, $Earning];
+        endforeach;
+        return response()->json([
+            'data' => $result,
+        ]);
+    }
+
+
+    /// MESSAGE
+    public function message(){        
+        return view('expert.message');
+    }
+    
 }

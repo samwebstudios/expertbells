@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta name="description" content=" | Access Panel">
+    <meta name="description" content="{{project()}} | Access Panel">
 
     <link rel="icon" href="{{ asset('frontend/img/favicon.ico') }}" type="image/x-icon">
 
@@ -16,7 +16,7 @@
 
     <meta name="author" content="ThemePixels">
 
-    <title> | Access Panel</title>
+    <title>{{project()}}  | Access Panel</title>
 
     <link href="{{ asset('admin/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
 
